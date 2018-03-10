@@ -36,8 +36,7 @@ namespace Dal200Instalation.Model
         private void DtdtDataReceived(Rug.Osc.OscPacket data)
         {
             var positionData = dtdtHandler.StripPositionData();
-
-            //SendPositonData(positionData);
+            SendPositonData(positionData);
             //UpdateActiveUsersDict(positionData);
             //TODO: Change this for the key from DTDT
             //activeUsers[0] = subject updated
