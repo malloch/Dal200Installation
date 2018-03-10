@@ -26,6 +26,13 @@ namespace Dal200Instalation.ViewModel
         {
             get { return startCommand ?? (startCommand = new RelayCommand(call => StartDalControll())); }
         }
+
+        private ICommand closeCommand;
+
+        public ICommand CloseCommand
+        {
+            get { return closeCommand ?? (closeCommand = new RelayCommand(call => HandleShutdown())); }
+        }
         
         public MainWindowViewModel()
         {
@@ -37,6 +44,14 @@ namespace Dal200Instalation.ViewModel
             exhibitControl = new Dal200Control(DTDTPort, DwellRadius, DwellTime);
             exhibitControl.dtdtHandler.OnDataReceived += data => OscMessages.Add($"{DateTime.UtcNow.ToString("T")} -> {data.ToString()}");
         }
+
+        private void HandleShutdown()
+        {
+            exhibitControl.Shutdown();
+        }
+
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

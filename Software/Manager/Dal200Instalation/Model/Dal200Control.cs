@@ -33,6 +33,13 @@ namespace Dal200Instalation.Model
             wsServer.AddWebSocketService<Dall200Messages>("/Dal200");
             wsServer.Start();
         }
+
+        public void Shutdown()
+        {
+            wsServer.Stop();
+            dtdtHandler.StopReceiving();
+        }
+
         private void DtdtDataReceived(Rug.Osc.OscPacket data)
         {
             var positionData = dtdtHandler.StripPositionData();
@@ -40,10 +47,6 @@ namespace Dal200Instalation.Model
             //UpdateActiveUsersDict(positionData);
             //TODO: Change this for the key from DTDT
             //activeUsers[0] = subject updated
-
-            
-            
-
         }
         private void SendPositonData(string data)
         {

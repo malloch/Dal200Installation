@@ -100,5 +100,10 @@ namespace Dal200Instalation.Model
         }
 
 
+        public void StopReceiving()
+        {
+            oscReceiver.Close();
+            receivingThread.Join();
+        }
     }
 }
