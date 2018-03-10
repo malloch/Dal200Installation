@@ -35,7 +35,9 @@ namespace Dal200Instalation.Model
         public void StartReceiving()
         {
             receivingThread = new Thread(new ThreadStart(ReceiverMethod));
+            oscReceiver.Connect();
             OscConnected = true;
+            receivingThread.Start();
         }
 
         private void ReceiverMethod()
@@ -49,9 +51,6 @@ namespace Dal200Instalation.Model
                     {
                         ReceiverSemaphore.WaitOne();
                         data = oscReceiver.Receive();
-#if DEBUG
-                        Console.WriteLine(data.ToString());
-#endif
                         OnDataReceived?.Invoke(data);
                         ReceiverSemaphore.Release();
                     }
@@ -70,10 +69,33 @@ namespace Dal200Instalation.Model
         }
 
         //TODO: get message format
+        //[id,x,y,height,orX,orY]
         public string StripPositionData()
         {
-            var result = data.ToString();
-            return result;
+            var dtdtTracking = (OscMessage)data;
+            string positionData = "";
+            //There must be a better way to deal with multiple people being tracked
+            if (dtdtTracking[0] is object[])
+            {
+                
+                foreach (object[] individualTracking in dtdtTracking)
+                {
+                    var id = individualTracking[0];
+                    var x = individualTracking[1];
+                    var y = individualTracking[2];
+                    positionData += $"[{id},{x},{y}]";
+                }
+            }
+            else
+            {
+                var id = dtdtTracking[0];
+                var x = dtdtTracking[1];
+                var y = dtdtTracking[2];
+                positionData = $"[{id},{x},{y}]";
+            }
+
+            
+            return positionData;
 
         }
 

@@ -24,7 +24,6 @@ namespace Dal200Instalation
         public MainWindow()
         {
             InitializeComponent();
-            Dal200Control c = new Dal200Control();
         }
     }
 }

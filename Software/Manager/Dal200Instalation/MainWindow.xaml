@@ -3,23 +3,64 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:Dal200Instalation"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding CloseCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Margin="3">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
-        <StackPanel Grid.Column="0">
-            <TextBox Text="DTDT PORT"></TextBox>
-            <Button Content="Start"></Button>
+        <StackPanel Grid.Column="0" Margin="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="DTDT Port: " Grid.Column="0"></TextBlock>
+                <TextBox Grid.Column="1"  Text="{Binding DTDTPort, Mode=TwoWay}"></TextBox>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Dwell radius: "></TextBlock>
+                <TextBox Grid.Column="1" Text="{Binding DwellRadius, Mode=TwoWay}"></TextBox>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Dwell time: "></TextBlock>
+                <TextBox Grid.Column="1" Text="{Binding DwellTime, Mode=TwoWay}"></TextBox>
+            </Grid>
+            <Button Content="Start" Command="{Binding StartCommand}"></Button>
         </StackPanel>
         
-        <ListView Grid.Column="1">
+        <Grid Grid.Column="1" Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <TextBox Text="OSC Messages:" ></TextBox>
+            <ListView Grid.Row="1" ItemsSource="{Binding OscMessages}">
 
-        </ListView>
+            </ListView>
+        </Grid>
+
+        
 
     </Grid>
 </Window>
