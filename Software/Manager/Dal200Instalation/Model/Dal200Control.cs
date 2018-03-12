@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dal200Instalation.Utils;
+using Newtonsoft.Json;
 using WebSocketSharp.Server;
 
 namespace Dal200Instalation.Model
 {
-    //TODO: process direction
+    //TODO: process direction (to be done in DTDT code)
     //TODO: detect dwell (how long someone stand in a place within target area
-    //TODO: send DTDT with ID + POS
     class Dal200Control
     {
 
@@ -48,9 +48,9 @@ namespace Dal200Instalation.Model
             //TODO: Change this for the key from DTDT
             //activeUsers[0] = subject updated
         }
-        private void SendPositonData(string data)
+        private void SendPositonData(JsonData data)
         {
-            wsServer.WebSocketServices["/Dal200"].Sessions.BroadcastAsync(data,null);
+            wsServer.WebSocketServices["/Dal200"].Sessions.BroadcastAsync(JsonConvert.SerializeObject(data), null);
         }
 
         private void UpdateActiveUsersDict(string positionData)

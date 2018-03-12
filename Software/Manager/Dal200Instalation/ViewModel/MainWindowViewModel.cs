@@ -14,10 +14,11 @@ namespace Dal200Instalation.ViewModel
 {
     class MainWindowViewModel: INotifyPropertyChanged
     {
-        public int DTDTPort { get; set; } = 5001;
+        public int DTDTPort { get; set; } = 6666;
         public int DwellRadius { get; set; } = 2;
         public int DwellTime { get; set; } = 3;
         public FixedSizeObservablelist<string> OscMessages { get; }
+        public string wsServerAddr { get; private set; }
 
         private Dal200Control exhibitControl;
 
@@ -43,6 +44,8 @@ namespace Dal200Instalation.ViewModel
         {
             exhibitControl = new Dal200Control(DTDTPort, DwellRadius, DwellTime);
             exhibitControl.dtdtHandler.OnDataReceived += data => OscMessages.Add($"{DateTime.UtcNow.ToString("T")} -> {data.ToString()}");
+            wsServerAddr = $"ws://{NetworkUtils.GetLocalIPAddress()}";
+            OnPropertyChanged(nameof(wsServerAddr));
         }
 
         private void HandleShutdown()
