@@ -37,13 +37,28 @@ function init() {
     }
 
     // Create a new WebSocket.
-    socket = new WebSocket('ws://134.190.132.64/Dal200');
+//    socket = new WebSocket('ws://134.190.132.64/Dal200');
+    socket = new WebSocket('ws://192.168.0.107/Dal200');
     socket.onopen = function(event) {
         console.log("Connection established");
         socket.send("a message from Joe");
     }
     socket.onmessage = function(event) {
-        console.log("message received:", event);
+//        console.log("message received:", event);
+        let data = null;
+        if (event.data)
+            data = JSON.parse(event.data);
+//        console.log(data);
+        if (!data)
+            return;
+        if (data.trackerData) {
+//            console.log('trackerData', data.trackerData);
+            for (var i in data.trackerData) {
+//                console.log('trackerData[i]', data.trackerData[i]);
+                updateTrackerData(data.trackerData[i].id,
+                                  data.trackerData[i].position);
+            }
+        }
     }
 
     updateTrackerData(0, randomCoord());
