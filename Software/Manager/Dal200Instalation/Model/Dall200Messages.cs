@@ -13,7 +13,6 @@ namespace Dal200Instalation.Model
         protected override void OnMessage(MessageEventArgs e)
         {
             Console.WriteLine(e.Data);
-            Send("Hello to you");
         }
     }
 }

@@ -51,7 +51,8 @@ namespace Dal200Instalation.Model
                     {
                         ReceiverSemaphore.WaitOne();
                         data = oscReceiver.Receive();
-                        OnDataReceived?.Invoke(data);
+                        if (((OscMessage) data).Address == "/DTDT")
+                            OnDataReceived?.Invoke(data);
                         ReceiverSemaphore.Release();
                     }
 
@@ -68,30 +69,22 @@ namespace Dal200Instalation.Model
             }
         }
 
-        //TODO: get message format
+
         //[id,x,y,height,orX,orY]
-        public string StripPositionData()
+        public JsonData StripPositionData()
         {
             var dtdtTracking = (OscMessage)data;
-            string positionData = "";
-            //There must be a better way to deal with multiple people being tracked
-            if (dtdtTracking[0] is object[])
+            var count = dtdtTracking[0];
+            JsonData positionData = new JsonData();
+            for (int id = 0; id < (int)dtdtTracking[0]; id++)
             {
-                
-                foreach (object[] individualTracking in dtdtTracking)
-                {
-                    var id = individualTracking[0];
-                    var x = individualTracking[1];
-                    var y = individualTracking[2];
-                    positionData += $"[{id},{x},{y}]";
-                }
-            }
-            else
-            {
-                var id = dtdtTracking[0];
-                var x = dtdtTracking[1];
-                var y = dtdtTracking[2];
-                positionData = $"[{id},{x},{y}]";
+
+                var clientID = (int)dtdtTracking[id * 6 + 1];
+                var x = (int)dtdtTracking[id * 6 + 2];
+                var y = (int)dtdtTracking[id * 6 + 3];
+                var individualTracking = new Tracked(clientID, x, y);
+
+                positionData.trackerData.Add(individualTracking);
             }
 
             

@@ -45,6 +45,14 @@
                 <TextBlock Text="Dwell time: "></TextBlock>
                 <TextBox Grid.Column="1" Text="{Binding DwellTime, Mode=TwoWay}"></TextBox>
             </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="WS Addr: "></TextBlock>
+                <TextBlock Grid.Column="1" Text="{Binding wsServerAddr, Mode=OneWay}"></TextBlock>
+            </Grid>
             <Button Content="Start" Command="{Binding StartCommand}"></Button>
         </StackPanel>
         
