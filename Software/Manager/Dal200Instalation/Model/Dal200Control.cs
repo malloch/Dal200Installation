@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Timers;
 using System.Threading.Tasks;
 using Dal200Instalation.Utils;
 using Newtonsoft.Json;
@@ -13,7 +14,8 @@ namespace Dal200Instalation.Model
     //TODO: detect dwell (how long someone stand in a place within target area
     class Dal200Control
     {
-
+        //TEMP TIMER FOR FAKE DWELL
+        private Timer fakeDwellTimer;
         
 
         public readonly KinetOSCHandler dtdtHandler;
@@ -32,6 +34,19 @@ namespace Dal200Instalation.Model
             wsServer = new WebSocketServer($"ws://{NetworkUtils.GetLocalIPAddress()}");
             wsServer.AddWebSocketService<Dall200Messages>("/Dal200");
             wsServer.Start();
+
+            fakeDwellTimer = new Timer(30 * 1000);
+            fakeDwellTimer.Elapsed += FakeDwellTimer_Elapsed;
+            fakeDwellTimer.Start();
+        }
+
+        private void FakeDwellTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            var individual = new Tracked(0,20,90,"Canadian","VideoCanadian1");
+            var data = new JsonData();
+            data.trackerData.Add(individual);
+
+            wsServer.WebSocketServices["/Dal200"].Sessions.BroadcastAsync(JsonConvert.SerializeObject(data), null);
         }
 
         public void Shutdown()
