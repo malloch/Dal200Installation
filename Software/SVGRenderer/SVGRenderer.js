@@ -11,6 +11,7 @@ var cy;
 var socket = null;
 var trackerData = {};
 var targets = {};
+var distThresh = 5000;
 
 function init() {
     console.log('init!');
@@ -52,7 +53,7 @@ function init() {
             }
         }
         else if (data.targets) {
-//            console.log(data);
+            console.log(data);
             for (var i in data.targets) {
                 updateTarget(data.targets[i].UUID, data.targets[i].Position,
                              data.targets[i].Label);
@@ -77,10 +78,17 @@ function init() {
                 /* space */
                 for (var i in trackerData) {
                     updateTrackerData(i, randomCoord());
-                 }
+                }
+                for (var i in targets) {
+                    updateTarget(i, randomCoord());
+                }
                 break;
         }
     })
+
+        // debugging: add a couple of targets
+    updateTarget(0, randomCoord(), "category 1");
+    updateTarget(1, randomCoord(), "category 2");
 }
 
 function identify() {
@@ -93,10 +101,8 @@ function identify() {
                               });
 }
 
-function randomCoord(num) {
-    if (!num || num < 2)
-        return [Math.random() * width, Math.random() * height];
-    return {'x': randomCoord(1), 'y': randomCoord(1)};
+function randomCoord() {
+    return {'x': Math.random() * width, 'y': Math.random() * height};
 }
 
 function circlePath(pos, r1, r2, a) {
@@ -109,32 +115,58 @@ function circlePath(pos, r1, r2, a) {
             ['z']];
 }
 
+function manhattan(pos1, pos2) {
+    let distX = pos1.x - pos2.x;
+    let distY = pos1.y - pos2.y;
+    return distX * distX + distY * distY;
+}
+
 function updateTrackerData(id, pos) {
     if (!trackerData[id]) {
-        trackerData[id] = canvas.path([['M', pos.x, pos.y]])
-                                .attr({'stroke': 'red',
-                                       'fill': 'red',
+        trackerData[id] = canvas.circle(pos.x, pos.y, 40)
+                                .attr({'stroke': 'white',
+                                       'fill-opacity': 0,
+                                       'stroke-width': 10,
                                        'opacity': 0})
-        .data({'id': id});
+                                .data({'id': id});
+        trackerData[id].animationFrame = 0;
     }
-    let path = circlePath(pos, 10);
     trackerData[id].stop();
-    trackerData[id].animate({'path': path, 'opacity': 1},
+    trackerData[id].animate({'r': trackerData[id].animationFrame, 'opacity': 1},
                            300, 'linear', function() {
         this.animate({'opacity': 0}, 10000, '>', function() {
             trackerData[this.data('id')] = null;
             this.remove();
         });
     });
+    if (trackerData[id].animationFrame++ > 40)
+        trackerData[id].animationFrame = 20;
+
+    // check if we are close to any targets
+    for (var i in targets) {
+        let dist = manhattan(pos, targets[i].data('pos'));
+//        console.log(id, i, dist);
+        if (dist < distThresh) {
+            console.log('tracker', id, 'proximate to target', i);
+            if (targets[i].sel < 255)
+                targets[i].sel++;
+        }
+        else if (targets[i].sel > 0)
+            targets[i].sel--;
+        let color = targets[i].sel;
+        targets[i].attr({'fill': Raphael.rgb(255, 255-color, 255-color)});
+    }
 }
 
 function updateTarget(id, pos, label) {
     if (!targets[id]) {
         targets[id] = canvas.path([['M', pos.x, pos.y]]);
         targets[id].label = canvas.text(pos.x, pos.y, label);
+        targets[id].sel = 0;
     }
+    targets[id].data({'pos': pos});
     targets[id].animate({'path': circlePath(pos, 50),
-                        'fill': 'white'});
+                         'fill': 'white'});
     targets[id].label.animate({'x': pos.x,
                               'y': pos.y,
                               'stroke': 'black',
