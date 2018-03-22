@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Timers;
 using System.Threading.Tasks;
+using Dal200Instalation.Model.Dwellable;
 using Dal200Instalation.Utils;
 using Newtonsoft.Json;
 using WebSocketSharp.Server;
@@ -11,38 +12,37 @@ using WebSocketSharp.Server;
 namespace Dal200Instalation.Model
 {
     //TODO: process direction (to be done in DTDT code)
-    //TODO: detect dwell (how long someone stand in a place within target area
     class Dal200Control
     {
-        //TEMP TIMER FOR FAKE DWELL
-        private Timer fakeDwellTimer;
-        
-
         public readonly KinetOSCHandler dtdtHandler;
         private readonly WebSocketServer wsServer;
         private Dictionary<int, DtdtSubject> activeUsers;
+        private readonly DwellableCollection dwellableCollection;
         
         public Dal200Control(int dtdtPort, int dwellRadius, int dwellTime)
         {
             activeUsers = new Dictionary<int, DtdtSubject>();
+            dwellableCollection = new DwellableCollection(dwellRadius,TimeSpan.FromSeconds(dwellTime));
             
             dtdtHandler = new KinetOSCHandler(dtdtPort);
             dtdtHandler.OnDataReceived += DtdtDataReceived;
             dtdtHandler.StartReceiving();
             
-
             wsServer = new WebSocketServer($"ws://{NetworkUtils.GetLocalIPAddress()}");
             wsServer.AddWebSocketService<Dall200Messages>("/Dal200");
             wsServer.Start();
-
-            fakeDwellTimer = new Timer(30 * 1000);
-            fakeDwellTimer.Elapsed += FakeDwellTimer_Elapsed;
-            fakeDwellTimer.Start();
         }
 
-        private void FakeDwellTimer_Elapsed(object sender, ElapsedEventArgs e)
+        public Dal200Control(int dtdtPort, int dwellRadius, int dwellTime, string filename) : this(dtdtPort,
+            dwellRadius, dwellTime)
         {
-            var individual = new Tracked(0,20,90,"Canadian","VideoCanadian1");
+            dwellableCollection.LoadTargetsFromFile(filename);
+            dwellableCollection.OnDwellDetected += DwellDetected;
+        }
+
+        public void SendFakeDwell(int x, int y, string track, string mediaName)
+        {
+            var individual = new Tracked(999, x,y, track, mediaName);
             var data = new JsonData();
             data.trackerData.Add(individual);
 
@@ -59,19 +59,41 @@ namespace Dal200Instalation.Model
         {
             var positionData = dtdtHandler.StripPositionData();
             SendPositonData(positionData);
+            dwellableCollection.DetectDwell(positionData);
             //UpdateActiveUsersDict(positionData);
-            //TODO: Change this for the key from DTDT
-            //activeUsers[0] = subject updated
+
         }
+
+        private void DwellDetected(int subjectId)
+        {
+            throw new NotImplementedException();
+        }
+
         private void SendPositonData(JsonData data)
         {
             wsServer.WebSocketServices["/Dal200"].Sessions.BroadcastAsync(JsonConvert.SerializeObject(data), null);
         }
 
-        private void UpdateActiveUsersDict(string positionData)
+        //TODO: Evaluate if we really need this
+        private void UpdateActiveUsersDict(JsonData positionData)
         {
-
+            var trackedIDs = new List<int>();
+            foreach (var tracked in positionData.trackerData)
+            {
+                trackedIDs.Add(tracked.id);
+                DtdtSubject subject;
+                if (!activeUsers.TryGetValue(tracked.id, out subject))
+                {
+                    subject = new DtdtSubject(tracked.id, tracked.position);
+                    activeUsers.Add(subject.DtdtId,subject);
+                }
+                
+            }     
         }
 
+        private void OnDwellDetected(Point position)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

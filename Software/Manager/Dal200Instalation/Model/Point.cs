@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Dal200Instalation.Model
 {
-    class Point
+    public class Point
     {
-        private readonly int x, y;
+        public int x { get; }
+        public int y { get; }
 
         public Point()
         {
