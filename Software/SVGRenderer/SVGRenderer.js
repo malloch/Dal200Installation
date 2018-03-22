@@ -10,7 +10,7 @@ var cx;
 var cy;
 var socket = null;
 var trackerData = {};
-var nodes = {};
+var targets = {};
 
 function init() {
     console.log('init!');
@@ -18,17 +18,11 @@ function init() {
     canvas = Raphael($('#svgDiv')[0], '100%', '100%');
     width = ($('#svgDiv')[0]).offsetWidth;
     height = ($('#svgDiv')[0]).offsetHeight;
+    console.log('window dimensions: '+width+'x'+height);
     cx = width * 0.5;
     cy = height * 0.5;
 
-    let test = canvas.text(cx, cy, 'Dal200 SVG Renderer #'+id)
-                     .attr({'opacity': 0,
-                            'font-size': 36,
-                            'fill': 'white'})
-                     .animate({'opacity': 1}, 10000, 'linear',
-                              function() {
-                                this.remove();
-                              });
+    identify();
 
     if (navigator.onLine) {
         console.log("You are Online");
@@ -37,33 +31,45 @@ function init() {
     }
 
     // Create a new WebSocket.
-//    socket = new WebSocket('ws://134.190.132.64/Dal200');
-    socket = new WebSocket('ws://192.168.0.107/Dal200');
+    socket = new WebSocket('ws://134.190.155.223/Dal200');
+//    socket = new WebSocket('ws://192.168.0.107/Dal200');
     socket.onopen = function(event) {
         console.log("Connection established");
-        socket.send("a message from Joe");
+        socket.send("SVG renderer "+id+" connected.");
     }
     socket.onmessage = function(event) {
 //        console.log("message received:", event);
         let data = null;
         if (event.data)
             data = JSON.parse(event.data);
-//        console.log(data);
         if (!data)
             return;
+//        console.log(data);
         if (data.trackerData) {
-//            console.log('trackerData', data.trackerData);
             for (var i in data.trackerData) {
-//                console.log('trackerData[i]', data.trackerData[i]);
                 updateTrackerData(data.trackerData[i].id,
                                   data.trackerData[i].position);
             }
         }
+        else if (data.targets) {
+//            console.log(data);
+            for (var i in data.targets) {
+                updateTarget(data.targets[i].UUID, data.targets[i].Position,
+                             data.targets[i].Label);
+            }
+        }
+        else if (data.command) {
+            console.log(data);
+            switch (data.command) {
+                case 'identify':
+                    identify();
+                    break;
+            }
+        }
+        else {
+            console.log('unknown message:', data);
+        }
     }
-
-    updateTrackerData(0, randomCoord());
-    updateTrackerData(1, randomCoord());
-    updateNode(0, randomCoord(), '20th Century');
 
     $('body').on('keydown.list', function(e) {
         switch (e.which) {
@@ -77,13 +83,20 @@ function init() {
     })
 }
 
+function identify() {
+    let test = canvas.text(cx, cy, 'Dal200 SVG Renderer #'+id)
+                     .attr({'opacity': 1,
+                            'font-size': 36,
+                            'fill': 'white'})
+                     .animate({'opacity': 0}, 10000, 'linear', function() {
+                              this.remove();
+                              });
+}
+
 function randomCoord(num) {
     if (!num || num < 2)
         return [Math.random() * width, Math.random() * height];
-    let array = [];
-    while (num--)
-        array.push(randomCoord(1));
-    return array;
+    return {'x': randomCoord(1), 'y': randomCoord(1)};
 }
 
 function circlePath(pos, r1, r2, a) {
@@ -91,14 +104,14 @@ function circlePath(pos, r1, r2, a) {
         r2 = r1;
     if (!a)
         a = 0;
-    return [['M', pos[0] + r1 * 0.65, pos[1] - r2 * 0.65],
+    return [['M', pos.x + r1 * 0.65, pos.y - r2 * 0.65],
             ['a', r1, r2, a, 1, 0, 0.001, 0.001],
             ['z']];
 }
 
 function updateTrackerData(id, pos) {
     if (!trackerData[id]) {
-        trackerData[id] = canvas.path([['M', pos[0], pos[1]]])
+        trackerData[id] = canvas.path([['M', pos.x, pos.y]])
                                 .attr({'stroke': 'red',
                                        'fill': 'red',
                                        'opacity': 0})
@@ -115,17 +128,18 @@ function updateTrackerData(id, pos) {
     });
 }
 
-function updateNode(id, pos, label) {
-    if (!nodes.id) {
-        nodes.id = canvas.path([['M', pos[0], pos[1]]]);
-        nodes.id.label = canvas.text(pos[0], pos[1], label);
+function updateTarget(id, pos, label) {
+    if (!targets[id]) {
+        targets[id] = canvas.path([['M', pos.x, pos.y]]);
+        targets[id].label = canvas.text(pos.x, pos.y, label);
     }
-    nodes.id.animate({'path': circlePath(pos, 50),
-                      'fill': 'white'});
-    nodes.id.label.animate({'x': pos[0],
-                            'y': pos[1],
-                            'stroke': 'black',
-                            'font-size': 16});
+    targets[id].animate({'path': circlePath(pos, 50),
+                        'fill': 'white'});
+    targets[id].label.animate({'x': pos.x,
+                              'y': pos.y,
+                              'stroke': 'black',
+                              'font-size': 16});
+//    console.log(targets);
 }
 
 
