@@ -35,7 +35,7 @@ namespace Dal200Instalation.Model
             wsServer.AddWebSocketService<Dall200Messages>("/Dal200");
             wsServer.Start();
 
-            fakeDwellTimer = new Timer(30 * 1000);
+            fakeDwellTimer = new Timer(10 * 1000);
             fakeDwellTimer.Elapsed += FakeDwellTimer_Elapsed;
             fakeDwellTimer.Start();
         }
