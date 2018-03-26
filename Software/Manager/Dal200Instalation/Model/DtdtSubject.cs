@@ -10,30 +10,31 @@ namespace Dal200Instalation.Model
     {
         public Point CurrentPosition { get; set; }
         public int DtdtId { get; set; }
+        public Track MyTrack { get; set; }
 
-        public delegate void SubjectIsDweling(Point position);
-        public event SubjectIsDweling OnDwellDetected;
+        public enum Track
+        {
+            Undecided,
+            International,
+            Canadian,
+            NovaScotian
+        }
 
 
-        private DateTime timeDwellDetected;
-
-        public DtdtSubject(int id)
+        public DtdtSubject(int id, Point currentPosition)
         {
             DtdtId = id;
-            CurrentPosition = new Point();
+            CurrentPosition = currentPosition;
+            MyTrack = Track.Undecided;
         }
 
-        private void DetectDwell(string positionData, int radius, TimeSpan time)
+        public void UpdatePosition(Point pos)
         {
-            if (Point.IsInsideRaidus(CurrentPosition, new Point(), radius))
-            {
-                if(DateTime.UtcNow - timeDwellDetected > time)
-                    OnDwellDetected?.Invoke(CurrentPosition);
-            }
-            else
-            {
-                timeDwellDetected = DateTime.UtcNow;
-            }
+            CurrentPosition = pos;
+            
         }
+
+        
+        
     }
 }

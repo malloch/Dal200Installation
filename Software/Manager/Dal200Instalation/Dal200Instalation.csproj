@@ -66,6 +66,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FileHelpers, Version=3.2.7.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
+      <HintPath>..\packages\FileHelpers.3.2.7\lib\net45\FileHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -102,7 +106,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Tracked.cs" />
+    <Compile Include="Model\Dwellable\DwellableCollection.cs" />
+    <Compile Include="Model\Dwellable\DwellableTarget.cs" />
+    <Compile Include="Model\Files\DwellableFileEntry.cs" />
+    <Compile Include="Model\JsonRepresentation\Targets.cs" />
+    <Compile Include="Model\JsonRepresentation\Tracked.cs" />
     <Compile Include="Utils\FixedSizeObservablelist.cs" />
     <Compile Include="Utils\MTObservableCollection.cs" />
     <Compile Include="Utils\NetworkUtils.cs" />
@@ -156,6 +164,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+<<<<<<< HEAD
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
@@ -168,6 +177,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+=======
+  <ItemGroup />
+>>>>>>> d2372d8655cf491686f00bc5f0efb0f0ee0dca39
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

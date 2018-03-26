@@ -86,8 +86,6 @@ namespace Dal200Instalation.Model
 
                 positionData.trackerData.Add(individualTracking);
             }
-
-            
             return positionData;
 
         }

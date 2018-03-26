@@ -9,20 +9,20 @@ namespace Dal200Instalation.Model
     public class Tracked
     {
         public int id { get; }
-        public int[] position;
+        public Point position;
         public string track;
         public string mediaName;
 
         public Tracked(int id, int x, int y)
         {
             this.id = id;
-            position = new[] {x, y};
+            position = new Point(x, y);
         }
 
         public Tracked(int id, int x, int y, string track, string mediaName)
         {
             this.id = id;
-            position = new[] { x, y };
+            position = new Point(x, y);
             this.track = track;
             this.mediaName = mediaName;
         }
