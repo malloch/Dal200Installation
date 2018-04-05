@@ -10,7 +10,7 @@ namespace Dal200Instalation.Model.Dwellable
 {
     public class DwellableCollection
     {
-        public delegate void SubjectIsDweling(int subjectId);
+        public delegate void SubjectIsDweling(Tracked trackData);
         public event SubjectIsDweling OnDwellDetected;
 
         public readonly List<DwellableTarget> dwellableTargets;
@@ -40,20 +40,6 @@ namespace Dal200Instalation.Model.Dwellable
             }
         }
 
-        public void SaveTargetsToFile(string filename)
-        {
-            var fileHelpers = new DelimitedFileEngine<DwellableFileEntry>();
-            var fileCollection = new List<DwellableFileEntry>();
-            foreach (var target in dwellableTargets)
-            {
-                fileCollection.Add(new DwellableFileEntry(
-                                            target.Position.x, 
-                                            target.Position.y));
-            }
-
-            fileHelpers.WriteFile(filename,fileCollection);
-        }
-
         public void DetectDwell(JsonData positionData)
         {
             foreach (var target in dwellableTargets)
@@ -62,7 +48,8 @@ namespace Dal200Instalation.Model.Dwellable
                 {
                     if (target.DetectDwell(tracked, radius, time))
                     {
-                        OnDwellDetected?.Invoke(tracked.id);
+                        var t = new Tracked(tracked.id, target.Position, "track", target.Label);
+                        OnDwellDetected?.Invoke(t);
                     }
                 }
             }

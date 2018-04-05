@@ -16,7 +16,7 @@ namespace Dal200Instalation.Model
     {
         public readonly KinetOSCHandler dtdtHandler;
         private readonly WebSocketServer wsServer;
-        private Dictionary<int, DtdtSubject> activeUsers;
+        private readonly Dictionary<int, DtdtSubject> activeUsers;
         private readonly DwellableCollection dwellableCollection;
         
         public Dal200Control(int dtdtPort, int dwellRadius, int dwellTime)
@@ -64,9 +64,11 @@ namespace Dal200Instalation.Model
 
         }
 
-        private void DwellDetected(int subjectId)
+        private void DwellDetected(Tracked targetData)
         {
-            throw new NotImplementedException();
+            var data = new JsonData();
+            data.trackerData.Add(targetData);
+            wsServer.WebSocketServices["/Dal200"].Sessions.BroadcastAsync(JsonConvert.SerializeObject(data), null);
         }
 
         private void SendPositonData(JsonData data)
@@ -89,11 +91,6 @@ namespace Dal200Instalation.Model
                 }
                 
             }     
-        }
-
-        private void OnDwellDetected(Point position)
-        {
-            throw new NotImplementedException();
         }
     }
 }
