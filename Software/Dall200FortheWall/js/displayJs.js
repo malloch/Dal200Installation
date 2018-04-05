@@ -13,7 +13,7 @@ var positionXY = [];
 
 
 //left and top positions on the wall
-var wallSections = [["300px","500px"],["700px","400px"],["200px","300px"],["900px","500px"]];
+var wallSections = [["1000px","400px"],["700px","400px"],["200px","300px"],["900px","500px"]];
 
 var intIteration =0;
 
@@ -21,20 +21,19 @@ var idText = 0;
 
 var TextToShow="";
 
+/*
    //sum of values in a row
     d3.csv("datafordisplay.csv", function (ignData) {
         dataset = ignData;
 
     })
+*/
 
 //get data from textbox and display appropriate text
     function shower(){
 
         d3.select("#firstDiv").remove();
 
-        idText = d3.select("#txtId").property('value');
-        console.log(dataset[idText].wordings);
-        console.log(dataset);
 
 
 
@@ -45,10 +44,10 @@ var TextToShow="";
             .style("height",heightOfContentDiv)
             .style("background-color", "red");
             divWithContent.append("img")
-                .attr("src", "images/"+dataset[idText].media)
+                .attr("src", "images/first.jpg")
                 .style("width",widthOfContentDiv);
             divWithContent.append("p")
-                .style("color", "white").text(dataset[idText].wordings);
+                .style("color", "white").text("Tester Here!");
 
             divWithContent.style("position","absolute")
             .transition().duration(500).style("left","200px").style("top","300px");
@@ -61,11 +60,29 @@ function moveDiv(){
     var ddlSelectedPosition = d3.select("#ddlPosition").property('value');
 
     d3.select("#firstDiv").transition().duration(500)
-        .style("left", wallSections[intIteration][0]).style("top",wallSections[intIteration][1]);
+        .style("left", wallSections[ddlSelectedPosition][0]).style("top",wallSections[ddlSelectedPosition][1]);
     
-        console.log(wallSections[0][0]);
 
 }
+
+
+function moveDivDDT(){
+
+    var ddlSelectedPosition = d3.select("#ddlPosition").property('value');
+
+
+   console.log(DataCollectedFromController);
+
+console.log(DataCollectedFromController[0].trackerData);
+
+    d3.select("#firstDiv").transition().duration(500)
+        .style("left", DataCollectedFromController[0].trackerData.position.x).style("top",DataCollectedFromController[0].trackerData.position.y);
+    
+
+
+}
+
+
 
 
 
@@ -76,7 +93,7 @@ function WebSocketTest()
                alert("WebSocket is supported by your Browser!");
                
                // Let us open a web socket
-               var ws = new WebSocket("ws://129.173.66.128/Dal200");
+               var ws = new WebSocket("ws://134.190.155.223/Dal200");
 				
                ws.onopen = function()
                {
@@ -87,23 +104,15 @@ function WebSocketTest()
 				
                ws.onmessage = function (evt) 
                { 
-                  DataCollectedFromController = evt.data;
                   var received_msg = evt.data;
-                  console.log(DataCollectedFromController);
+		
+			var theRow = JSON.parse(received_msg);
+		console.log(theRow["trackerData"][0].position);
 
+                  d3.select("#firstDiv").transition().duration(500)
+        		.style("left", theRow["trackerData"][0].position.x +"px").style("top",theRow["trackerData"][0].position.y +"px");
+    
                   
-
-                  //movement of div
-                  if (intIteration == 3){
-
-                    intIteration=0;
-                  }
-                  else{
-                    intIteration+=1;
-                  }
-
-                  moveDiv();
-                  console.log("recieved: " + intIteration);
                   //alert("Message is received...");
                };
 				
@@ -149,7 +158,7 @@ function WebSocketTest()
 
 
 
-/*
+
  $.ajax({
    type: "GET",  
    url: "datafordisplay.csv",
@@ -163,10 +172,3 @@ function WebSocketTest()
    }   
  });
 
-
- function shower(){
-    idText = d3.select("#txtId").property('value');
-    console.log(dataset[idText][1]);
-    console.log(dataset);
- }
-*/
