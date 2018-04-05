@@ -26,6 +26,14 @@ namespace Dal200Instalation.Model
             this.track = track;
             this.mediaName = mediaName;
         }
+
+        public Tracked(int id, Point pos, string track, string mediaName)
+        {
+            this.id = id;
+            position = pos;
+            this.track = track;
+            this.mediaName = mediaName;
+        }
     }
 
     public class JsonData
