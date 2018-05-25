@@ -1,4 +1,21 @@
-@import url('https://fonts.googleapis.com/css?family=Forum');
+@font-face {
+    font-family: 'abril_fatfaceregular';
+    src: url('abrilfatface-regular-webfont.woff2') format('woff2'),
+         url('abrilfatface-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'forumregular';
+    src: url('forum-regular-webfont.woff2') format('woff2'),
+         url('forum-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
     margin: 0;
     padding: 0;
@@ -71,7 +88,7 @@ body {
 .main_title-in {
     display:table-cell;
     text-align: center;
-    font-family: 'Abril Fatface', sans-serif;
+    font-family: 'abril_fatfaceregular', sans-serif;
     font-size: 40px;
     color: transparent;
     animation: none;
@@ -119,7 +136,7 @@ body {
     display:table-cell;
     text-align: center;
     vertical-align: middle;
-    font-family: 'Abril Fatface', sans-serif;
+    font-family: 'abril_fatfaceregular', sans-serif;
     font-size: 25px;
 }
 
@@ -128,7 +145,7 @@ body {
     display:table-cell;
     text-align: center;
     vertical-align: middle;
-    font-family: 'Abril Fatface', sans-serif;
+    font-family: 'abril_fatfaceregular', sans-serif;
     font-size: 16px;
     font-style: italic;
 }
