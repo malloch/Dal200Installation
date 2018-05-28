@@ -70,7 +70,7 @@ namespace DTDTFilter
             oscHandler2.OnDataReceived += data => NewKinectData(data, ref kinect2Mask, oscHandler2.Port);
             oscHandler2.StartReceiving();
 
-            oscSender = new OscSender(IPAddress.Parse(oscSendAddr),oscSendPort);
+            oscSender = new OscSender(IPAddress.Parse(oscSendAddr),0,oscSendPort);
             oscSender.Connect();
 
             timer = new DispatcherTimer();
@@ -102,7 +102,7 @@ namespace DTDTFilter
             filtered.Freeze();
             Application.Current.Dispatcher.Invoke((Action) delegate
             {
-                if (listenPort == 5108)
+                if (listenPort == 5106)
                     Kinect1FilteredImage.Source = filtered;
                 else
                     Kinect2FilteredImage.Source = filtered;
