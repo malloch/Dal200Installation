@@ -28,6 +28,8 @@
             <Button Margin="3" Name="FilterButton" Content="Filter" Click="StartSendingFilteredData"></Button>
             <Button Margin="3" Content="Load Masks" Click ="LoadMasks"></Button>
             <Button Margin="3" Content="Save Masks" Click="SaveMasks"></Button>
+            <TextBlock Text="Top: 5106"></TextBlock>
+            <TextBlock Text="Bot: 5107"></TextBlock>
         </StackPanel>
         
 

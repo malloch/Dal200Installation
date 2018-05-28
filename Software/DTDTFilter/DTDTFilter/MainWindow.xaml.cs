@@ -35,7 +35,7 @@ namespace DTDTFilter
         private Image kinectGeneratedImage;
         private OscSender oscSender;
         private readonly string oscSendAddr = "127.0.0.1";
-        private readonly int oscSendPort = 6666;
+        private readonly int oscSendPort = 5108;
 
         private OscHandler oscHandler, oscHandler2;
 
@@ -61,12 +61,12 @@ namespace DTDTFilter
             kinect2Mask = new byte[width * height];
 
 
-            oscHandler = new OscHandler(5108);
+            oscHandler = new OscHandler(5106);
             
             oscHandler.OnDataReceived += data => NewKinectData(data, ref kinect1Mask, oscHandler.Port);
             oscHandler.StartReceiving();
 
-            oscHandler2 = new OscHandler(5109);
+            oscHandler2 = new OscHandler(5107);
             oscHandler2.OnDataReceived += data => NewKinectData(data, ref kinect2Mask, oscHandler2.Port);
             oscHandler2.StartReceiving();
 
