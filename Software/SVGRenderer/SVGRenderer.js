@@ -11,6 +11,7 @@ var cy;
 var socket = null;
 var trackerData = {};
 var targets = {};
+var paths = {};
 var distThresh = 5000;
 
 function init() {
@@ -59,6 +60,13 @@ function init() {
                              data.targets[i].Label);
             }
         }
+        else if (data.paths) {
+            console.log('paths:', data.paths);
+            for (var i in data.paths) {
+                updatePath(data.paths[i].UUID, data.paths[i].source,
+                           data.paths[i].destination);
+            }
+        }
         else if (data.command) {
             console.log(data);
             switch (data.command) {
@@ -89,6 +97,8 @@ function init() {
         // debugging: add a couple of targets
     updateTarget(0, randomCoord(), "category 1");
     updateTarget(1, randomCoord(), "category 2");
+
+    updatePath(3, 0, 1);
 }
 
 function identify() {
@@ -115,7 +125,7 @@ function circlePath(pos, r1, r2, a) {
             ['z']];
 }
 
-function manhattan(pos1, pos2) {
+function distSquared(pos1, pos2) {
     let distX = pos1.x - pos2.x;
     let distY = pos1.y - pos2.y;
     return distX * distX + distY * distY;
@@ -144,7 +154,7 @@ function updateTrackerData(id, pos) {
 
     // check if we are close to any targets
     for (var i in targets) {
-        let dist = manhattan(pos, targets[i].data('pos'));
+        let dist = distSquared(pos, targets[i].data('pos'));
 //        console.log(id, i, dist);
         if (dist < distThresh) {
             console.log('tracker', id, 'proximate to target', i);
@@ -161,9 +171,11 @@ function updateTrackerData(id, pos) {
 function updateTarget(id, pos, label) {
     if (!targets[id]) {
         targets[id] = canvas.path([['M', pos.x, pos.y]]);
-        targets[id].label = canvas.text(pos.x, pos.y, label);
+        targets[id].label = canvas.text(pos.x, pos.y, label)
+                                  .rotate(-90);
         targets[id].sel = 0;
     }
+    targets[id].pos = pos;
     targets[id].data({'pos': pos});
     targets[id].animate({'path': circlePath(pos, 50),
                          'fill': 'white'});
@@ -174,4 +186,27 @@ function updateTarget(id, pos, label) {
 //    console.log(targets);
 }
 
-
+function updatePath(id, src, dst) {
+    src = targets[src];
+    dst = targets[dst];
+    if (!src) {
+        console.log('missing src target for path', id);
+        return;
+    }
+    if (!dst) {
+        console.log('missing dst target for path', id);
+        return;
+    }
+    if (!paths[id]) {
+        console.log('adding path');
+        paths[id] = canvas.path([['M', src.pos.x, src.pos.y]])
+                          .attr({'stroke-dasharray': '.'})
+                          .toBack();
+    }
+    paths[id].animate({'path': [['M', src.pos.x, src.pos.y],
+                                ['S', src.pos.x, dst.pos.y, dst.pos.x, dst.pos.y]],
+//                                ['L', dst.pos.x, dst.pos.y]],
+                       'stroke': 'white',
+                       'stroke-width': 10
+                      });
+}
