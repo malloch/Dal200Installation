@@ -34,7 +34,8 @@ namespace DTDTFilter
     {
         private Image kinectGeneratedImage;
         private OscSender oscSender;
-        private readonly string oscSendAddr = "127.0.0.1";
+        //private readonly string oscSendAddr = "127.0.0.1";
+        private readonly string oscSendAddr = "192.168.0.117";
         private readonly int oscSendPort = 5108;
 
         private OscHandler oscHandler, oscHandler2;
@@ -42,7 +43,12 @@ namespace DTDTFilter
         readonly int width = 150;
         readonly int height = 150;
         private byte[] kinect1Mask, kinect2Mask;
-        
+        private List<int> filteredPLayerIndexes;
+
+        private readonly int dtdtX = 8;
+        private readonly int dtdtY = 9;
+
+        private Dictionary<int, Tuple<int, int>> oldTrackingValues;
 
         private enum ApplicationState
         {
@@ -56,6 +62,8 @@ namespace DTDTFilter
         {
             InitializeComponent();
             applicationState = ApplicationState.MaskCreation;
+            filteredPLayerIndexes = new List<int>();
+            oldTrackingValues = new Dictionary<int, Tuple<int, int>>();
 
             kinect1Mask = new byte[width * height];
             kinect2Mask = new byte[width * height];
@@ -120,14 +128,14 @@ namespace DTDTFilter
             int numPkgs = (int) pkg[1];
             for (int i = 0; i < numPkgs; i++)
             {
-                int x = (int)pkg[8 + (i * 8)];
-                int y = (int)pkg[9 + (i * 8)];
+                int x = (int)pkg[dtdtX + (i * 8)];
+                int y = (int)pkg[dtdtY + (i * 8)];
 
                 switch (applicationState)
                 {
                     case ApplicationState.MaskCreation:
                         AddToMask(ref mask, x, y);
-                        FillNeighbours(ref mask, 2, x, y);
+                        FillNeighbours(ref mask, 8, x, y);
                         break;
                     case ApplicationState.Filtering:
                         FilterAndSend(data, mask, x, y, listenPort);
@@ -136,7 +144,7 @@ namespace DTDTFilter
                         throw new ArgumentOutOfRangeException();
                 }
         }
-            Console.WriteLine(data);
+            //Console.WriteLine(data);
 
 
         }
@@ -164,13 +172,76 @@ namespace DTDTFilter
 
         private void FilterAndSend(OscPacket data, byte[] mask, int x, int y, int listenPort)
         {
-            if (mask[y + (y * width)] == 0)
+            if (mask[x + (y * width)] == 0)
             {
-                oscSender.Send(data);
+
+                //TODO: find the matching subject from the package and remove the others
+                var filteredData = FindMatchingSubject(data, x, y);
+                oscSender.Send(filteredData);
                 UpdateFilteredImagesSources(x,y, listenPort);
             }
         }
 
+        private OscPacket FindMatchingSubject(OscPacket indata, int x, int y)
+        {
+            var data = (OscMessage) indata;
+            int numPkgs = (int)data[1];
+            filteredPLayerIndexes.Clear();
+            for (int i = 0; i < numPkgs; i++)
+            {
+                //Tuple<int, int> oldPos;
+                //if (oldTrackingValues.TryGetValue((int)data[2 + (i * 8)], out oldPos))
+                //{
+                //    x = (int)(x * 0.2 + oldPos.Item1 * 0.8);
+                //    y = (int)(y * 0.2 + oldPos.Item2 * 0.8);
+                //    oldTrackingValues[(int)data[2 + (i * 8)]] = new Tuple<int, int>(x, y);
+                //}
+                //else
+                //{
+                //    oldTrackingValues.Add((int)data[2 + (i * 8)], new Tuple<int, int>(x, y));
+                //}
+
+
+
+                if ((int)data[dtdtX + (i * 8)] == x &&
+                    (int)data[dtdtY + (i * 8)] == y)
+                {
+                    filteredPLayerIndexes.Add(i);
+                    
+                }
+            }
+
+            //var outboundPackage = new object[2 + filteredPLayerIndexes.Count *8];
+            var outboundPackage = new List<object>();
+            outboundPackage.Add(data[0]);
+            outboundPackage.Add(filteredPLayerIndexes.Count);
+
+            //TODO: This is still wrong =]
+            for (int i = 0; i < filteredPLayerIndexes.Count; i++)
+            {
+                var selectedIndex = filteredPLayerIndexes[i];
+                for (int j = 2 + selectedIndex*8; j < 10 + 8*selectedIndex; j++)
+                {
+                    outboundPackage.Add(data[j]);
+                }
+            }
+
+            //foreach (var selectedIndex in filteredPLayerIndexes)
+            //{
+            //    for (int i = ; i < 10; i++)
+            //    {
+            //        outboundPackage[i] = data[i + (selectedIndex * 8)];
+            //    }
+            //}
+            //outboundPackage[0] = data[0];
+            //outboundPackage[1] = filteredPLayerIndexes.Count;
+            
+            
+            var outbound = new OscMessage(data.Address,outboundPackage.ToArray());
+
+            return outbound;
+
+        }
 
         private void StartSendingFilteredData(object sender, RoutedEventArgs e)
         {

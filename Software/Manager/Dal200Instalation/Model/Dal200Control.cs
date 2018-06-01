@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Timers;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 using Dal200Instalation.Model.Dwellable;
 using Dal200Instalation.Utils;
 using Newtonsoft.Json;
+using Rug.Osc;
 using WebSocketSharp.Server;
 
 namespace Dal200Instalation.Model
@@ -18,11 +20,19 @@ namespace Dal200Instalation.Model
         private readonly WebSocketServer wsServer;
         private readonly Dictionary<int, DtdtSubject> activeUsers;
         private readonly DwellableCollection dwellableCollection;
+
+        private JsonData oldTrackingData;
+
+        public delegate void DataFiltered(OscPacket data);
+
+        public event DataFiltered OnDataFiltered;
         
         public Dal200Control(int dtdtPort, int dwellRadius, int dwellTime)
         {
             activeUsers = new Dictionary<int, DtdtSubject>();
             dwellableCollection = new DwellableCollection(dwellRadius,TimeSpan.FromSeconds(dwellTime));
+
+            oldTrackingData = new JsonData();
             
             dtdtHandler = new KinetOSCHandler(dtdtPort);
             dtdtHandler.OnDataReceived += DtdtDataReceived;
@@ -58,8 +68,26 @@ namespace Dal200Instalation.Model
         private void DtdtDataReceived(Rug.Osc.OscPacket data)
         {
             var positionData = dtdtHandler.StripPositionData();
+
+            for (int i = 0; i < positionData.trackerData.Count; i++)
+            {
+                var id = positionData.trackerData[i].id;
+                for (int j = 0; j < oldTrackingData.trackerData.Count; j++)
+                {
+                    if (id == oldTrackingData.trackerData[j].id)
+                    {
+                        positionData.trackerData[i].position = Point.expoAverage(oldTrackingData.trackerData[j].position,
+                            positionData.trackerData[i].position, 0.8f);
+                        break;
+                        
+                    }
+                }
+            }
+
             SendPositonData(positionData);
             dwellableCollection.DetectDwell(positionData);
+
+            oldTrackingData = positionData;
             //UpdateActiveUsersDict(positionData);
 
         }
