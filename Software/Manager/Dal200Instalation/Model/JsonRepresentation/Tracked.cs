@@ -9,7 +9,7 @@ namespace Dal200Instalation.Model
     public class Tracked
     {
         public int id { get; }
-        public Point position;
+        public Point position { get; set; }
         public string track;
         public string mediaName;
 

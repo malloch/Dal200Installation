@@ -17,8 +17,8 @@ namespace Dal200Instalation.ViewModel
     class MainWindowViewModel: INotifyPropertyChanged
     {
         public int DTDTPort { get; set; } = 6666;
-        public int DwellRadius { get; set; } = 140;
-        public int DwellTime { get; set; } = 3;
+        public int DwellRadius { get; set; } = 300;
+        public int DwellTime { get; set; } = 1;
         public FixedSizeObservablelist<string> OscMessages { get; }
         public string wsServerAddr { get; private set; }
 

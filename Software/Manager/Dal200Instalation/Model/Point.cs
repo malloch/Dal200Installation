@@ -8,8 +8,8 @@ namespace Dal200Instalation.Model
 {
     public class Point
     {
-        public int x { get; }
-        public int y { get; }
+        public int x { get; private set; }
+        public int y { get; private set; }
 
         public Point()
         {
@@ -29,6 +29,15 @@ namespace Dal200Instalation.Model
             var dy = (target.y - center.y);
 
             return (dx * dx) + (dy * dy) <= radius;
+        }
+
+        public static Point expoAverage(Point old, Point newPoint, float coef)
+        {
+            var result = new Point();
+            float calcualtedCoef = 1 - coef;
+            result.x = (int) (old.x * coef + newPoint.x * calcualtedCoef);
+            result.y = (int)(old.y * coef + newPoint.y * calcualtedCoef);
+            return result;
         }
     }
 }

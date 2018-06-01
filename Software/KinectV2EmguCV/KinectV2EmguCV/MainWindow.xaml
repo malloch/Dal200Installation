@@ -1,0 +1,57 @@
+﻿<Window x:Class="KinectV2EmguCV.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KinectV2EmguCV"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525"
+        
+        >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Grid.Column="0" Grid.Row="0" Name="RawKinectImage"></Image>
+            <Image Grid.Column="1" Grid.Row="0" Name="BinaryMask"></Image>
+            <Image Grid.Column="0" Grid.Row="1" Name="CannyMat"></Image>
+            <Image Grid.Column="1" Grid.Row="1" Name="TrackMat"></Image>
+        </Grid>
+        <StackPanel Grid.Column="0">
+            <TextBlock Margin="3" Text="Min Area:"></TextBlock>
+            <TextBox Margin="3" Name="MinArea" Text="10"></TextBox>
+
+            <TextBlock Margin="3" Text="Min Circulrity"></TextBlock>
+            <TextBox Margin="3" Name="MinCirc" Text="0.8" ></TextBox>
+
+            <TextBlock Margin="3" Text="MinConvexity"></TextBlock>
+            <TextBox Margin="3" Name="MinConv" Text="0.95"></TextBox>
+
+            <TextBlock Margin="3" Text="Min Dist Between"></TextBlock>
+            <TextBox Margin="3" Name="MinDist" Text="200"></TextBox>
+
+            <TextBlock Margin="3" Text="Min Inntertia"></TextBlock>
+            <TextBox Margin="3" Name="MinInertia" Text="0.1"></TextBox>
+
+            <TextBlock Margin="3" Text="Min Th"></TextBlock>
+            <TextBox Margin="3" Name="MinTh" Text="50"></TextBox>
+
+            <TextBlock Margin="3" Text="Blobs:"></TextBlock>
+            <TextBlock Margin="3" Name="Tracked"></TextBlock>
+
+            <Button Content="Update Values" Click="UpdateBlobParams"></Button>
+        </StackPanel>
+
+    </Grid>
+</Window>
