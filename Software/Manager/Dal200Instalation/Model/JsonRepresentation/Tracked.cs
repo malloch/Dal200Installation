@@ -44,6 +44,11 @@ namespace Dal200Instalation.Model
         {
             trackerData = new List<Tracked>();
         }
-
     }
+
+    public class DwellData
+    {
+        public int dwellIndex;
+    }
+
 }
