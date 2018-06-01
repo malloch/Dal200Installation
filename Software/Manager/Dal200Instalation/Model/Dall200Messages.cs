@@ -18,6 +18,7 @@ namespace Dal200Instalation.Model
             Console.WriteLine(e.Data);
             var targets = new Targets();
             DwellableCollection dwellableCollection = new DwellableCollection(2, TimeSpan.Zero);
+            //TODO: Remove hardoced file name
             dwellableCollection.LoadTargetsFromFile("testTargets");
             foreach (var target in dwellableCollection.dwellableTargets)
             {

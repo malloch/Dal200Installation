@@ -37,7 +37,7 @@ namespace Dal200Instalation.Model
             dtdtHandler = new KinetOSCHandler(dtdtPort);
             dtdtHandler.OnDataReceived += DtdtDataReceived;
             dtdtHandler.StartReceiving();
-            
+
             wsServer = new WebSocketServer($"ws://{NetworkUtils.GetLocalIPAddress()}");
             wsServer.AddWebSocketService<Dall200Messages>("/Dal200");
             wsServer.Start();
@@ -67,7 +67,7 @@ namespace Dal200Instalation.Model
 
         private void DtdtDataReceived(Rug.Osc.OscPacket data)
         {
-            var positionData = dtdtHandler.StripPositionData();
+            var positionData = dtdtHandler.StripBlobPositionData();
 
             for (int i = 0; i < positionData.trackerData.Count; i++)
             {

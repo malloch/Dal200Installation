@@ -55,7 +55,6 @@ namespace Dal200Instalation.Model
                             OnDataReceived?.Invoke(data);
                         ReceiverSemaphore.Release();
                     }
-
                     
                 }
             }
@@ -71,7 +70,7 @@ namespace Dal200Instalation.Model
 
 
         //[id,x,y,height,orX,orY]
-        public JsonData StripPositionData()
+        public JsonData StripDTDTPositionData()
         {
             var dtdtTracking = (OscMessage)data;
             var count = dtdtTracking[0];
@@ -88,6 +87,19 @@ namespace Dal200Instalation.Model
             }
             return positionData;
 
+        }
+
+        public JsonData StripBlobPositionData()
+        {
+            var blobData = (OscMessage) data;
+            JsonData positionData = new JsonData();
+            var x = (float) blobData[0];
+            var y = (float)blobData[1];
+            var clientId = 1;
+            var individualTracking = new Tracked(clientId,(int)x,(int)y);
+            positionData.trackerData.Add(individualTracking);
+
+            return positionData;
         }
 
 

@@ -9,14 +9,19 @@ namespace Dal200Instalation.Model.Files
     {
         public int x;
         public int y;
+        public string label;
+        public int type;
+        public int page;
 
-        public string[] media;
 
-        public DwellableFileEntry(int x, int y, string[] media)
+
+        public DwellableFileEntry(int x, int y, string label, int type, int page)
         {
             this.x = x;
             this.y = y;
-            media = this.media;
+            label = this.label;
+            type = this.type;
+            page = this.page;
 
         }
 

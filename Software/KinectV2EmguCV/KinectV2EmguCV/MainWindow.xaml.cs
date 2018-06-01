@@ -23,8 +23,10 @@ using Microsoft.Kinect;
 
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Runtime.InteropServices;
 using Emgu.CV.Util;
+using Rug.Osc;
 using Image = System.Windows.Controls.Image;
 using PointF = System.Drawing.PointF;
 
@@ -40,6 +42,7 @@ namespace KinectV2EmguCV
         private SimpleBlobDetector blobDetector;
         private SimpleBlobDetectorParams blobParams;
         private byte[] binaryImage;
+        private Mat blobTrackerMaskMat;
         #endregion
 
         #region ImageSources
@@ -52,6 +55,7 @@ namespace KinectV2EmguCV
         #region Kinect
 
         private DepthFrameReader depthFrameReader;
+        private ushort[] depthFrameData;
         private int frameHeight;
         private int frameWidth;
         private ushort minTrack;
@@ -59,15 +63,22 @@ namespace KinectV2EmguCV
 
         #endregion
 
+        #region OSC
+        private OscSender oscSender;
+        #endregion
+
         private ushort[] referenceFrame;
-        private int remaningReferenceSamples = 20;
+        private int remaningReferenceSamples = 300;
+        private readonly StreamWriter dataWriter;
         
         public MainWindow()
         {
             InitializeComponent();
             SetUpKinect();
-
+            UpdateBlobParams(null, null);
             binaryImage = new byte[frameWidth*frameHeight];
+
+            //dataWriter = new StreamWriter("data.csv");
             
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(0.1f);
@@ -95,7 +106,7 @@ namespace KinectV2EmguCV
                 return;
             }
 
-            var depthFrameData = new ushort[depthFrame.FrameDescription.LengthInPixels];
+            depthFrameData = new ushort[depthFrame.FrameDescription.LengthInPixels];
             depthFrame.CopyFrameDataToArray(depthFrameData);
 
             UpdateRawKinectImage(depthFrameData, 3000);
@@ -118,7 +129,14 @@ namespace KinectV2EmguCV
                 if (depthPixel <= minTrack)
                     binaryImage[i] = 0;
                 else
-                    binaryImage[i] = (byte)(depthPixel < referenceFrame[i] ? (byte)255 : 0);
+                {
+                    if (referenceFrame[i] > minTrack)
+                        binaryImage[i] = (byte) (depthPixel < referenceFrame[i] ? (byte) 255 : 0);
+                    if (referenceFrame[i] == 0)
+                        binaryImage[i] = 255;
+                }
+                    
+                
             }
             binaryMaskBitmapSource = BitmapSource.Create(frameWidth, frameHeight, 96, 96, PixelFormats.Gray8, null, binaryImage,
                 frameWidth);
@@ -130,6 +148,11 @@ namespace KinectV2EmguCV
             if (referenceFrame == null)
             {
                 referenceFrame = new ushort[depthFrameData.Length];
+                for (int i = 0; i < referenceFrame.Length; i++)
+                {
+                    referenceFrame[i] = 0;
+                }
+
                 for (int i = 0; i < depthFrameData.Length; i++)
                 {
                     ushort depthPixel = depthFrameData[i];
@@ -154,10 +177,11 @@ namespace KinectV2EmguCV
             var imageArray = new byte[depthFrameData.Length];
             for (int i = 0; i < depthFrameData.Length; i++)
             {
-                imageArray[i] = (byte) (255 - ((float) referenceFrame[i] / 4000 * 255));
+                imageArray[i] = (byte) (255 - ((float)depthFrameData[i] / 4000 * 255));
             }
             rawKinectBitmapSource = BitmapSource.Create(frameWidth,frameHeight,96,96,
                 PixelFormats.Gray8,null,imageArray,frameWidth);
+            RawKinectImage.Source = rawKinectBitmapSource;
         }
 
         private void DetectPeople(int w, int h, byte[] img)
@@ -169,32 +193,44 @@ namespace KinectV2EmguCV
 
             workingImage = workingImage.SmoothBlur(10, 10, true);
 
-            
             Image<Gray, byte> cannyEdges = workingImage.Canny(130, 150);
-            CannyMat.Source = ToBitmapSource(cannyEdges);
-
-            //VectorOfKeyPoint kp = new VectorOfKeyPoint();
-            //blobDetector.DetectRaw(workingMatrix, kp);
-            //Tracked.Text = kp.Size.ToString();
-            //Features2DToolbox.DrawKeypoints(workingImage.Mat, kp, pathMat, new Bgr(0, 0, 255));//,Features2DToolbox.KeypointDrawType.DrawRichKeypoints);
-
-
-            VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint();
-            CvInvoke.FindContours(cannyEdges, contours, null, RetrType.External, ChainApproxMethod.ChainApproxSimple);
-            
-
+            CannyMat.Source = ToBitmapSource(workingImage);
             Mat filled = Mat.Zeros(h, w, DepthType.Cv8U, 3);
-            Image<Bgr, byte> filled2 = filled.ToImage<Bgr, byte>();
-            for (int i = 0; i < contours.Size; i++)
+
+            VectorOfKeyPoint kp = new VectorOfKeyPoint();
+            if(blobTrackerMaskMat != null)
+                blobDetector.DetectRaw(workingImage, kp, blobTrackerMaskMat);
+            else
+                blobDetector.DetectRaw(workingImage, kp);
+            Tracked.Text = kp.Size.ToString();
+            Features2DToolbox.DrawKeypoints(workingImage.Mat, kp, filled, new Bgr(0, 0, 255));//,Features2DToolbox.KeypointDrawType.DrawRichKeypoints);
+            if (kp.Size > 0)
             {
-                using (VectorOfPoint contour = contours[i])
-                using (VectorOfPoint approxContour = new VectorOfPoint())
-                {
-                    CvInvoke.ApproxPolyDP(contour, approxContour, CvInvoke.ArcLength(contour, true) * 0.01, true);
-                    CvInvoke.DrawContours(filled,contours,i,new MCvScalar(0,0,255),2, LineType.Filled);
-                    //filled2.DrawPolyline(approxContour.ToArray(),true,new Bgr(0,0,255),2);
-                }               
+             //   dataWriter.WriteLine($"{kp[0].Point.X},{kp[0].Point.Y}");
+                
+                oscSender?.Send(new OscMessage("/DTDT", kp[0].Point.X, kp[0].Point.Y));
             }
+
+            kp.Dispose();
+
+            using (VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint())
+            {
+                CvInvoke.FindContours(cannyEdges, contours, null, RetrType.External,
+                    ChainApproxMethod.ChainApproxSimple);
+
+                Image<Bgr, byte> filled2 = filled.ToImage<Bgr, byte>();
+                for (int i = 0; i < contours.Size; i++)
+                {
+                    using (VectorOfPoint contour = contours[i])
+                    using (VectorOfPoint approxContour = new VectorOfPoint())
+                    {
+                        CvInvoke.ApproxPolyDP(contour, approxContour, CvInvoke.ArcLength(contour, true) * 0.01, true);
+                        //CvInvoke.DrawContours(filled,contours,i,new MCvScalar(0,0,255),2, LineType.Filled);
+                        //  filled2.DrawPolyline(approxContour.ToArray(),true,new Bgr(0,0,255),2);
+                    }
+                }
+            }
+
             TrackMat.Source = ToBitmapSource(filled);
         }
 
@@ -245,7 +281,7 @@ namespace KinectV2EmguCV
         private void UpdateBlobParams(object sender, RoutedEventArgs e)
         {
             blobParams = new SimpleBlobDetectorParams();
-            //blobParams.FilterByArea = true;
+            blobParams.FilterByArea = true;
             blobParams.FilterByColor = true;
             blobParams.FilterByCircularity = false;
             blobParams.FilterByConvexity = false;
@@ -266,7 +302,108 @@ namespace KinectV2EmguCV
             blobDetector = new SimpleBlobDetector(blobParams);
         }
 
-        
+        private void LoadFrame(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.Filter = "Frame Files | *.fra";
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                using (FileStream stream = new FileStream(dialog.FileName,FileMode.Open))
+                using (BinaryReader reader = new BinaryReader(stream))
+                {
+                    referenceFrame = new ushort[frameWidth * frameHeight];
+                    var fileLengh = stream.Length;
+                    var pos = 0;
+                    while (pos < fileLengh)
+                    {
+                        referenceFrame[pos/sizeof(ushort)] = reader.ReadUInt16();
+                        pos += sizeof(ushort);
+                    }
+                }
+                SaveReferenceFrameTo16BitImage();
+                remaningReferenceSamples = 0;
+            }
+        }
+
+        private void SaveFrame(object sender, RoutedEventArgs e)
+        {
+            if (referenceFrame == null)
+            {
+                System.Windows.MessageBox.Show("Reference frame is not initialized yet");
+                return;
+            }
+
+            var dialog = new Microsoft.Win32.SaveFileDialog();
+            dialog.Filter = "Frame Files | *.fra";
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                using (FileStream stream = new FileStream(dialog.FileName,FileMode.Create))
+                using (BinaryWriter writer = new BinaryWriter(stream))
+                {
+                    for (int i = 0; i < referenceFrame.Length; i++)
+                    {
+                        writer.Write(referenceFrame[i]);   
+                    }
+                }
+            }
+        }
+
+        private void LoadMask(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.Filter = "Mask Files | *.jpg";
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                var bitmapSource = new BitmapImage(new Uri(dialog.FileName));
+                var pixels = new byte[frameWidth * frameHeight];
+                bitmapSource.CopyPixels(pixels,frameWidth,0);
+
+                blobTrackerMaskMat = new Mat(frameHeight, frameWidth, DepthType.Cv8U, 1);
+                blobTrackerMaskMat.SetTo(pixels);
+            }
+        }
+
+        private void SaveReferenceFrameTo16BitImage()
+        {
+            Mat frame = new Mat(frameHeight,frameWidth,DepthType.Cv16U,1);
+            frame.SetTo(referenceFrame);
+
+            frame.ToImage<Gray,ushort>().Save("hue.png");
+        }
+
+        private void StartOSC(object sender, RoutedEventArgs e)
+        {
+            oscSender = new OscSender(IPAddress.Parse(OscIp.Text), int.Parse(OscPort.Text));
+            oscSender.Connect();
+        }
+
+        private void MouseDownImage(object sender, MouseButtonEventArgs e)
+        {
+            
+            var controlSpacePosition = e.GetPosition((Image)sender);
+            var imageControl = (Image) sender;
+            var x = Math.Floor(controlSpacePosition.X * imageControl.Source.Width / imageControl.ActualWidth);
+            var y = Math.Floor(controlSpacePosition.Y * imageControl.Source.Height / imageControl.ActualHeight);
+
+            var originalX = x / imageControl.ActualWidth * frameWidth;
+            var originalY = y / imageControl.ActualHeight * frameHeight;
+
+            var depthSensorValue = depthFrameData[(int) x + (int) y * frameWidth];
+            var referenceFrameValue = referenceFrame[(int)x + (int)y * frameWidth];
+        }
+
+        private void WindowClosing(object sender, CancelEventArgs e)
+        {
+            
+            dataWriter?.Flush();
+            dataWriter?.Close();
+        }
     }
 
 }
