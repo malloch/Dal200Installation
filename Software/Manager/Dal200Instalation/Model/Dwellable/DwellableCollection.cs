@@ -35,7 +35,7 @@ namespace Dal200Instalation.Model.Dwellable
             var fileCollection = fileHelpers.ReadFile(filename);
             foreach (var entry in fileCollection)
             {
-                var target = new DwellableTarget(new Point(entry.x,entry.y));
+                var target = new DwellableTarget(new Point(entry.x,entry.y),entry.label,entry.type,entry.page);
                 AddTarget(target);
             }
         }

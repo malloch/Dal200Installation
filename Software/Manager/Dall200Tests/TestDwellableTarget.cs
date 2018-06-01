@@ -19,7 +19,7 @@ namespace Dall200Tests
         public void TestTrueDwell()
         {
             var tgtPoint = new Point(100, 100);
-            var tgt = new DwellableTarget(tgtPoint);
+            var tgt = new DwellableTarget(tgtPoint,"testDwell",0,0);
             var tracked = new Tracked(0,100,101);
 
             Thread.Sleep(3*1000);
@@ -30,7 +30,7 @@ namespace Dall200Tests
         public void TestNotDwell()
         {
             var tgtPoint = new Point(100, 100);
-            var tgt = new DwellableTarget(tgtPoint);
+            var tgt = new DwellableTarget(tgtPoint,"notDwell",0,0);
             var tracked = new Tracked(0, 100, 101);
             Thread.Sleep(1 * 1000);
             Assert.IsFalse(tgt.DetectDwell(tracked, 2, TimeSpan.FromSeconds(2)));
@@ -40,7 +40,7 @@ namespace Dall200Tests
         public void TestInOutInDwell()
         {
             var tgtPoint = new Point(100, 100);
-            var tgt = new DwellableTarget(tgtPoint);
+            var tgt = new DwellableTarget(tgtPoint,"testDwell",0,0);
             var tracked = new Tracked(0, 100, 101);
             Thread.Sleep(1 * 1000);
             Assert.IsFalse(tgt.DetectDwell(tracked, 2, TimeSpan.FromSeconds(2)));

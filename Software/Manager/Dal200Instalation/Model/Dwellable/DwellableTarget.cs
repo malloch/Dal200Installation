@@ -7,16 +7,20 @@ namespace Dal200Instalation.Model.Dwellable
         public Point Position { get; }
         public Guid UUID { get; }
         public string Label { get; }
+        public int Type { get; }
+        public int Page { get; }
 
         private DateTime timeDwellDetected;
         private bool isAlreadyIn = false;
 
-        public DwellableTarget(Point position)
+        public DwellableTarget(Point position, string label, int type, int page)
         {
             Position = position;
             timeDwellDetected = DateTime.UtcNow;
             UUID = Guid.NewGuid();
-            Label = "default";
+            Label = label;
+            Type = type;
+            Page = page;
         }
 
         public bool DetectDwell(Tracked positionData, int radius, TimeSpan time)
