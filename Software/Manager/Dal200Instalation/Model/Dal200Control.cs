@@ -19,7 +19,7 @@ namespace Dal200Instalation.Model
         public readonly KinetOSCHandler dtdtHandler;
         private readonly WebSocketServer wsServer;
         private readonly Dictionary<int, DtdtSubject> activeUsers;
-        private readonly DwellableCollection dwellableCollection;
+        public DwellableCollection DwellableCollection { get; private set; }
 
         private JsonData oldTrackingData;
         private int oldTargetId = -1;
@@ -30,7 +30,7 @@ namespace Dal200Instalation.Model
         public Dal200Control(int dtdtPort, int dwellRadius, int dwellTime)
         {
             activeUsers = new Dictionary<int, DtdtSubject>();
-            dwellableCollection = new DwellableCollection(dwellRadius,TimeSpan.FromSeconds(dwellTime));
+            DwellableCollection = new DwellableCollection(dwellRadius,TimeSpan.FromSeconds(dwellTime));
 
             oldTrackingData = new JsonData();
             
@@ -46,8 +46,8 @@ namespace Dal200Instalation.Model
         public Dal200Control(int dtdtPort, int dwellRadius, int dwellTime, string filename) : this(dtdtPort,
             dwellRadius, dwellTime)
         {
-            dwellableCollection.LoadTargetsFromFile(filename);
-            dwellableCollection.OnDwellDetected += DwellDetected;
+            DwellableCollection.LoadTargetsFromFile(filename);
+            DwellableCollection.OnDwellDetected += DwellDetected;
         }
 
         public void SendFakeDwell(int x, int y, string track, string mediaName)
@@ -85,7 +85,7 @@ namespace Dal200Instalation.Model
             }
 
             SendPositonData(positionData);
-            dwellableCollection.DetectDwell(positionData);
+            DwellableCollection.DetectDwell(positionData);
 
             oldTrackingData = positionData;
             //UpdateActiveUsersDict(positionData);
