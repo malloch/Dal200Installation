@@ -48,7 +48,7 @@ namespace Dal200Instalation.Model.Dwellable
                 {
                     if (target.DetectDwell(tracked, radius, time))
                     {
-                        var t = new Tracked(tracked.id, target.Position, "track", target.Label);
+                        var t = new Tracked(target.Page, target.Position, "track", target.Label);
                         OnDwellDetected?.Invoke(t);
                     }
                 }

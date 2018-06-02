@@ -22,7 +22,7 @@ namespace Dal200Instalation.Model
         private readonly DwellableCollection dwellableCollection;
 
         private JsonData oldTrackingData;
-
+        private int oldTargetId = -1;
         public delegate void DataFiltered(OscPacket data);
 
         public event DataFiltered OnDataFiltered;
@@ -100,8 +100,13 @@ namespace Dal200Instalation.Model
 
         private void DwellDetected(Tracked targetData)
         {
-            var data = new JsonData();
-            data.trackerData.Add(targetData);
+            if (targetData.id == oldTargetId)
+                return;
+            oldTargetId = targetData.id;
+            Console.WriteLine(targetData.id);
+
+            var data = new DwellData();
+            data.dwellIndex = targetData.id;
             wsServer.WebSocketServices["/Dal200"].Sessions.BroadcastAsync(JsonConvert.SerializeObject(data), null);
         }
 
