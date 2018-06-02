@@ -17,7 +17,7 @@ namespace Dal200Instalation.ViewModel
     class MainWindowViewModel: INotifyPropertyChanged
     {
         public int DTDTPort { get; set; } = 6666;
-        public int DwellRadius { get; set; } = 150;
+        public int DwellRadius { get; set; } = 400;
         public int DwellTime { get; set; } = 1;
         public FixedSizeObservablelist<string> OscMessages { get; }
         public string wsServerAddr { get; private set; }
@@ -34,6 +34,15 @@ namespace Dal200Instalation.ViewModel
         {
             get { return startCommand ?? (startCommand = new RelayCommand(call => StartDalControll())); }
         }
+
+        private ICommand updateWellCommand;
+
+        public ICommand UpdateWellCommand
+        {
+            get { return updateWellCommand ?? (updateWellCommand = new RelayCommand(call => UpdateDwellRadius()));
+            }
+        }
+        
 
         private ICommand closeCommand;
 
@@ -66,6 +75,11 @@ namespace Dal200Instalation.ViewModel
                 wsServerAddr = $"ws://{NetworkUtils.GetLocalIPAddress()}/Dall200";
                 OnPropertyChanged(nameof(wsServerAddr));
             }
+        }
+
+        private void UpdateDwellRadius()
+        {
+            exhibitControl?.DwellableCollection.ChangeRadius(DwellRadius);
         }
 
         private void HandleShutdown()

@@ -15,12 +15,17 @@ namespace Dal200Instalation.Model.Dwellable
 
         public readonly List<DwellableTarget> dwellableTargets;
         private readonly TimeSpan time;
-        private readonly int radius;
+        private int radius;
 
         public DwellableCollection(int toleranceRadius, TimeSpan detectionTimeSpan)
         {
             dwellableTargets = new List<DwellableTarget>();
             time = detectionTimeSpan;
+            radius = toleranceRadius;
+        }
+
+        public void ChangeRadius(int toleranceRadius)
+        {
             radius = toleranceRadius;
         }
 
