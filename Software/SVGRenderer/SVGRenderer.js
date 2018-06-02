@@ -80,6 +80,9 @@ function init() {
                     break;
             }
         }
+        else if (data.dwellIndex != null) {
+            console.log('dwellIndex', data.dwellIndex);
+        }
         else {
             console.log('unknown message:', data);
         }
