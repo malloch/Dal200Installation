@@ -54,6 +54,7 @@
                 <TextBlock Grid.Column="1" Text="{Binding wsServerAddr, Mode=OneWay}"></TextBlock>
             </Grid>
             <Button Content="Start" Command="{Binding StartCommand}"></Button>
+            <Button Content="Update Dwell radius" Command="{Binding UpdateWellCommand}"></Button>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"></ColumnDefinition>
