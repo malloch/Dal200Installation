@@ -43,6 +43,7 @@ namespace KinectV2EmguCV
         private SimpleBlobDetectorParams blobParams;
         private byte[] binaryImage;
         private Mat blobTrackerMaskMat;
+        private byte[] maskPixel;
         #endregion
 
         #region ImageSources
@@ -188,6 +189,14 @@ namespace KinectV2EmguCV
         {
             
             Mat workingMatrix = new Mat(h, w, DepthType.Cv8U, 1);
+            if(blobTrackerMaskMat != null)
+            for (int i = 0; i < img.Length; i++)
+            {
+                if (maskPixel[i] == 0)
+                    img[i] = 0;
+            }
+
+
             workingMatrix.SetTo(img);
             var workingImage = workingMatrix.ToImage<Gray, byte>().PyrDown().PyrUp();
 
@@ -361,11 +370,11 @@ namespace KinectV2EmguCV
             if (result == true)
             {
                 var bitmapSource = new BitmapImage(new Uri(dialog.FileName));
-                var pixels = new byte[frameWidth * frameHeight];
-                bitmapSource.CopyPixels(pixels,frameWidth,0);
+                maskPixel = new byte[frameWidth * frameHeight];
+                bitmapSource.CopyPixels(maskPixel,frameWidth,0);
 
                 blobTrackerMaskMat = new Mat(frameHeight, frameWidth, DepthType.Cv8U, 1);
-                blobTrackerMaskMat.SetTo(pixels);
+                blobTrackerMaskMat.SetTo(maskPixel);
             }
         }
 
