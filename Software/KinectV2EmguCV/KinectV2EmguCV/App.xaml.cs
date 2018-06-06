@@ -20,7 +20,7 @@ namespace KinectV2EmguCV
             
             // NBug configuration (you can also choose to create xml configuration file)
             NBug.Settings.StoragePath = NBug.Enums.StoragePath.CurrentDirectory;
-            NBug.Settings.UIMode = NBug.Enums.UIMode.Minimal;
+            NBug.Settings.UIMode = NBug.Enums.UIMode.Full;
 
             // Hook-up to all possible unhandled exception sources for WPF app, after NBug is configured
             AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
