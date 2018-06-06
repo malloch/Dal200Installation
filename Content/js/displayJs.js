@@ -1,6 +1,8 @@
 var DataCollectedFromController = [];
 
-var datasetOfContent = 
+var contentID = 24;
+
+var datasetOfContent =
 [
     [0,"HTML/in_1.html"],
     [1,"HTML/in_2.html"],
@@ -31,8 +33,7 @@ var datasetOfContent =
 ];
 
 
-function makeDDL(){
-
+function makeDDL() {
     var varDDLPosition = document.getElementById("ddlPosition");
     if (varDDLPosition) {
         for (var i = 0; i < datasetOfContent.length+1; ++i) {
@@ -42,132 +43,118 @@ function makeDDL(){
             ddlPosition.options.add(optn);
         }
     }
-
 }
 makeDDL();
 
-     function selectContent(){
+function selectContent() {
+    var ddlSelectedPosition = d3.select("#ddlPosition").property('value');
+    d3.select('#ifmContent').data(datasetOfContent)
+                            .attr('src',datasetOfContent[contentID][1]);
+}
 
-        var ddlSelectedPosition = d3.select("#ddlPosition").property('value');
+function WebSocketTest() {
+    if ("WebSocket" in window) {
+        //alert("WebSocket is supported by your Browser!");
 
-        d3.select('#ifmContent').data(datasetOfContent).attr('src',datasetOfContent[ddlSelectedPosition][1]);
-
-     }
-
-
-
-function WebSocketTest()
-         {
-            if ("WebSocket" in window)
-            {
-               alert("WebSocket is supported by your Browser!");
-               
-               // Let us open a web socket
-               var ws = new WebSocket("ws://134.190.155.223/Dal200");
+        // Let us open a web socket
+        var ws = new WebSocket("ws://192.168.1.120/Dal200");
 				
-               ws.onopen = function()
-               {
-                  // Web Socket is connected, send data using send()
-                  ws.send("Message to send");
-                  alert("Message is sent...");
-               };
+        ws.onopen = function() {
+            // Web Socket is connected, send data using send()
+            //ws.send("Message to send");
+            // alert("Message is sent...");
+        };
 				
-               ws.onmessage = function (evt) 
-               { 
-                  var received_msg = evt.data;
-		
+        ws.onmessage = function(evt) {
+            var received_msg = evt.data;
 			var theRow = JSON.parse(received_msg);
-		    console.log(theRow["trackerData"][0].position);
+//            var newcontentID = theRow["trackerData"][0].id;
 
-                //d3.select("#firstDiv").transition().duration(500)
-        		//.style("left", theRow["trackerData"][0].position.x +"px").style("top",theRow["trackerData"][0].position.y +"px");
-    
-                  
-                  //alert("Message is received...");
-               };
+            if (theRow.dwellIndex != null) {
+                var newcontentID = theRow.dwellIndex;
+                console.log(newcontentID + " " + datasetOfContent[newcontentID][1]);
+                d3.select('#ifmContent').data(datasetOfContent)
+                                        .attr('src', datasetOfContent[0][1]);
+            }
+        };
 				
-               ws.onclose = function()
-               { 
-                  // websocket is closed.
-                  alert("Connection is closed..."); 
-               };
+        ws.onclose = function() {
+            // websocket is closed.
+            //alert("Connection is closed...");
+        };
 					
-               window.onbeforeunload = function(event) {
-                  socket.close();
-               };
-            }
-            
-            else
-            {
-               // The browser doesn't support WebSocket
-               alert("WebSocket NOT supported by your Browser!");
-            }
-         }
+        window.onbeforeunload = function(event) {
+            socket.close();
+        };
+    }
+    else {
+        // The browser doesn't support WebSocket
+        alert("WebSocket NOT supported by your Browser!");
+    }
+}
+WebSocketTest();
 
-        // WebSocketTest();
+// Enable launching pages by pressing the 'N' key
+$('body').on('keydown.list', function(e) {
+    switch (e.which) {
+        case 78:
+            /* 'N' */
+            contentID++;
+            if (contentID > (datasetOfContent.length -1))
+              contentID = 0;
+            console.log("Loading page", contentID);
+            d3.select('#ifmContent').data(datasetOfContent)
+                                    .attr('src', datasetOfContent[contentID][1]);
+            break;
+        default:
+          console.log("keypress:", e.which);
+    }
+})
 
-
-
-
-
-
-function moveDiv(){
-
+function moveDiv() {
     var ddlSelectedPosition = d3.select("#ddlPosition").property('value');
 
     d3.select("#firstDiv").transition().duration(500)
-        .style("left", wallSections[ddlSelectedPosition][0]).style("top",wallSections[ddlSelectedPosition][1]);
-    
-
+                                       .style("left", wallSections[ddlSelectedPosition][0])
+                                       .style("top", wallSections[ddlSelectedPosition][1]);
 }
 
-
-function moveDivDDT(){
-
+function moveDivDDT() {
     var ddlSelectedPosition = d3.select("#ddlPosition").property('value');
 
+    console.log(DataCollectedFromController);
 
-   console.log(DataCollectedFromController);
+    console.log(DataCollectedFromController[0].trackerData);
 
-console.log(DataCollectedFromController[0].trackerData);
-
-    d3.select("#firstDiv").transition().duration(500)
-        .style("left", DataCollectedFromController[0].trackerData.position.x).style("top",DataCollectedFromController[0].trackerData.position.y);
-    
-
-
+    d3.select("#firstDiv")
+      .transition()
+      .duration(500)
+      .style("left", DataCollectedFromController[0].trackerData.position.x).style("top",DataCollectedFromController[0].trackerData.position.y);
 }
-
 
 /*
    //sum of values in a row
     d3.csv("datafordisplay.csv", function (ignData) {
         dataset = ignData;
-
     })
 */
 
 //get data from textbox and display appropriate text
 function shower(){
+//    d3.select("body");
 
-    //d3.select("body");
-
-//the div holding th e image and text
-    /*var divWithContent= d3.select("body").append("div")
-        .attr("id","firstDiv")
-        .style("width",widthOfContentDiv)
-        .style("height",heightOfContentDiv)
-        .style("background-color", "red");
-        divWithContent.append("img")
-            .attr("src", "images/first.jpg")
-            .style("width",widthOfContentDiv);
-        divWithContent.append("p")
-            .style("color", "white").text("Tester Here!");
-
-        divWithContent.style("position","absolute")
-        .transition().duration(500).style("left","200px").style("top","300px");*/
-
-       
- }
-
-
+//    // the div holding the image and text
+//    var divWithContent = d3.select("body").append("div").attr("id", "firstDiv")
+//                                                        .style("width", widthOfContentDiv)
+//                                                        .style("height", heightOfContentDiv)
+//                                                        .style("background-color", "red");
+//    divWithContent.append("img").attr("src", "images/first.jpg")
+//                                .style("width", widthOfContentDiv);
+//    divWithContent.append("p").style("color", "white")
+//                              .text("Tester Here!");
+//
+//    divWithContent.style("position", "absolute")
+//                  .transition().duration(500)
+//                               .style("left","200px")
+//                               .style("top","300px");
+}

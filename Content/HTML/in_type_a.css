@@ -89,14 +89,19 @@ body {
     display: table;
     width: 100%;
     height: 100%;
+    padding: 10px;
 }
 
 .main_title-in {
     display:table-cell;
-    text-align: center;
-    vertical-align: middle;
+    text-align: left;
+    position: absolute;
+    top: 500px;
+    left: 80%;
+    width: 20%;
+    padding: 10px;
     font-family: 'abril_fatfaceregular', sans-serif;
-    font-size: 40px;
+    font-size: 30px;
     color: transparent;
     animation: none;
     text-shadow: 0px 0px 1px #111;
@@ -136,38 +141,43 @@ body {
 }*/
 
 .name_title-in{
-    top:50%;
-    display:table-cell;
+	width: 100%;
+    top:300px;
+    /*display:table-cell;*/
     text-align: center;
     vertical-align: middle;
     font-family: 'abril_fatfaceregular', sans-serif;
-    font-size: 25px;
+    font-size: 20px;
 
 }
 
 .name_title-in2{
-    top:60%;
-    display:table-cell;
+	width: 100%;
+    top:250px;
+    /*display:table-cell;*/
     text-align: center;
     vertical-align: middle;
     font-family: 'abril_fatfaceregular', sans-serif;
-    font-size: 16px;
+    font-size: 20px;
     font-style: italic;
 }
 
 .main-image{
     position: absolute;
     float: right;
-    top: 250px;
-    right: 100px;
-    width: 300px;
-    height: 100px;
+    top: 200px;
+    left: 33%;
+    width: 32%;
+    padding: 10px;
+    /*height: 100px;*/
     z-index: -1;
 }
 .main-image img {
-    width: 50%;
+    width: 100%;
 }
-
+.main-image video {
+    width: 100%;
+}
 /* --- sp container base---- */
 .sp-container {
     position: relative;
@@ -182,10 +192,11 @@ body {
 }
 .sp-container .frame {
     position: absolute;
-    width: 40%;
+    width: 33%;
+    padding: 10px;
 }
 .sp-container .frame .catch-ttl {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
     line-height: 1.4;
     color: transparent;
@@ -248,24 +259,24 @@ body {
 
 /* --- sp container frame-1---- */
 .sp-container .frame-1 {
-    top: 20%;
-    left: 5%;
+    top: 0px;
+    /*left: 30px;*/
 }
 
 /* --- sp container frame-2---- */
 .sp-container .frame-2 {
-    top: 5%;
-    right: 5%;
+    top: 0px;
+    left: 33%;
 }
 
 /* --- sp container frame-3---- */
 .sp-container .frame-3 {
-    bottom: 20%;
-    left: 5%;
+    top: 500px;
+    /*left: 30px;*/
 }
 
 /* --- sp container frame-4---- */
 .sp-container .frame-4 {
-    bottom: 5%;
-    right: 5%;
+    top: 240px;
+    /*left: 30px;*/
 }

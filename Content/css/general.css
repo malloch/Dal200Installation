@@ -1,5 +1,24 @@
 body{
+	margin: 0px;
+	padding:0;
+	background-color: black;
    /* background:url('../images/dal200back.gif'); 
     background-size:cover;
     background-repeat: no-repeat;*/
 }
+
+#ifmContent{
+	margin-left: 0px;//270px;
+	border-color: black;
+}
+
+#ifmBeforeStairs{
+	position: absolute;
+	left: 800px;
+	top: 400px;
+	background-color: white;
+	width: 200px;
+	height: 200px;
+
+}
+
