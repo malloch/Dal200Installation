@@ -9,10 +9,12 @@ var height;
 var cx;
 var cy;
 var socket = null;
+var connected = false;
+var connectionInterval = 60000;
 var trackerData = {};
 var targets = {};
 var paths = {};
-var distThresh = 5000;
+var distThresh = 1000;
 
 function init() {
     console.log('init!');
@@ -28,65 +30,73 @@ function init() {
 
     if (navigator.onLine) {
         console.log("You are Online");
-    } else {
+    }
+    else {
         console.log("You are Offline");
     }
 
-    // Create a new WebSocket.
-    socket = new WebSocket('ws://192.168.1.120/Dal200');
-//    socket = new WebSocket('ws://192.168.0.107/Dal200');
-    socket.onopen = function(event) {
-        console.log("Connection established");
-        socket.send("SVG renderer "+id+" connected.");
+    function openWebSocket() {
+        console.log("   Trying to connect...");
+        // Create a new WebSocket.
+        socket = new WebSocket('ws://192.168.1.120/Dal200');
+        socket.onopen = function(event) {
+            console.log("Connection established");
+            socket.send("SVG renderer "+id+" connected.");
+            connected = true;
+        }
+        socket.onclose = function(event) {
+            console.log("Connection dropped, will try to reconnect in", connectionInterval/1000, "seconds");
+            connected = false;
+        }
+        socket.onmessage = function(event) {
+            let data = null;
+            if (event.data)
+                data = JSON.parse(event.data);
+            if (!data)
+                return;
+            if (data.trackerData) {
+                for (var i in data.trackerData) {
+                    updateTrackerData(data.trackerData[i].id,
+                                      convertCoords(data.trackerData[i].position));
+                }
+            }
+            else if (data.targets) {
+                for (var i in data.targets) {
+                    updateTarget(data.targets[i].UUID, convertCoords(data.targets[i].Position),
+                                 data.targets[i].Label, data.targets[i].Type);
+                }
+            }
+            else if (data.paths) {
+                for (var i in data.paths) {
+                    updatePath(data.paths[i].UUID, data.paths[i].source,
+                               data.paths[i].destination);
+                }
+            }
+            else if (data.command) {
+                switch (data.command) {
+                    case 'identify':
+                        identify();
+                        break;
+                }
+            }
+            else if (data.dwellIndex != null) {
+//                console.log('dwellIndex:', data.dwellIndex);
+            }
+        }
     }
-    socket.onmessage = function(event) {
-//        console.log("message received:", event);
-        let data = null;
-        if (event.data)
-            data = JSON.parse(event.data);
-        if (!data)
+
+    // open webSocket
+    openWebSocket();
+
+    // check the websocket periodically
+    setInterval(function() {
+        console.log("checking websocket...");
+        if (connected == true) {
+            console.log("   Socket ok.");
             return;
-//        console.log(data);
-        if (data.trackerData) {
-//            console.log('trackerData:', data.trackerData);
-            for (var i in data.trackerData) {
-                updateTrackerData(data.trackerData[i].id,
-                                  convertCoords(data.trackerData[i].position));
-//                console.log(data.trackerData[i].position,
-//                            convertCoords(data.trackerData[i].position));
-            }
         }
-        else if (data.targets) {
-//            console.log('targets:', data.targets);
-            for (var i in data.targets) {
-//                console.log('target:', data.targets[i].UUID, data.targets[i].Position,
-//                            convertCoords(data.targets[i].Position));
-                updateTarget(data.targets[i].UUID, convertCoords(data.targets[i].Position),
-                             data.targets[i].Label, data.targets[i].Type);
-            }
-        }
-        else if (data.paths) {
-//            console.log('paths:', data.paths);
-            for (var i in data.paths) {
-                updatePath(data.paths[i].UUID, data.paths[i].source,
-                           data.paths[i].destination);
-            }
-        }
-        else if (data.command) {
-            console.log(data);
-            switch (data.command) {
-                case 'identify':
-                    identify();
-                    break;
-            }
-        }
-        else if (data.dwellIndex != null) {
-            console.log('dwellIndex', data.dwellIndex);
-        }
-        else {
-            console.log('unknown message:', data);
-        }
-    }
+        openWebSocket();
+    }, connectionInterval);
 
     $('body').on('keydown.list', function(e) {
         switch (e.which) {
@@ -153,6 +163,10 @@ function convertCoords(pos) {
     if (pos.x > 465)
         x -= 45;
 
+    // added y-offset to compensate for projector clamp slipping
+    x -= 20;
+    y -= 50;
+
     return {'x': x, 'y': y};
 }
 
@@ -212,19 +226,21 @@ function updateTrackerData(id, pos) {
         trackerData[id].animationFrame = 20;
 
     // check if we are close to any targets
-//    for (var i in targets) {
-//        let dist = distSquared(pos, targets[i].data('pos'));
-////        console.log(id, i, dist);
+    for (var i in targets) {
+        let dist = distSquared(pos, targets[i].data('pos'));
+//        console.log(id, i, dist);
+        targets[i].attr({'stroke-opacity': dist < distThresh ? 1 : 0});
 //        if (dist < distThresh) {
 ////            console.log('tracker', id, 'proximate to target', i);
+//            targets[i].attr({'stroke-opacity': 1});
 //            if (targets[i].sel < 255)
 //                targets[i].sel++;
 //        }
 //        else if (targets[i].sel > 0)
 //            targets[i].sel--;
-//        let color = targets[i].sel;
-//        targets[i].attr({'fill': Raphael.rgb(255, 255-color, 255-color)});
-//    }
+//        let opacity = targets[i].sel / 255;
+//        targets[i].attr({'stroke-opacity': opacity});
+    }
 }
 
 function updateTarget(id, pos, label, type) {
@@ -253,7 +269,7 @@ function updateTarget(id, pos, label, type) {
             break;
     }
 
-    targets[id].animate({'fill': color});
+    targets[id].animate({'fill': color, 'stroke': 'white', 'stroke-opacity': 0, 'stroke-width': 10});
     targets[id].label.animate({'x': pos.x,
                                'y': pos.y,
                                'stroke': 'black',
