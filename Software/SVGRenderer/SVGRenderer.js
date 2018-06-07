@@ -14,7 +14,7 @@ var connectionInterval = 60000;
 var trackerData = {};
 var targets = {};
 var paths = {};
-var distThresh = 1000;
+var distThresh = 10000;
 
 function init() {
     console.log('init!');
@@ -37,6 +37,7 @@ function init() {
 
     function openWebSocket() {
         console.log("   Trying to connect...");
+
         // Create a new WebSocket.
         socket = new WebSocket('ws://192.168.1.120/Dal200');
         socket.onopen = function(event) {
@@ -49,7 +50,7 @@ function init() {
             connected = false;
         }
         socket.onmessage = function(event) {
-            let data = null;
+            var data = null;
             if (event.data)
                 data = JSON.parse(event.data);
             if (!data)
@@ -222,14 +223,17 @@ function updateTrackerData(id, pos) {
             this.remove();
         });
     });
-    if (trackerData[id].animationFrame++ > 40)
+    trackerData[id].animationFrame += 0.5;
+    if (trackerData[id].animationFrame > 40)
         trackerData[id].animationFrame = 20;
 
     // check if we are close to any targets
     for (var i in targets) {
         let dist = distSquared(pos, targets[i].data('pos'));
 //        console.log(id, i, dist);
-        targets[i].attr({'stroke-opacity': dist < distThresh ? 1 : 0});
+        targets[i].attr({'stroke-opacity': dist < distThresh ? 1 : 0,
+                         'stroke-width': dist < distThresh ? (distThresh - dist) * 0.001 : 0
+                        });
 //        if (dist < distThresh) {
 ////            console.log('tracker', id, 'proximate to target', i);
 //            targets[i].attr({'stroke-opacity': 1});
