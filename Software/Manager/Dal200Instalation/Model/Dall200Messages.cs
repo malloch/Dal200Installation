@@ -13,18 +13,29 @@ namespace Dal200Instalation.Model
 {
     class Dall200Messages : WebSocketBehavior
     {
+        private static string targetsFilePath;
         protected override void OnMessage(MessageEventArgs e)
         {
             Console.WriteLine(e.Data);
             var targets = new Targets();
             DwellableCollection dwellableCollection = new DwellableCollection(2, TimeSpan.Zero);
             //TODO: Remove hardoced file name
-            dwellableCollection.LoadTargetsFromFile("testTargets");
-            foreach (var target in dwellableCollection.dwellableTargets)
+            if (targetsFilePath != null)
             {
-                targets.targets.Add(target);
+                dwellableCollection.LoadTargetsFromFile(targetsFilePath);
+
+                foreach (var target in dwellableCollection.dwellableTargets)
+                {
+                    targets.targets.Add(target);
+                }
+
+                Send(JsonConvert.SerializeObject(targets));
             }
-            Send(JsonConvert.SerializeObject(targets));
+        }
+
+        public static void SetFilePath(string path)
+        {
+            targetsFilePath = path;
         }
     }
 }
