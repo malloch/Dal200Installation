@@ -35,7 +35,7 @@ function init() {
     }
 
     // Create a new WebSocket.
-    socket = new WebSocket('ws://134.190.132.64/Dal200');
+    socket = new WebSocket('ws://localhost/Dal200');
     socket.onopen = function(event) {
         console.log("Connection established");
         socket.send("a message from Joe");

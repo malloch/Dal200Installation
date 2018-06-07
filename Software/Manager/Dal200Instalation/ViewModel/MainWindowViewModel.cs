@@ -72,7 +72,7 @@ namespace Dal200Instalation.ViewModel
                 exhibitControl = new Dal200Control(DTDTPort, DwellRadius, DwellTime, openFileDialog.FileName);
                 exhibitControl.dtdtHandler.OnDataReceived += data =>
                     OscMessages.Add($"{DateTime.UtcNow.ToString("T")} -> {data.ToString()}");
-                wsServerAddr = $"ws://{NetworkUtils.GetLocalIPAddress()}/Dall200";
+                wsServerAddr = $"ws://{NetworkUtils.GetLocalIPAddress()}/Dal200";
                 OnPropertyChanged(nameof(wsServerAddr));
             }
         }

@@ -46,6 +46,7 @@ namespace Dal200Instalation.Model
         public Dal200Control(int dtdtPort, int dwellRadius, int dwellTime, string filename) : this(dtdtPort,
             dwellRadius, dwellTime)
         {
+            Dall200Messages.SetFilePath(filename);
             DwellableCollection.LoadTargetsFromFile(filename);
             DwellableCollection.OnDwellDetected += DwellDetected;
         }
