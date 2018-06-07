@@ -85,6 +85,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Utils\CVUtils.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\RelayCommand.cs" />

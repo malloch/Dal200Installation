@@ -27,7 +27,7 @@ namespace KinectV2EmguCV.Model.Sensors
         public static KinectHandler Instance => lazy.Value;
         public bool IsKinectOpen { get; }
 
-        public ushort[] LastCapturedDepthFrame => lastCollectedFrame.DepthFrameData;
+        public ushort[] LastCapturedDepthFrame => lastCollectedFrame?.DepthFrameData;
 
         private KinectHandler()
         {
@@ -49,7 +49,7 @@ namespace KinectV2EmguCV.Model.Sensors
             using (var depthFrame = depthFrameReader.AcquireLatestFrame())
             {
                 if (depthFrame == null)
-                    throw new ArgumentNullException("Could not get frame from Kinect");
+                    return null;//throw new ArgumentNullException("Could not get frame from Kinect");
 
                 kinectTrackableSource = new KinectTrackableSource(depthFrame.FrameDescription.LengthInPixels,
                                                                     minimumRealiableTrackingDistance,

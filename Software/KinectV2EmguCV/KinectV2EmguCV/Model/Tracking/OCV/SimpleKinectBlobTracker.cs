@@ -20,7 +20,7 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
         private ushort[] backgroundReference;
         private Mat blobTrackerMaskMat;
         private byte[] blobTrackerMaskPixels;
-        
+        private int referenceCount = 100;
 
         public bool IsBackgroundCaptured { get; private set; }
         public ushort[] BackgroundReference
@@ -28,12 +28,17 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
             get { return backgroundReference; }
             set
             {
+                if(value == null)
+                    return;
+                
                 backgroundReference = value;
+                referenceCount = -1;
                 IsBackgroundCaptured = true;
             }
         }
-        public Image<Gray,byte> BlobDetectedImage { get; private set; }
-        
+        public Image<Bgr,byte> BlobDetectedImage { get; private set; }
+        public int BlobsDetected { get; private set; }
+
         public SimpleKinectBlobTracker()
         {
             IsBackgroundCaptured = false;
@@ -65,11 +70,15 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
                 }
             }
 
-            IsBackgroundCaptured = true;
+            referenceCount--;
+            if(referenceCount <0)
+                IsBackgroundCaptured = true;
         }
 
         public void SetTrackerMask(byte[] maskPixels, int height, int width)
         {
+            if(maskPixels == null)
+                return;
             blobTrackerMaskPixels = maskPixels;
             blobTrackerMaskMat = new Mat(height,width,DepthType.Cv8U,1);
             blobTrackerMaskMat.SetTo(blobTrackerMaskPixels);
@@ -92,7 +101,16 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
 
         public PointF? DetectSinglePerson(ITrackableSource source)
         {
-            var kinectData = (KinectTrackableSource) source;
+            if (source == null)
+                return null;
+            
+            var kinectData = (KinectTrackableSource)source;
+            if (!IsBackgroundCaptured)
+            {
+                CreteBackgroundReference(kinectData);
+                return null;
+            }
+
             byte[] binaryImage = CreateBinaryImage(kinectData);
             if (blobTrackerMaskMat != null)
             {
@@ -106,8 +124,12 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
 
             using (var kp = DoBlobDetection(binaryMatrix))
             {
+                BlobsDetected = 0;
                 if (kp.Size > 0)
+                {
+                    BlobsDetected = kp.Size;
                     return kp[0].Point;
+                }
             }
 
             return null;
@@ -149,8 +171,9 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
             else
                 blobDetector.DetectRaw(blobImage, kp);
 
-            Features2DToolbox.DrawKeypoints(blobImage.Mat,kp,blobImage.Mat,new Bgr(0,0,255));
-            BlobDetectedImage = blobImage;
+            Mat decoratedMat = new Mat(sourceMat.Rows,sourceMat.Cols, DepthType.Cv8U,3);
+            Features2DToolbox.DrawKeypoints(blobImage.Mat,kp,decoratedMat,new Bgr(0,0,255));
+            BlobDetectedImage = decoratedMat.ToImage<Bgr,byte>();
             return kp;
         }
 

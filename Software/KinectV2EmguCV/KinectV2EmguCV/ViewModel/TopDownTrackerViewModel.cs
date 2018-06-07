@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using KinectV2EmguCV.Annotations;
 using KinectV2EmguCV.Model.Sensors;
 using KinectV2EmguCV.Model.Tracking;
 using KinectV2EmguCV.Model.Tracking.OCV;
@@ -16,7 +19,7 @@ using Rug.Osc;
 
 namespace KinectV2EmguCV.ViewModel
 {
-    class TopDownTrackerViewModel
+    class TopDownTrackerViewModel: INotifyPropertyChanged
     {
         #region UIProperties
         public string OscIp { get; set; } = "127.0.0.1";
@@ -24,8 +27,36 @@ namespace KinectV2EmguCV.ViewModel
         public float MinimumBlobArea { get; set; } = 20;
         public float BlobThreshold { get; set; } = 50;
 
-        public ImageSource KinectImageSource { get; set; }
-        public ImageSource BlobDetectionImageSource { get; set; }
+        public ImageSource KinectImageSource
+        {
+            get { return kinectImageSource; }
+            private set
+            {
+                kinectImageSource = value;
+                OnPropertyChanged(nameof(KinectImageSource));
+            }
+        }
+
+        public ImageSource BlobDetectionImageSource
+        {
+            get { return blobDetectionImageSource;}
+            set
+            {
+                blobDetectionImageSource = value;
+                OnPropertyChanged(nameof(BlobDetectionImageSource));
+            }
+        }
+
+        public int BlobsDetected
+        {
+            get { return blobsDetected; }
+            set
+            {
+                blobsDetected = value;
+                OnPropertyChanged(nameof(BlobsDetected));
+            }
+        }
+
 
         #endregion
 
@@ -65,15 +96,26 @@ namespace KinectV2EmguCV.ViewModel
             get { return closeCommand ?? (closeCommand = new RelayCommand(call => HandleShutdown())); }
         }
 
+        private ICommand saveMaskCommand;
+
+        public ICommand SaveMaskCommand
+        {
+            get { return saveMaskCommand ?? (saveMaskCommand = new RelayCommand(call => SaveReferenceFrame())); }
+        }
+
         #endregion
 
         private readonly KinectHandler kinectHandler;
         private ITopDownTrackingStrategy trackingStrategy;
         private OscSender oscSender;
         private const int KinectRefreshRate = 10;
+        private ImageSource kinectImageSource;
+        private ImageSource blobDetectionImageSource;
+        private int blobsDetected = 0;
 
         public TopDownTrackerViewModel()
         {
+            //kinectImageSource = new BitmapImage(new Uri("c:\\lenna.png"));
 
             kinectHandler = KinectHandler.Instance;
             trackingStrategy = new SimpleKinectBlobTracker();
@@ -128,7 +170,7 @@ namespace KinectV2EmguCV.ViewModel
         private void SaveReferenceFrame()
         {
             var tracker = trackingStrategy as SimpleKinectBlobTracker;
-            if (tracker != null)
+            if (tracker != null && tracker.IsBackgroundCaptured)
                 FileUtils.SaveFrameToFile(tracker.BackgroundReference);
         }
 
@@ -136,18 +178,28 @@ namespace KinectV2EmguCV.ViewModel
         {
             if(!kinectHandler.IsKinectOpen)
                 return;
-            
-            var imageArray = new byte[kinectHandler.LastCapturedDepthFrame.Length];
-            for (int i = 0; i < kinectHandler.LastCapturedDepthFrame.Length; i++)
+
+            if (kinectHandler.LastCapturedDepthFrame != null)
             {
-                imageArray[i] = (byte)(255 - ((float)kinectHandler.LastCapturedDepthFrame[i] / 4000 * 255));
+                var imageArray = new byte[kinectHandler.LastCapturedDepthFrame.Length];
+                for (int i = 0; i < kinectHandler.LastCapturedDepthFrame.Length; i++)
+                {
+                    imageArray[i] = (byte) (255 - ((float) kinectHandler.LastCapturedDepthFrame[i] / 4000 * 255));
+                }
+
+                KinectImageSource = BitmapSource.Create(kinectHandler.FrameWidth, kinectHandler.FrameHeight, 96, 96,
+                    PixelFormats.Gray8, null, imageArray, kinectHandler.FrameWidth);
+                
             }
-            KinectImageSource = BitmapSource.Create(kinectHandler.FrameWidth, kinectHandler.FrameHeight, 96, 96,
-                PixelFormats.Gray8, null, imageArray, kinectHandler.FrameWidth);
 
             var tracker = trackingStrategy as SimpleKinectBlobTracker;
-            if (tracker != null)
+            if (tracker != null && tracker.BlobDetectedImage != null)
+            {
                 BlobDetectionImageSource = CvUtils.ToBitmapSource(tracker.BlobDetectedImage);
+                BlobsDetected = tracker.BlobsDetected;
+            }
+
+
 
         }
 
@@ -157,5 +209,12 @@ namespace KinectV2EmguCV.ViewModel
             oscSender?.Close();
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

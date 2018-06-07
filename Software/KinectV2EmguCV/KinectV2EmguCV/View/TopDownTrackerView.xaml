@@ -24,8 +24,13 @@
 
                 <TextBlock Margin="3" Text="Threshold:"></TextBlock>
                 <TextBox Margin="3" Text="{Binding Path=BlobThreshold, Mode=TwoWay}"></TextBox>
-                <Button Margin="3" Content="Update Blob" Command="{Binding UpdateBlobSettingsCommand}"></Button>
+                <StackPanel Margin="3" Orientation="Horizontal">
+                    <TextBlock  Text="Blobs Detected : "/>
+                    <TextBlock Text="{Binding Path=BlobsDetected}"/>
+                </StackPanel>
                 
+                <Button Margin="3" Content="Update Blob" Command="{Binding UpdateBlobSettingsCommand}"></Button>
+
                 <Separator Height="5" />
                 <TextBox Margin="3" Text="{Binding Path=OscIp, Mode=TwoWay}"></TextBox>
                 <TextBox Margin="3" Text="{Binding Path=OscPort, Mode=TwoWay}"></TextBox>
@@ -34,8 +39,19 @@
                 <Separator Height="5" />
                 <Button Margin="3" Content="Load Reference" Command="{Binding LoadReferenceFrameCommand}"></Button>
                 <Button Margin="3" Content="Load Mask" Command="{Binding LoadMaskCommand}"></Button>
+                <Separator Height="5"/>
+                <Button Margin="3" Content="Save Reference" Command="{Binding SaveMaskCommand}"/>
 
             </StackPanel>
         </ScrollViewer>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Source="{Binding KinectImageSource}"></Image>
+            <Image Grid.Row="1" Source="{Binding BlobDetectionImageSource}"></Image>
+        </Grid>
+    
     </Grid>
 </Window>
