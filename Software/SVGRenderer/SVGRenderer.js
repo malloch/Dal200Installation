@@ -64,7 +64,8 @@ function init() {
             else if (data.targets) {
                 for (var i in data.targets) {
                     updateTarget(data.targets[i].UUID, convertCoords(data.targets[i].Position),
-                                 data.targets[i].Label, data.targets[i].Type);
+                                 data.targets[i].Label, data.targets[i].Type,
+                                 data.targets[i].Page);
                 }
             }
             else if (data.paths) {
@@ -82,6 +83,13 @@ function init() {
             }
             else if (data.dwellIndex != null) {
 //                console.log('dwellIndex:', data.dwellIndex);
+                for (var i in targets) {
+                    if (targets[i].dwellIndex == data.dwellIndex) {
+                        targets[i].attr({'stroke': 'red'})
+                                  .animate({'stroke': 'white'}, 2000, 'linear');
+                        break;
+                    }
+                }
             }
         }
     }
@@ -247,12 +255,13 @@ function updateTrackerData(id, pos) {
     }
 }
 
-function updateTarget(id, pos, label, type) {
+function updateTarget(id, pos, label, type, dwellIndex) {
     if (!targets[id]) {
         targets[id] = canvas.circle(0, 0, 30 + (pos.x) * 0.04);
         targets[id].label = canvas.text(pos.x, pos.y, label)
                                   .rotate(90);
         targets[id].sel = 0;
+        targets[id].dwellIndex = dwellIndex;
     }
 //    console.log('placing target', id, 'at', pos);
     targets[id].attr({'cx': pos.x, 'cy': pos.y});
