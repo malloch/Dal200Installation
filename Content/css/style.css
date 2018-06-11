@@ -25,6 +25,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     font: inherit;
     font-size: 100%;
     vertical-align: baseline;
+    cursor: none;
 }
 
 * {
@@ -96,8 +97,8 @@ body {
     display:table-cell;
     text-align: left;
     position: absolute;
-    top: 500px;
-    left: 80%;
+    top: 550px;
+    left: 73%;
     width: 20%;
     padding: 10px;
     font-family: 'abril_fatfaceregular', sans-serif;
@@ -166,8 +167,8 @@ body {
     position: absolute;
     float: right;
     top: 200px;
-    left: 33%;
-    width: 32%;
+    left: 30%;
+    width: 30%;
     padding: 10px;
     /*height: 100px;*/
     z-index: -1;
@@ -192,7 +193,7 @@ body {
 }
 .sp-container .frame {
     position: absolute;
-    width: 33%;
+    width: 30%;
     padding: 10px;
 }
 .sp-container .frame .catch-ttl {
@@ -266,12 +267,12 @@ body {
 /* --- sp container frame-2---- */
 .sp-container .frame-2 {
     top: 0px;
-    left: 33%;
+    left: 30%;
 }
 
 /* --- sp container frame-3---- */
 .sp-container .frame-3 {
-    top: 500px;
+    top: 550px;
     /*left: 30px;*/
 }
 
