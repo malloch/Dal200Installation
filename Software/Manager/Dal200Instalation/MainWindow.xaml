@@ -97,9 +97,9 @@
             </Grid.RowDefinitions>
             
             <TextBox Text="OSC Messages:" ></TextBox>
-            <ListView Grid.Row="1" ItemsSource="{Binding OscMessages}">
+            <!--<ListView Grid.Row="1" ItemsSource="{Binding OscMessages}">
 
-            </ListView>
+            </ListView>-->
         </Grid>
 
         
