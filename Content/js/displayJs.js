@@ -5,6 +5,8 @@ window.onload = init;
 var socket = null;
 var connected = false;
 var connectionInterval = 60000;
+var screensaver = false;
+var screensaver_timeout = 30000;
 var DataCollectedFromController = [];
 var contentID = 24;
 var datasetOfContent =[[0, "HTML/in_1.html"],
@@ -93,6 +95,9 @@ function init() {
             if (data.dwellIndex != null) {
                 selectContent(data.dwellIndex);
             }
+            if (data.trackerData) {
+                screensaver = false;
+            }
         }
     }
 
@@ -108,6 +113,18 @@ function init() {
         }
         openWebSocket();
     }, connectionInterval);
+
+    // activate the screensaver if necessary
+    setInterval(function() {
+        console.log("checking for activity...");
+        if (screensaver == true) {
+            contentID = Math.floor(Math.random() * 24);
+            console.log("  switching page to", contentID);
+            d3.select('#ifmContent').data(datasetOfContent)
+                                    .attr('src', datasetOfContent[contentID][1]);
+        }
+        screensaver = true;
+    }, screensaver_timeout);
 
     window.onbeforeunload = function(event) {
         socket.close();

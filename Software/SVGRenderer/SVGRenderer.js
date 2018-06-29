@@ -16,6 +16,9 @@ var targets = {};
 var paths = {};
 var distThresh = 10000;
 
+var screensaver = false;
+var screensaver_timeout = 20000;
+
 function init() {
     console.log('init!');
 
@@ -59,6 +62,20 @@ function init() {
                 for (var i in data.trackerData) {
                     updateTrackerData(data.trackerData[i].id,
                                       convertCoords(data.trackerData[i].position));
+                }
+                if (screensaver == true) {
+                    screensaver = false;
+                    // animate targets back to their proper positions
+                    for (var i in targets) {
+                        let pos = targets[i].data('pos')
+                        targets[i].stop()
+                                  .animate({'cx': pos.x,
+                                            'cy': pos.y,
+                                            'opacity': 1}, 1000, 'linear', function() {
+                            this.label.stop()
+                                      .animate({'opacity': 1}, 500, 'linear');
+                        });
+                    }
                 }
             }
             else if (data.targets) {
@@ -106,6 +123,22 @@ function init() {
         }
         openWebSocket();
     }, connectionInterval);
+
+    // activate the screensaver if necessary
+    setInterval(function() {
+        console.log("checking for activity...");
+        if (screensaver == true) {
+            for (var i in targets) {
+                targets[i].label.stop()
+                                .animate({'opacity': 0}, 500, 'linear');
+                targets[i].stop()
+                          .animate({'cx': Math.random() * 800,
+                                    'cy': Math.random() * 600,
+                                    'opacity': 0.8}, screensaver_timeout, 'linear');
+            }
+        }
+        screensaver = true;
+    }, screensaver_timeout);
 
     $('body').on('keydown.list', function(e) {
         switch (e.which) {
