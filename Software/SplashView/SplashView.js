@@ -20,6 +20,9 @@ var footPathProgress = 0;
 var footColor = 'white';
 var footFlip = 0;
 
+var maxFootsteps = 50;
+var footsteps = [];
+
 var step_interval = 500;
 
 var title = null;
@@ -105,7 +108,6 @@ function randomBorderCoord(exclude) {
     let border = rollDice(4);
     while (border == exclude)
         border = rollDice(4);
-    console.log('border', exclude);
     switch (border) {
         case 0:
             // left
@@ -174,12 +176,17 @@ function walk() {
     if (pos.alpha < 360)
         pos.alpha += 360;
 
-    let foot = canvas.path(footFlip ? rightfoot : leftfoot)
-                     .attr({'fill': footColor, 'stroke-opacity': 0})
-                     .transform("t"+pos.x+","+pos.y+"r"+(pos.alpha));
-    foot.animate({'fill-opacity': 0}, 20000, 'linear', function() {
-        this.remove();
-    });
+    // remove extra footsteps
+    while (footsteps.length > maxFootsteps-1) {
+        let step = footsteps.shift();
+        step.animate({'opacity': 0}, 2000, 'linear', function () {
+            this.remove();
+        });
+    }
+
+    footsteps.push(canvas.path(footFlip ? rightfoot : leftfoot)
+                         .attr({'fill': footColor, 'stroke-opacity': 0})
+                         .transform("t"+pos.x+","+pos.y+"r"+(pos.alpha)));
 
     footPathProgress += 150;
     footFlip = footFlip ? 0 : 1;
