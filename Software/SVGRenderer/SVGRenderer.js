@@ -42,7 +42,8 @@ function init() {
         console.log("   Trying to connect...");
 
         // Create a new WebSocket.
-        socket = new WebSocket('ws://192.168.1.120/Dal200');
+        //socket = new WebSocket('ws://192.168.1.120/Dal200');
+        socket = new WebSocket('ws://134.190.133.142/Dal200');
         socket.onopen = function(event) {
             console.log("Connection established");
             socket.send("SVG renderer "+id+" connected.");
@@ -65,8 +66,12 @@ function init() {
                 }
                 if (screensaver == true) {
                     screensaver = false;
+                    
+
                     // animate targets back to their proper positions
                     for (var i in targets) {
+                    	//Stop the current animations first
+                    	targets[i].stop();
                         let pos = targets[i].data('pos')
                         targets[i].stop()
                                   .animate({'cx': pos.x,
@@ -108,8 +113,30 @@ function init() {
                     }
                 }
             }
+            else if(data.screenSaver)
+            {
+            	function a(o) {
+            		o.animate({'cx': Math.random() * 800,
+                               'cy': Math.random() * 600,
+                               'opacity': 0.8}, Math.random() * 10000 + 10000, 'linear', function() { b(this); });
+            	}
+
+            	function b(o) {
+            		o.animate({'cx': Math.random() * 800,
+                               'cy': Math.random() * 600,
+                               'opacity': 0.8}, Math.random() * 10000 + 10000, 'linear', function() { a(this); });
+            	}
+
+            	for (var i in targets) {
+                	targets[i].label
+                              .animate({'opacity': 0}, 500, 'linear');
+                	a(targets[i]);
+            	}
+            }
         }
     }
+
+
 
     // open webSocket
     openWebSocket();
@@ -125,20 +152,21 @@ function init() {
     }, connectionInterval);
 
     // activate the screensaver if necessary
-    setInterval(function() {
-        console.log("checking for activity...");
-        if (screensaver == true) {
-            for (var i in targets) {
-                targets[i].label.stop()
-                                .animate({'opacity': 0}, 500, 'linear');
-                targets[i].stop()
-                          .animate({'cx': Math.random() * 800,
-                                    'cy': Math.random() * 600,
-                                    'opacity': 0.8}, screensaver_timeout, 'linear');
-            }
-        }
-        screensaver = true;
-    }, screensaver_timeout);
+    // not used anymore, wait for command from manager
+    // setInterval(function() {
+    //     console.log("checking for activity...");
+    //     if (screensaver == true) {
+    //         for (var i in targets) {
+    //             targets[i].label.stop()
+    //                             .animate({'opacity': 0}, 500, 'linear');
+    //             targets[i].stop()
+    //                       .animate({'cx': Math.random() * 800,
+    //                                 'cy': Math.random() * 600,
+    //                                 'opacity': 0.8}, screensaver_timeout, 'linear');
+    //         }
+    //     }
+    //     screensaver = true;
+    // }, screensaver_timeout);
 
     $('body').on('keydown.list', function(e) {
         switch (e.which) {

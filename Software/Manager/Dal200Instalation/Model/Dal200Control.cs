@@ -25,9 +25,13 @@ namespace Dal200Instalation.Model
         private int oldTargetId = -1;
         public delegate void DataFiltered(OscPacket data);
 
+        private Timer screenSaverTimer;
+        private int screensaverInterval;
+        
+
         public event DataFiltered OnDataFiltered;
         
-        public Dal200Control(int dtdtPort, int dwellRadius, int dwellTime)
+        public Dal200Control(int dtdtPort, int dwellRadius, int dwellTime, int screensverTimeInSeconds)
         {
             activeUsers = new Dictionary<int, DtdtSubject>();
             DwellableCollection = new DwellableCollection(dwellRadius,TimeSpan.FromSeconds(dwellTime));
@@ -41,10 +45,30 @@ namespace Dal200Instalation.Model
             wsServer = new WebSocketServer($"ws://{NetworkUtils.GetLocalIPAddress()}");
             wsServer.AddWebSocketService<Dall200Messages>("/Dal200");
             wsServer.Start();
+
+            screensaverInterval = screensverTimeInSeconds * 1000;
+            screenSaverTimer = new Timer(screensaverInterval);
+            screenSaverTimer.AutoReset = false;
+            screenSaverTimer.Elapsed += ScreenSaverTimerElapsed;
+            screenSaverTimer.Start();
         }
 
-        public Dal200Control(int dtdtPort, int dwellRadius, int dwellTime, string filename) : this(dtdtPort,
-            dwellRadius, dwellTime)
+        private void ScreenSaverTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            var data = new ScreensaverData();
+            data.screenSaver = true;
+            wsServer.WebSocketServices["/Dal200"].Sessions.BroadcastAsync(JsonConvert.SerializeObject(data), null);
+            oldTargetId = -1;
+        }
+
+        public void ResetTimer()
+        {
+            screenSaverTimer.Interval = screensaverInterval;
+            screenSaverTimer.Start();
+        }
+
+        public Dal200Control(int dtdtPort, int dwellRadius, int dwellTime, string filename,int screensverTimeInSeconds) : this(dtdtPort,
+            dwellRadius, dwellTime, screensverTimeInSeconds)
         {
             Dall200Messages.SetFilePath(filename);
             DwellableCollection.LoadTargetsFromFile(filename);
@@ -84,6 +108,8 @@ namespace Dal200Instalation.Model
                     }
                 }
             }
+
+            screenSaverTimer.Interval = screensaverInterval;
 
             SendPositonData(positionData);
             DwellableCollection.DetectDwell(positionData);

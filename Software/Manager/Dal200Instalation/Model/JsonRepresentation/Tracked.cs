@@ -51,4 +51,10 @@ namespace Dal200Instalation.Model
         public int dwellIndex;
     }
 
+    public class ScreensaverData
+    {
+        public bool screenSaver;
+    }
+
+
 }
