@@ -14,7 +14,10 @@ var connectionInterval = 60000;
 var trackerData = {};
 var targets = {};
 var paths = {};
-var distThresh = 1000;
+var distThresh = 10000;
+
+var screensaver = false;
+var screensaver_timeout = 20000;
 
 function init() {
     console.log('init!');
@@ -37,6 +40,7 @@ function init() {
 
     function openWebSocket() {
         console.log("   Trying to connect...");
+
         // Create a new WebSocket.
         socket = new WebSocket('ws://192.168.1.120/Dal200');
         socket.onopen = function(event) {
@@ -49,7 +53,7 @@ function init() {
             connected = false;
         }
         socket.onmessage = function(event) {
-            let data = null;
+            var data = null;
             if (event.data)
                 data = JSON.parse(event.data);
             if (!data)
@@ -59,11 +63,26 @@ function init() {
                     updateTrackerData(data.trackerData[i].id,
                                       convertCoords(data.trackerData[i].position));
                 }
+                if (screensaver == true) {
+                    screensaver = false;
+                    // animate targets back to their proper positions
+                    for (var i in targets) {
+                        let pos = targets[i].data('pos')
+                        targets[i].stop()
+                                  .animate({'cx': pos.x,
+                                            'cy': pos.y,
+                                            'opacity': 1}, 1000, 'linear', function() {
+                            this.label.stop()
+                                      .animate({'opacity': 1}, 500, 'linear');
+                        });
+                    }
+                }
             }
             else if (data.targets) {
                 for (var i in data.targets) {
                     updateTarget(data.targets[i].UUID, convertCoords(data.targets[i].Position),
-                                 data.targets[i].Label, data.targets[i].Type);
+                                 data.targets[i].Label, data.targets[i].Type,
+                                 data.targets[i].Page);
                 }
             }
             else if (data.paths) {
@@ -81,6 +100,13 @@ function init() {
             }
             else if (data.dwellIndex != null) {
 //                console.log('dwellIndex:', data.dwellIndex);
+                for (var i in targets) {
+                    if (targets[i].dwellIndex == data.dwellIndex) {
+                        targets[i].attr({'stroke': 'red'})
+                                  .animate({'stroke': 'white'}, 2000, 'linear');
+                        break;
+                    }
+                }
             }
         }
     }
@@ -97,6 +123,22 @@ function init() {
         }
         openWebSocket();
     }, connectionInterval);
+
+    // activate the screensaver if necessary
+    setInterval(function() {
+        console.log("checking for activity...");
+        if (screensaver == true) {
+            for (var i in targets) {
+                targets[i].label.stop()
+                                .animate({'opacity': 0}, 500, 'linear');
+                targets[i].stop()
+                          .animate({'cx': Math.random() * 800,
+                                    'cy': Math.random() * 600,
+                                    'opacity': 0.8}, screensaver_timeout, 'linear');
+            }
+        }
+        screensaver = true;
+    }, screensaver_timeout);
 
     $('body').on('keydown.list', function(e) {
         switch (e.which) {
@@ -222,14 +264,17 @@ function updateTrackerData(id, pos) {
             this.remove();
         });
     });
-    if (trackerData[id].animationFrame++ > 40)
+    trackerData[id].animationFrame += 0.5;
+    if (trackerData[id].animationFrame > 40)
         trackerData[id].animationFrame = 20;
 
     // check if we are close to any targets
     for (var i in targets) {
         let dist = distSquared(pos, targets[i].data('pos'));
 //        console.log(id, i, dist);
-        targets[i].attr({'stroke-opacity': dist < distThresh ? 1 : 0});
+        targets[i].attr({'stroke-opacity': dist < distThresh ? 1 : 0,
+                         'stroke-width': dist < distThresh ? (distThresh - dist) * 0.001 : 0
+                        });
 //        if (dist < distThresh) {
 ////            console.log('tracker', id, 'proximate to target', i);
 //            targets[i].attr({'stroke-opacity': 1});
@@ -243,12 +288,13 @@ function updateTrackerData(id, pos) {
     }
 }
 
-function updateTarget(id, pos, label, type) {
+function updateTarget(id, pos, label, type, dwellIndex) {
     if (!targets[id]) {
         targets[id] = canvas.circle(0, 0, 30 + (pos.x) * 0.04);
         targets[id].label = canvas.text(pos.x, pos.y, label)
                                   .rotate(90);
         targets[id].sel = 0;
+        targets[id].dwellIndex = dwellIndex;
     }
 //    console.log('placing target', id, 'at', pos);
     targets[id].attr({'cx': pos.x, 'cy': pos.y});

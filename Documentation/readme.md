@@ -20,14 +20,16 @@ The Windows tablet has several functions:
 
 This mini is connected to the floor projector; its role is to display dwell targets and a round 'cursor' that follows the user on the floor.
 
-### Start-up instructions
+There is a script running on this machine named "keep_running_floor". It will restart applications as necessary, so if things get messed up simply quit all running applications and wait or restart the machine.
+
+### ~~Start-up instructions~~
 
 1. start up machine
 2. start Google Chrome
 3. open URL [file:///Users/dal200floor/Desktop/Dal200Installation/Software/SVGRenderer/SVGRenderer.html](file:///Users/dal200floor/Desktop/Dal200Installation/Software/SVGRenderer/SVGRenderer.html)
 4. make Chrome full-screen using the `view` menu or the keyboard shortcut `CMD`+`CTL`+`F`
 
-## Mac Mini #1: Wall Display
+## Mac Mini #2: Wall Display
 
 ### Start-up instructions
 

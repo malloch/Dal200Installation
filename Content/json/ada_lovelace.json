@@ -1,0 +1,28 @@
+{
+    "category": "international",
+    "name" : "Ada Lovelace",
+    "name-long": "Augusta Ada King-Noel, Countess of Lovelace",
+    "nationality": "UK",
+    "birth": "1815",
+    "death": "1852",
+    "known-for": "The first computer programmer",
+    "anecdotes": [
+        {
+            "title": "Curiosity",
+            "body": "When Ada was 12 years old, she wanted to fly. She approached the problem methodically, examining birds and investigating various materials that could serve as wings, including feathers, paper, and silk."
+        },
+        {
+            "title": "Analytical Engine",
+            "body": "In 1843, Ada published a French translation from an article on the Analytical Engine by an Italian engineer, Luigi Menabrea, to which Ada added extensive notes of her own."
+        },
+        {
+            "title": "A Stepwise Sequence",
+            "body": "Ada's writing includes the first published description of a stepwise sequence of operations for solving certain mathematical problems."
+        },
+        {
+            "title": "Recognition",
+            "body": "On October 15th 2009, Ada Lovelace was recognized as the first programmer - 157 years after her death. This highlights the often overlooked contributions of women to math and science."
+        }
+    ]
+}
+
