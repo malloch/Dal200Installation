@@ -5,7 +5,7 @@ window.onload = init;
 var socket = null;
 var connected = false;
 var connectionInterval = 60000;
-var screensaver = false;
+var screensaver = 0;
 var screensaver_timeout = 30000;
 var DataCollectedFromController = [];
 var contentID = 24;
@@ -32,7 +32,8 @@ var datasetOfContent =[[0, "HTML/in_1.html"],
                        [20, "HTML/na_6.html"],
                        [21, "HTML/na_7.html"],
                        [22, "HTML/na_8.html"],
-                       [23, "HTML/na_9.html"]];
+                       [23, "HTML/na_9.html"],
+                       [24, "../Software/SplashView/SplashView.html"]];
 
 function init() {
     console.log('init!');
@@ -96,7 +97,7 @@ function init() {
                 selectContent(data.dwellIndex);
             }
             if (data.trackerData) {
-                screensaver = false;
+                screensaver = 0;
             }
         }
     }
@@ -117,13 +118,14 @@ function init() {
     // activate the screensaver if necessary
     setInterval(function() {
         console.log("checking for activity...");
-        if (screensaver == true) {
-            contentID = Math.floor(Math.random() * 24);
-            console.log("  switching page to", contentID);
+        if (1 == screensaver) {
+            // contentID = Math.floor(Math.random() * 24);
+            // console.log("  switching page to", contentID);
+            console.log("starting screensaver");
             d3.select('#ifmContent').data(datasetOfContent)
-                                    .attr('src', datasetOfContent[contentID][1]);
+                                    .attr('src', datasetOfContent[24][1]);
         }
-        screensaver = true;
+        ++screensaver;
     }, screensaver_timeout);
 
     window.onbeforeunload = function(event) {
