@@ -14,6 +14,11 @@ var connectionInterval = 60000;
 var trackerData = {};
 var targets = {};
 var paths = {};
+
+var trackerHistory = [];
+var trail = null;
+var link = null;
+
 var distThresh = 10000;
 
 var screensaver = false;
@@ -40,7 +45,6 @@ function init() {
 
     function openWebSocket() {
         console.log("   Trying to connect...");
-
         // Create a new WebSocket.
         //socket = new WebSocket('ws://192.168.1.120/Dal200');
         socket = new WebSocket('ws://134.190.133.142/Dal200');
@@ -52,9 +56,15 @@ function init() {
         socket.onclose = function(event) {
             console.log("Connection dropped, will try to reconnect in", connectionInterval/1000, "seconds");
             connected = false;
+            for (var i in targets) {
+                targets[i].label.remove();
+                targets[i].remove();
+                targets[i] = null;
+            }
+            targets = {};
         }
         socket.onmessage = function(event) {
-            var data = null;
+            let data = null;
             if (event.data)
                 data = JSON.parse(event.data);
             if (!data)
@@ -105,6 +115,7 @@ function init() {
             }
             else if (data.dwellIndex != null) {
 //                console.log('dwellIndex:', data.dwellIndex);
+                // find target with dwell index
                 for (var i in targets) {
                     if (targets[i].dwellIndex == data.dwellIndex) {
                         targets[i].attr({'stroke': 'red'})
@@ -135,6 +146,36 @@ function init() {
             }
         }
     }
+    
+    // open webSocket
+    openWebSocket();
+    
+    // check the websocket periodically
+    setInterval(function() {
+        console.log("checking websocket...");
+        if (connected == true) {
+            console.log("   Socket ok.");
+            return;
+        }
+        openWebSocket();
+    }, connectionInterval);
+    
+    // activate the screensaver if necessary
+    setInterval(function() {
+        console.log("checking for activity...");
+        if (screensaver == true) {
+            console.log("animating!");
+            for (var i in targets) {
+                targets[i].label.stop()
+                                .animate({'opacity': 0}, 500, 'linear');
+                targets[i].stop()
+                          .animate({'cx': Math.random() * 800,
+                                    'cy': Math.random() * 600,
+                                    'opacity': 0.8}, screensaver_timeout, 'linear');
+            }
+        }
+        screensaver = true;
+    }, screensaver_timeout);
 
 
 
@@ -171,6 +212,8 @@ function init() {
     $('body').on('keydown.list', function(e) {
         switch (e.which) {
             case 32:
+                 socket.close();
+                 break;
                 /* space */
                 for (var i in trackerData) {
                     updateTrackerData(i, randomCoord());
@@ -224,19 +267,19 @@ function convertCoords(pos) {
 //    let scale = {'x': 2.4, 'y': 2.5};
 //    let offset = {'x': -1110, 'y': -340};
 //    let scale = {'x': 1.68, 'y': 2.9};
-
+    
     let x = pos.x * scale.x + offset.x;
     let y = pos.y * scale.y + offset.y;
-
+    
     x = 512 - x + 750;
-
-    if (pos.x > 465)
-        x -= 45;
-
+    
+//    if (pos.x > 465)
+//        x -= 45;
+    
     // added y-offset to compensate for projector clamp slipping
-    x -= 20;
-    y -= 50;
-
+    x -= 60;
+    y -= 45;
+    
     return {'x': x, 'y': y};
 }
 
@@ -281,7 +324,7 @@ function updateTrackerData(id, pos) {
                                 .data({'id': id});
         trackerData[id].animationFrame = 0;
     }
-    trackerData[id].stop();
+    trackerData[id].stop().toFront();
 //    console.log('placing tracker', id, 'at', pos);
     trackerData[id].animate({'cx': pos.x,
                              'cy': pos.y,
@@ -314,6 +357,28 @@ function updateTrackerData(id, pos) {
 //        let opacity = targets[i].sel / 255;
 //        targets[i].attr({'stroke-opacity': opacity});
     }
+    
+    // draw a trail
+    trackerHistory.push(pos);
+    while (trackerHistory.length > 30)
+        trackerHistory.shift();
+    if (trackerHistory.length > 1) {
+        let path = [];
+        path.push(['M', trackerHistory[0].x, trackerHistory[0].y]);
+        for (var i = 0; i < trackerHistory.length; i++)
+            path.push(['T', trackerHistory[i].x, trackerHistory[i].y]);
+        if (!trail)
+            trail = canvas.path().attr({'stroke': 'white',
+                                        'stroke-width': 25,
+                                        'opacity': 0,
+                                        'stroke-linecap': 'round'});
+        trail.stop().animate({'path': path, 'opacity': 0.7}, 100, 'linear', function() {
+            this.animate({'opacity': 0}, 2000, 'linear', function()  {
+                while (trackerHistory.length)
+                    trackerHistory.shift();
+            });
+        }).toBack();
+    }
 }
 
 function updateTarget(id, pos, label, type, dwellIndex) {
@@ -342,8 +407,11 @@ function updateTarget(id, pos, label, type, dwellIndex) {
             color = '#FFFFFF';
             break;
     }
-
-    targets[id].animate({'fill': color, 'stroke': 'white', 'stroke-opacity': 0, 'stroke-width': 10});
+    
+    targets[id].animate({'fill': color,
+                         'stroke': 'white',
+                         'stroke-opacity': 0,
+                         'stroke-width': 10}).toBack();
     targets[id].label.animate({'x': pos.x,
                                'y': pos.y,
                                'stroke': 'black',
