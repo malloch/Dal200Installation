@@ -17,10 +17,11 @@ var footPath = null;
 var footPathLen = 0;
 var footPathProgress = 0;
 
+var hue = 0;
 var footColor = 'white';
 var footFlip = 0;
 
-var maxFootsteps = 50;
+var maxFootsteps = 25;
 var footsteps = [];
 
 var step_interval = 500;
@@ -62,15 +63,15 @@ function init() {
         }
     })
 
-    title = canvas.text(width*0.5, 300, "Step Through History:\nWomen in Computer Science")
-                  .attr({'font-size': 80,
+    title = canvas.text(380, 200, "Step Through History:\nWomen in Computer Science")
+                  .attr({'font-size': 50,
                          'text-anchor': 'left',
                          'fill': 'white'});
 
-    dal = canvas.image("./logos/Dal_logo.png", width*0.2, height*0.4, width*0.6, height*0.2)
+    dal = canvas.image("./logos/Dal_logo.png", 20, 140, 700, 180)
                 .attr({'opacity': 0});
 
-    gem = canvas.image("./logos/GEM_logo_white.png", width*0.3, height*0.3, width*0.4, height*0.3)
+    gem = canvas.image("./logos/GEM_logo_white.png", 160, 140, 400, 190)
                 .attr({'opacity': 0});
 
 //    var instruction = canvas.text(width*0.5, 600, "Step below to activate:")
@@ -140,7 +141,10 @@ function walk() {
 
     if (!footPathLen || footPathProgress > footPathLen) {
         // need a new path
-        footColor = Raphael.getColor();
+        footColor = Raphael.hsl(hue, 1, 0.5);
+        hue += 0.1;
+        if (hue > 1)
+            hue = 0;
         footPathStart = randomBorderCoord();
         footPathMid = randomCoord();
         footPathStop = randomBorderCoord(footPathStart.b);
