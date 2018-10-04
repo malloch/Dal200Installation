@@ -185,6 +185,11 @@ namespace KinectV2EmguCV.ViewModel
         {
             FileUtils.SaveImageToFile((BitmapSource) kinectImageSource);
             FileUtils.SaveImageToFile((BitmapSource) blobDetectionImageSource);
+
+            if (trackingStrategy is SimpleKinectBlobTracker tracker)
+                FileUtils.SaveReferenceFrameTo16BitImage(kinectHandler.LastCapturedDepthFrame,
+                    kinectHandler.FrameWidth,
+                    kinectHandler.FrameHeight);
         }
 
         private void UpdateUIImages(object sender, EventArgs e)

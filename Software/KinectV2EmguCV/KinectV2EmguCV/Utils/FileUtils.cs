@@ -79,8 +79,8 @@ namespace KinectV2EmguCV.Utils
         }
 
         /// <summary>
-        /// Wrapper around Windows UI to load the kinect
-        /// background reference plane to a image file
+        /// Wrapper around Windows UI to save the kinect
+        /// depth sensor data an image file
         /// </summary>
         /// <param name="referenceFrame"></param>
         /// <param name="frameWidth"></param>
