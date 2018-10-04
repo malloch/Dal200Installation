@@ -103,6 +103,13 @@ namespace KinectV2EmguCV.ViewModel
             get { return saveMaskCommand ?? (saveMaskCommand = new RelayCommand(call => SaveReferenceFrame())); }
         }
 
+        private ICommand saveSnapshotCommand;
+
+        public ICommand SaveSnapshotCommand
+        {
+            get { return saveMaskCommand ?? (saveMaskCommand = new RelayCommand(call => SaveSnapshot())); }
+        }
+
         #endregion
 
         private readonly KinectHandler kinectHandler;
@@ -172,6 +179,12 @@ namespace KinectV2EmguCV.ViewModel
             var tracker = trackingStrategy as SimpleKinectBlobTracker;
             if (tracker != null && tracker.IsBackgroundCaptured)
                 FileUtils.SaveFrameToFile(tracker.BackgroundReference);
+        }
+
+        private void SaveSnapshot()
+        {
+            FileUtils.SaveImageToFile((BitmapSource) kinectImageSource);
+            FileUtils.SaveImageToFile((BitmapSource) blobDetectionImageSource);
         }
 
         private void UpdateUIImages(object sender, EventArgs e)

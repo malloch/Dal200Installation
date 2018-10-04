@@ -41,6 +41,7 @@
                 <Button Margin="3" Content="Load Mask" Command="{Binding LoadMaskCommand}"></Button>
                 <Separator Height="5"/>
                 <Button Margin="3" Content="Save Reference" Command="{Binding SaveMaskCommand}"/>
+                <Button Margin="3" Content="Save Snapshot" Command="{Binding SaveSnapshotCommand}"/>
 
             </StackPanel>
         </ScrollViewer>
