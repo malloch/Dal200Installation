@@ -22,7 +22,7 @@ namespace KinectV2EmguCV.Model.Sensors
 
 
         /// <summary>
-        /// Singleton instance proprety
+        /// Singleton instance property
         /// </summary>
         public static KinectHandler Instance => lazy.Value;
         public bool IsKinectOpen { get; }

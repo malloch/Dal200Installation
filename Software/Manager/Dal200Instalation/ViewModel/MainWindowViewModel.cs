@@ -18,7 +18,7 @@ namespace Dal200Instalation.ViewModel
     {
         public int DTDTPort { get; set; } = 6666;
         public int DwellRadius { get; set; } = 400;
-        public int ScreensverTimeInSeconds { get; set; } = 10;
+        public int ScreensverTimeInSeconds { get; set; } = 5;
         public int DwellTime { get; set; } = 1;
         public FixedSizeObservablelist<string> OscMessages { get; }
         public string wsServerAddr { get; private set; }
