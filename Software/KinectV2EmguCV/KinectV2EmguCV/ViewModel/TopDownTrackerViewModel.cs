@@ -107,7 +107,7 @@ namespace KinectV2EmguCV.ViewModel
 
         public ICommand SaveSnapshotCommand
         {
-            get { return saveMaskCommand ?? (saveMaskCommand = new RelayCommand(call => SaveSnapshot())); }
+            get { return saveSnapshotCommand ?? (saveSnapshotCommand = new RelayCommand(call => SaveSnapshot())); }
         }
 
         #endregion
