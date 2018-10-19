@@ -65,7 +65,10 @@ function init() {
         }
 
         socket.onmessage = function(event) {
-            screensaver = 0;
+            if (screensaver) {
+                d3.select('#ifmContent').attr('src', "");
+                screensaver = 0;
+            }
             var data = null;
             if (event.data)
                 data = JSON.parse(event.data);
@@ -74,9 +77,6 @@ function init() {
             if (data.dwellIndex != null) {
                 chooseIndex(data.dwellIndex);
             }
-            // if (data.trackerData) {
-            //     screensaver = 0;
-            // }
         }
     }
 
@@ -98,8 +98,15 @@ function init() {
         console.log("checking for activity...");
         if (1 == screensaver) {
             console.log("starting screensaver");
-//            d3.select('#ifmContent').data(datasetOfContent)
-//                                    .attr('src', datasetOfContent[24][1]);
+            // hide existing content
+            d3.select('#name').text("");
+            d3.select('#lifespan').text("");
+            d3.select('#anecdote').text("");
+            d3.select('#photo').attr('src', '');
+            d3.select('#videoSrc').attr('src', '');
+
+            d3.select('#ifmContent')
+              .attr('src', "../Software/SplashView/SplashView.html");
         }
         ++screensaver;
     }, screensaver_timeout);
@@ -110,7 +117,7 @@ function init() {
 
     // load json data
     files.forEach(function(name) {
-        $.getJSON("./../data/"+name+".json", function(_data) {
+        $.getJSON("./data/"+name+".json", function(_data) {
             let idx = files.indexOf(_data.key);
             console.log("adding "+_data.key+" at index "+idx);
             data[idx] = _data;
@@ -124,10 +131,18 @@ function chooseIndex(idx) {
     let entry = data[keys[idx]];
     console.log("Loading content["+contentIdx+"] :", keys[contentIdx]);
 
-    if (entry.name) {
-        let name = entry.name;
+    let name = null;
+    if (entry.displayName) {
+        name = entry.displayName;
+        while (name.indexOf("\n") >= 0)
+            name = name.replace("\n", "<br/>");
+    }
+    else if (entry.name) {
+        name = entry.name;
         while (name.indexOf(" ") >= 0)
             name = name.replace(" ", "<br/>");
+    }
+    if (name) {
         d3.select('#name').html(name);
     }
     else
@@ -155,13 +170,13 @@ function chooseIndex(idx) {
     let video = document.getElementById('video');
     video.pause();
     if (entry.video) {
-        console.log("loading video", '../images/'+entry.video);
+        console.log("loading video", './images/'+entry.video);
         d3.select('#photo').attr('src', '');
-        d3.select('#videoSrc').attr('src', '../images/'+entry.video);
+        d3.select('#videoSrc').attr('src', './images/'+entry.video);
     }
     else if (entry.image) {
-        console.log("loading image", '../images/'+entry.image);
-        d3.select('#photo').attr('src', '../images/'+entry.image);
+        console.log("loading image", './images/'+entry.image);
+        d3.select('#photo').attr('src', './images/'+entry.image);
         d3.select('#videoSrc').attr('src', '');
     }
     video.load();
@@ -174,6 +189,11 @@ $('body').on('keydown.list', function(e) {
     switch (e.which) {
         case 78:
             /* 'N' */
+            // dismiss screensaver if necessary
+            if (screensaver) {
+                d3.select('#ifmContent').attr('src', "");
+                screensaver = 0;
+            }
             // load a random entry
             let keys = Object.keys(data);
             contentIdx++;

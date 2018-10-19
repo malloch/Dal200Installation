@@ -2,12 +2,12 @@
     "key": "murphy",
     "category": "national",
     "name" : "Gail C. Murphy",
-    "name-long": "Gail C. Murphy",
+    "displayName" : "Gail\nC. Murphy",
     "nationality": "Canada",
     "birth": "",
     "death": "",
-    "known-for": "Fellow of the Royal Society of Canada",
-    "known-for-date": "Since 2010",
+    "knownFor": "Fellow of the Royal Society of Canada",
+    "knownForDate": "Since 2010",
     "image": "murphy.jpg",
     "anecdotes": [
         {
