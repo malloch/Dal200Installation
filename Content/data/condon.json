@@ -6,6 +6,14 @@
     "nationality": "Canada",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "current",
+            "lng": "-123.1207",
+            "lat": "49.2827"
+
+        }
+    ],
     "known-for": "Fellow of the Royal Society of Canada",
     "known-for-date": "Since 1994",
     "image": "condon.jpg",

@@ -6,6 +6,20 @@
     "nationality": "",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "birth",
+            "lng": "-63.5752",
+            "lat": "44.6488"
+
+        },
+        {
+            "site": "current",
+            "lng": "-63.5752",
+            "lat": "44.6488"
+
+        }
+    ],
     "known-for": "Women of Excellence",
     "known-for-date": "Since 2000",
     "image": "alshazly.jpg",

@@ -6,6 +6,14 @@
     "nationality": "Canada",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "current",
+            "lng": "-63.5752",
+            "lat": "44.6488"
+
+        }
+    ],
     "known-for": "One of The Top 150 Women in STEM",
     "known-for-date": "Since 2014",
     "image": "orji.jpg",

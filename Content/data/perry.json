@@ -6,6 +6,14 @@
     "nationality": "Canada",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "current",
+            "lng": "-64.1310",
+            "lat": "44.9903"
+
+        }
+    ],
     "known-for": "Next Generation Leader",
     "known-for-date": "Since 2000",
     "image": "perry.jpg",

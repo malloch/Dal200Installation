@@ -6,6 +6,14 @@
     "nationality": "Canada",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "current",
+            "lng": "-79.3832",
+            "lat": "43.6532"
+
+        }
+    ],
     "known-for": "Future Female Leaders in STEM",
     "known-for-date": "Since 2011",
     "image": "reid.jpg",
