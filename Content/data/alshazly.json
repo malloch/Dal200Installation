@@ -1,0 +1,30 @@
+{
+    "key": "alshazly",
+    "category": "local",
+    "name" : "Faten Alshazly",
+    "name-long": "Faten Alshazly",
+    "nationality": "",
+    "birth": "",
+    "death": "",
+    "known-for": "Women of Excellence",
+    "known-for-date": "Since 2000",
+    "image": "alshazly.jpg",
+    "anecdotes": [
+        {
+            "title": "Award",
+            "body": "Named one of Canada’s 100 Most Powerful Women in Arts and Communications,  Alshazly was also noted as one of Canada’s top 5 Women of Inspiration by Canadian Immigrant Magazine, and a Woman of Excellence by the Canadian Progress Club."
+        },
+        {
+            "title": "Career",
+            "body": "After completing her BSc in Computer Science at Dalhousie University, she earned an MA in Broadcasting Design and Motion Graphics. Since 2011, she has been a Principal and Creative Officer at WeUsThem, an internationally recognized full-service agency."
+        },
+        {
+            "title": "Contribution",
+            "body": "She is a board director for the Canadian Cancer Society and a Governor for the board of NSCAD University and the Halifax Chamber of Commerce. She also mentors the Women’s Executive Network, the Women’s Employment Outreach (WEO), the Halifax Partnership Connector Program, and acts as a Business Advisor with e3 (formerly Entrepreneur's Forum)."
+        },
+        {
+            "title": "WiTS",
+            "body": "She provides mentorship for the Women in Technology Society (WiTS) at Dalhousie, providing young women with advice about how to move forward in their careers after graduation."
+        }
+    ]
+}

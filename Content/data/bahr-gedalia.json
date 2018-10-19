@@ -1,0 +1,30 @@
+{
+    "key": "bahr-gedalia",
+    "category": "local",
+    "name" : "Ulrike Bahr-Gedalia",
+    "name-long": "Ulrike Bahr-Gedalia",
+    "nationality": "German-Canadian",
+    "birth": "",
+    "death": "",
+    "known-for": "President and CEO of Digital Nova Scotia",
+    "known-for-date": "Since 1990",
+    "image": "bahr-gedalia.jpg",
+    "anecdotes": [
+        {
+            "title": "Early Life",
+            "body": "Ulrike was raised in Germany and was often exposed to other cultures, countries, and languages. She lived and studied in California and completed her Masters in Texas."
+        },
+        {
+            "title": "International Career",
+            "body": "She is a multilingual senior executive with over 20 years of combined experience in the private and public sectors and academic institutions. Her career spans five geographic regions: North America , Africa (South), the Middle East, Asia, and Europe."
+        },
+        {
+            "title": "Awards",
+            "body": "She was a Finalist for the 2015 RBC Top 25 Canadian Immigrant Awards and was named one of Canada’s top 40 Change-Makers by Canadian Living. She was awarded a “Wavemaker” with the 2015 National Annual WCT and is a recipient of the 2014 Progress Women of Excellence Award and the Mannesmann Teaching Award (USA), and Fulbright Scholarship (USA)."
+        },
+        {
+            "title": "Contribution",
+            "body": "She is an elected member of the International Women’s Forum. She sits on the board of Dalhousie's Faculty of Computer Science and Saint Mary’s Sobey School of Business. In 2017, She was invited to speak in front of a sold-out crowd at TEDxKelowna and was featured in the 'Executive Voice Publishing – Best of Canada 150th Anniversary Report'."
+        }
+    ]
+}

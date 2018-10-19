@@ -1,0 +1,31 @@
+{
+    "key": "jutla",
+    "category": "local",
+    "name" : "Dawn Jutla",
+    "name-long": "Dawn Jutla",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "Top 100 of Canada's Most Powerful Women",
+    "known-for-date": "Since 2000s",
+    "image": "jutla.jpg",
+    "anecdotes": [
+        {
+            "title": "PhD in Computer Science",
+            "body": "Jutla completed her Ph.D. in Computer Science at the Technical University of Nova Scotia (now Dalhousie University) in 1997. Her 1996 Ph.D. work on multi-view access control has been cited in Xerox, IBM, and Koninklijke Philips Electronics' US patents."
+        },
+        {
+            "title": "Research",
+            "body": "Her research has received over 850 citations in the areas of information system design and models for electronic business, e-business readiness, government, and online privacy.",
+            "note": "Google Scholar reports a total of 1317 citations."
+        },
+        {
+            "title": "Awards",
+            "body": "She was the 2009 winner of the World Technology Award for IT Software in the Individual Category. She convened and now co-chairs the OASIS Privacy by Design Documentation for Software Engineers (PbD-SE) Technical Committee, and is active in OASIS Privacy Management Reference Model's Technical Committee. She served on the OASIS Board of Directors for the term 2012-2016."
+        },
+        {
+            "title": "Founder",
+            "body": "Under her leadership, the new Master of Technology Entrepreneurship and Innovation at St Mary University was developed in 5 months. She is also the Chief Executive Officer of Peer Ledger, a Blockchain company targeting Pharma, Healthcare, Precious Metals and Industrial Minerals, and other highly-regulated sectors."
+        }
+    ]
+}

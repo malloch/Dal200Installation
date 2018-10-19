@@ -1,0 +1,31 @@
+{
+    "key": "hopper",
+    "category": "international",
+    "name" : "Grace Murray Hopper",
+    "name-long": "Grace Murray Hopper",
+    "nationality": "USA",
+    "birth": 1906,
+    "death": 1992,
+    "known-for": "The First Computer Compiler",
+    "known-for-date": 1953,
+    "image": "hopper.jpg",
+    "anecdotes": [
+        {
+            "title": "PhD in Mathematics",
+            "body": "Grace studied math and physics at Vassar College and Yale University. She earned a Ph.D. in mathematics in 1934 and was one of the first women to earn this degree."
+        },
+        {
+            "title": "World War II",
+            "body": "During World War II, she was compelled to join the U.S. Naval Reserve and assigned to the Bureau of Ordnance Computation Project at Harvard University, where she learned to program a Mark I computer."
+        },
+        {
+            "title": "Career in Computing",
+            "body": "After World War II, she worked with the Mark II and Mark III computers at Harvard. In 1952, her team created the first compiler for computer languages."
+        },
+        {
+            "title": "Awards",
+            "body": "She was awarded the National Medal of Technology in 1991, becoming the first female individual recipient of the honor. In 2016, Hopper was posthumously honored with the Presidential Medal of Freedom by U.S. President Barack Obama."
+        }
+    ]
+}
+

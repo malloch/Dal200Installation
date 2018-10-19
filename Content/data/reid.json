@@ -1,0 +1,30 @@
+{
+    "key": "reid",
+    "category": "national",
+    "name" : "Karen Reid",
+    "name-long": "Karen Reid",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "Future Female Leaders in STEM",
+    "known-for-date": "Since 2011",
+    "image": "reid.jpg",
+    "anecdotes": [
+        {
+            "title": "Early Life",
+            "body": "She completed an Associate of the Royal Conservatory of Toronto (ARCT) diploma in piano performance from the Royal Conservatory of Music, and a BChMus from CMBC (now CMU) in Winnipeg."
+        },
+        {
+            "title": "Computer Science",
+            "body": "Karen received her B.Sc. and M.Sc. in Computer Science from the University of Saskatchewan. After spending a few years working on her Ph.D. at the University of Toronto, she joined the Department of Computer Science in 2001 and served as Associate Chair for Undergraduate Studies from 2011-2013."
+        },
+        {
+            "title": "Projects",
+            "body": "She leads Undergraduate Capstone Open Source Projects, a program that allows students from canadian universities to work on Open Source projects. She is also developing a web application for the submission and grading of students' programming assignments."
+        },
+        {
+            "title": "Teaching Excellence",
+            "body": "She received departmental awards for Teaching Excellence in Computer Science in 2003, 2006, 2011, and 2012. She was also awarded the Joan E. Foley Quality of Student Experience 2011 and the President's Teaching 2012 award. In 2014, she won the OCUFA (Ontario Confederation of University Faculty Associations) Teaching Award."
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "key": "worsley",
+    "category": "national",
+    "name" : "Beatrice Helen Worsley",
+    "name-long": "Beatrice Helen Worsley",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "Canada's First Woman Computer Scientist",
+    "known-for-date": "1950",
+    "image": "worsley.jpg",
+    "anecdotes": [
+        {
+            "title": "Naval Service",
+            "body": "Beatrice completed her undergraduate studies in mathematics and physics at the University of Toronto’s Trinity College in 1944 and soon afterward enlisted in the Women’s Royal Canadian Naval Service. She served as a harbor defense researcher at the Naval Research Establishment at Stadacona, in Halifax, NS."
+        },
+        {
+            "title": "Career in Computing",
+            "body": "She completed a master's in mathematics at MIT, where she gained exposure to computer technology. With a shortage of jobs in computing in Canada, she was able to negotiate a position as a project assistant at the University of Toronto’s newly established Computation Centre for a purported salary of $200 per month."
+        },
+        {
+            "title": "Differential Analyser",
+            "body": "She built a differential analyser: an early mechanical analog computer that could solve equations using Meccano parts. She also worked on IBM's punch calculator together with fellow project supervisors."
+        },
+        {
+            "title": "Doctorate in Computer Science",
+            "body": "She visited the Mathematical Laboratory at the University of Cambridge to learn about an early computer called the Electronic Delay Storage Automatic Calculator (EDSAC). She is considered as the first female to complete a Ph.D. in computer science, in 1952."
+        }
+    ]
+}

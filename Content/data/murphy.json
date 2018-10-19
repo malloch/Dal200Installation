@@ -1,0 +1,30 @@
+{
+    "key": "murphy",
+    "category": "national",
+    "name" : "Gail C. Murphy",
+    "name-long": "Gail C. Murphy",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "Fellow of the Royal Society of Canada",
+    "known-for-date": "Since 2010",
+    "image": "murphy.jpg",
+    "anecdotes": [
+        {
+            "title": "Education",
+            "body": "Gail received a B.Sc. from the University of Alberta in 1987, a M.S. in 1994, and a Ph.D. in 1996 in computer science at the University of Washington."
+        },
+        {
+            "title": "Research",
+            "body": "Her research interests lie in improving the productivity of knowledge workers, including software developers. She also develops tools to aid in the evolution of large software systems and performs empirical studies to better understand how developers work and software is developed."
+        },
+        {
+            "title": "Awards",
+            "body": "She won the ACM Distinguished Member in 2010. In 2015, she was Named Fellow of the Royal Society of Canada.  She also received the International Conference on Software Engineering Most Influential Paper Award (10 years after publication, with John Anvik and Lyndon Hiew) in 2016."
+        },
+        {
+            "title": "Vice-President and Co-Founder",
+            "body": "In 2016, she was named Associate Vice President Research pro tem and assumed the role of Vice-President, Research and Innovation on August 14, 2017. She is also co-founder and Chief Scientist at Tasktop Technologies."
+        }
+    ]
+}

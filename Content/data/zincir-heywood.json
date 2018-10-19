@@ -1,0 +1,42 @@
+{
+    "key": "zincir-heywood",
+    "category": "local",
+    "name" : "Nur Zincir-Heywood",
+    "name-long": "Nur Zincir-Heywood",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "Leaders in the Digital Economy",
+    "known-for-date": "Since 2000",
+    "image": "zincir-heywood.jpg",
+    "anecdotes": [
+        {
+            "title": "Education",
+            "body": "Nur completed her PhD in Computer Science and Engineering at Ege University. She joined Dalhousie University in 2000 as an assistant professor."
+        },
+        {
+            "title": "Employment",
+            "body": "Dr. Nur Zincir-Heywood is a Full Professor of Computer Science at Dalhousie University."
+        },
+        {
+            "title": "Acheivement",
+            "body": "She organized and co-hosted the screening event in March 2015 together with Women in Science and Engineering Atlantic and the Atlantic Association for Research in Mathematical Sciences. In 2017 she received the Digital Nova Scotia Women Leaders in the Digital Economy award."
+        },
+        {
+            "title": "WiTS",
+            "body": "She is a founding member and faculty advisor of the Women in Technology Society (WiTS). Since 2005, WiTS has reflected the interests of women and the evolving context of the information and communications technology world, both academically and professionally."
+        },
+        {
+            "title": "CoReCS",
+            "body": "She is also the founding Chair of the Culture of Respect in Computer Science (CoReCS) committee at Dalhousie University. Since 2015, CoReCS addresses inclusiveness, fairness, and respect for all students, faculty and staff, through engagement and education."
+        },
+        {
+            "title": "Research",
+            "body": "Her work focuses on computer networks, autonomous systems, cybersecurity and privacy. She has a strong background in networking, and intelligent systems. With her students, she works on network information management and security systems using AI and machine learning approaches."
+        },
+        {
+            "title": "Awards",
+            "body": "She is a recipient of the 2017 Women Leaders in the Digital Economy Award and is the Technical Program Co-chair of the Traffic Measurement and Analysis Conference 2018."
+        }
+    ]
+}

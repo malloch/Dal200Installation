@@ -1,0 +1,30 @@
+{
+    "key": "klawe",
+    "category": "national",
+    "name" : "Maria Margaret Klawe",
+    "name-long": "Maria Margaret Klawe",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "The World’s 50 Greatest Leaders",
+    "known-for-date": "Since 2000s",
+    "image": "klawe.jpg",
+    "anecdotes": [
+        {
+            "title": "PhD in Mathematics",
+            "body": "Klawe studied at the University of Alberta, dropped out to travel the world, and returned to earn her B.Sc. in 1973. She stayed at the University of Alberta for her graduate studies, and in 1977 she received her Ph.D. in mathematics."
+        },
+        {
+            "title": "Computer Science",
+            "body": "She completed a second Ph.D., in computer science, at the University of Toronto. She worked at IBM's Almaden Research Center in San Jose, California, as a research scientist, as manager of the Discrete Mathematics Group, and as manager of the Mathematics and Related Computer Science Department."
+        },
+        {
+            "title": "Awards and Achievement",
+            "body": "She served as the president of ACM from 2002-2004. She received the 2014 Woman of Vision ABIE Award for Leadership from the Anita Borg Institute. In 2015 she received the Lifetime Achievement Award from the Canadian Association of Computer Science and the American Association of University Women. She also received the Computing Research Association’s 2016 Distinguished Service Award."
+        },
+        {
+            "title": "College President",
+            "body": "She is the first female president of Mudd College. When she arrived at Mudd College, only about 30% of the students and faculty were female. Today about 45% of the students and over 40% of the faculty are female."
+        }
+    ]
+}

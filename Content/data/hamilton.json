@@ -1,0 +1,30 @@
+{
+    "key": "hamilton",
+    "category": "international",
+    "name" : "Margaret Hamilton",
+    "name-long": "Margaret Hamilton",
+    "nationality": "USA",
+    "birth": 1936,
+    "death": "",
+    "known-for": "Moon Landing",
+    "known-for-date": 1969,
+    "image": "hamilton.jpg",
+    "anecdotes": [
+        {
+            "title": "MIT",
+            "body": "She grew up in the Midwest Indiana Ohio Michigan Upper Penninsula, USA. In 1958, she received her undergraduate degree in mathematics and worked as a programmer at MIT."
+        },
+        {
+            "title": "NASA",
+            "body": "She was the first programmer hired by NASA and worked on MIT’s Apollo project: landing a man on the moon."
+        },
+        {
+            "title": "Human Error",
+            "body": "One of her key contributions was to add code to the Apollo flight Software to account for human error.  This code stopped a system overload when a crew member set a switch in the wrong position. The software handled the error as intended, and the astronauts successfully landed on the moon."
+        },
+        {
+            "title": "Awards",
+            "body": "She was awarded the NASA Exceptional Space Act Award for her scientific and technical contributions. She was chosen as a recipient of the Presidential Medal of Freedom by USA President Barack Obama."
+        }
+    ]
+}

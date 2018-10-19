@@ -1,0 +1,26 @@
+{
+    "key": "wss",
+    "category": "international",
+    "name" : "Joyce Weisbecker, Carol Shaw, and Janese Swanson",
+    "name-long": "Joyce Weisbecker, Carol Shaw, and Janese Swanson",
+    "nationality": "USA",
+    "birth": "",
+    "death": "",
+    "known-for": "Video Game Design and Development",
+    "known-for-date": "1979-1980s",
+    "video": "wss.mp4",
+    "anecdotes": [
+        {
+            "title": "Working at RCA",
+            "body": "In 1976 after graduating high school, Joyce designed a simple quiz game as a contract employee at The RCA Studio where her father worked.  However, her work was never released on RCA's console and was eclipsed by Atari's VCS and Magnavox's Odyssey, making it a massive failure for RCA's home entertainment division."
+        },
+        {
+            "title": "Successful Design",
+            "body": "Two years later in 1978, Carol Shaw, the first female game designer at Atari, designed the games Polo (unreleased) and 3-D Tic-Tac-Toe.  Later Carol joined Activision, where she programmed her best-known game, River Raid."
+        },
+        {
+            "title": "Educational Developments",
+            "body": "In the late 1980s, Janese Swanson co-developed the first of the Carmen Sandiego educational games.  In 1995, she also founded the company Girl Tech, a company that created toys specifically for girls."
+        }
+    ]
+}

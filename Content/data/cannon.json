@@ -1,0 +1,30 @@
+{
+    "key": "cannon",
+    "category": "national",
+    "name" : "Elizabeth Cannon",
+    "name-long": "Elizabeth Cannon",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "World Expert in Satellite Navigation Tools Research",
+    "known-for-date": "Since 1990",
+    "image": "cannon.jpg",
+    "anecdotes": [
+        {
+            "title": "Education",
+            "body": "Elizabeth earned a B.Sc. in mathematics and Computer Science from Acadia University in 1982 and a B.Sc.in geomatics engineering from the University of Calgary in 1984. In 1991, she received her Ph.D. in geomatics engineering."
+        },
+        {
+            "title": "Research",
+            "body": "Her research has been at the forefront of Global Positioning Systems (GPS) since 1984 in both industrial and academic environments, and she has commercialized technology to over 200 agencies worldwide. Her research includes aircraft positioning and attitude, precision farming, and improvements in precise positioning."
+        },
+        {
+            "title": "Awards",
+            "body": "She received the Johannes Kepler Award from the U.S. Institute of Navigation, APEGA’s Centennial Leadership Award, and the Gold Medal Award 2013 from Engineers Canada. She held the NSERC / Petro-Canada Chair for Women in Science and Engineering in 1997 and was the recipient of the NSERC E.W.R. Steacie Fellowship for outstanding young researchers in 2002."
+        },
+        {
+            "title": "Leadership",
+            "body": "In 2006 she became the first female dean of engineering at the University of Calgary's Schulich School of Engineering. Since 2010 she served as the eighth president and vice-chancellor of the University of Calgary, the first woman to hold that position."
+        }
+    ]
+}

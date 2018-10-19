@@ -37,6 +37,7 @@ body {
     height: 100%;
     width: 100%;
     position: absolute;
+    color: white;
 }
 
 
@@ -149,7 +150,7 @@ body {
     vertical-align: middle;
     font-family: 'abril_fatfaceregular', sans-serif;
     font-size: 20px;
-
+    color: white;
 }
 
 .name_title-in2{

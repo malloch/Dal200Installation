@@ -1,0 +1,30 @@
+{
+    "key": "xiao",
+    "category": "national",
+    "name" : "Amy Xiao",
+    "name-long": "Amy Xiao",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "One of the Best Developers in Canada",
+    "known-for-date": "Since 2017",
+    "image": "xiao.jpg",
+    "anecdotes": [
+        {
+            "title": "Study",
+            "body": "Amy is an undergraduate student in Mathematics and Physics at the University of Toronto."
+        },
+        {
+            "title": "Developer Career",
+            "body": "She has held software development positions with Nano Magnetics, Kijiji,  Borealis AI, Amazon Web Services, and worked as a research developer at RBC Research.  Currently, she works at the University of Toronto's Rotman School of Management as a Lab Development Specialist, and also at the BMO Financial Group Finance Research and Trading Lab."
+        },
+        {
+            "title": "Title",
+            "body": "Canadian Business magazine recognized Amy Xiao as one of Canada’s Developer 30 Under 30. She is considered one of the fastest coders in the country."
+        },
+        {
+            "title": "Dream",
+            "body": "She wants to start an entrepreneurial program in some local communities in Nigeria or Kenya by pairing high-achieving students at local schools with an entrepreneur or business mentor in the community to work together to solve problems."
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "key": "perry",
+    "category": "national",
+    "name" : "Lianne Perry",
+    "name-long": "Lianne Perry",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "Next Generation Leader",
+    "known-for-date": "Since 2000",
+    "image": "perry.jpg",
+    "anecdotes": [
+        {
+            "title": "Education",
+            "body": "She obtained her BA from Acadia University in 1995. She then completed the MTEI program at SMU in 2017."
+        },
+        {
+            "title": "technology and Entrepreneurship",
+            "body": "She is a co-founder and CEO of PinPoint Virtual and Karmabuyi. PinPoint is a virtual concierge and outsourcing service. Karmabuy is an online shopping mall for a social enterprise that allows showcasing of original art, crafts, and handiworks online in a 'storefront'."
+        },
+        {
+            "title": "Awards",
+            "body": "She is recognized as a digital diversity leader by Digital Nova Scotia and earned the 2017 award for Women Leaders in the Digital Economy."
+        },
+        {
+            "title": "Contribution",
+            "body": "She was a Faculty Advisor for the Enactus team at Saint Mary’s University, a founding member of the Nova Scotia Women in Technology task force, and a member of the Techsploration Advisory Board."
+        }
+    ]
+}

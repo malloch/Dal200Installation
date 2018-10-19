@@ -1,0 +1,30 @@
+{
+    "key": "wv",
+    "category": "international",
+    "name" : "Masako Wakamiya & Anvitha Vijay",
+    "name-long": "Masako Wakamiya & Anvitha Vijay",
+    "nationality": "Japan & Australia",
+    "birth": "",
+    "death": "",
+    "known-for": "The Youngest and Oldest App Developer",
+    "known-for-date": "Since 2016",
+    "image": "wv.jpg",
+    "anecdotes": [
+        {
+            "title": "The Youngest Title",
+            "body": "Anvitha is a grade 4 student from Mount View Primary School in Melbourne. She was invited, as the youngest app developer, to Apple's annual Worldwide Developer Conference in 2016."
+        },
+        {
+            "title": "7 Years Old",
+            "body": "She began coding at the age of 7 after watching tutorials on YouTube. Her first app — Smartkins Rainbow Colours – was designed to help young children learn about colours."
+        },
+        {
+            "title": "The Oldest Title",
+            "body": "She asked a software developer to create more apps for the elderly. No one was interested, so she decided to teach herself coding basics and developed the app 'Hinadan'."
+        },
+        {
+            "title": "60 Years Old",
+            "body": "Masako created her first app at the age of 81, after starting to use computers at age 60."
+        }
+    ]
+}

@@ -10,19 +10,19 @@ var cx;
 var cy;
 var socket = null;
 var connected = false;
-var connectionInterval = 60000;
+var connectionInterval = 30000;
 var trackerData = {};
 var targets = {};
 var paths = {};
 
 var trackerHistory = [];
 var trail = null;
-var link = null;
+var links = [];
 
 var distThresh = 10000;
 
 var screensaver = false;
-var screensaver_timeout = 20000;
+var screensaver_timeout = 30000;
 
 function init() {
     console.log('init!');
@@ -46,8 +46,8 @@ function init() {
     function openWebSocket() {
         console.log("   Trying to connect...");
         // Create a new WebSocket.
-        //socket = new WebSocket('ws://192.168.1.120/Dal200');
-        socket = new WebSocket('ws://134.190.133.142/Dal200');
+        socket = new WebSocket('ws://192.168.1.120/Dal200');
+//        socket = new WebSocket('ws://134.190.133.142/Dal200');
         socket.onopen = function(event) {
             console.log("Connection established");
             socket.send("SVG renderer "+id+" connected.");
@@ -56,12 +56,12 @@ function init() {
         socket.onclose = function(event) {
             console.log("Connection dropped, will try to reconnect in", connectionInterval/1000, "seconds");
             connected = false;
-            for (var i in targets) {
-                targets[i].label.remove();
-                targets[i].remove();
-                targets[i] = null;
-            }
-            targets = {};
+//            for (var i in targets) {
+//                targets[i].label.remove();
+//                targets[i].remove();
+//                targets[i] = null;
+//            }
+//            targets = {};
         }
         socket.onmessage = function(event) {
             let data = null;
@@ -114,7 +114,6 @@ function init() {
                 }
             }
             else if (data.dwellIndex != null) {
-//                console.log('dwellIndex:', data.dwellIndex);
                 // find target with dwell index
                 for (var i in targets) {
                     if (targets[i].dwellIndex == data.dwellIndex) {
@@ -124,25 +123,8 @@ function init() {
                     }
                 }
             }
-            else if(data.screenSaver)
-            {
-            	function a(o) {
-            		o.animate({'cx': Math.random() * 800,
-                               'cy': Math.random() * 600,
-                               'opacity': 0.8}, Math.random() * 10000 + 10000, 'linear', function() { b(this); });
-            	}
-
-            	function b(o) {
-            		o.animate({'cx': Math.random() * 800,
-                               'cy': Math.random() * 600,
-                               'opacity': 0.8}, Math.random() * 10000 + 10000, 'linear', function() { a(this); });
-            	}
-
-            	for (var i in targets) {
-                	targets[i].label
-                              .animate({'opacity': 0}, 500, 'linear');
-                	a(targets[i]);
-            	}
+            else if (data.screenSaver) {
+                startScreenSaver();
             }
         }
     }
@@ -159,55 +141,20 @@ function init() {
         }
         openWebSocket();
     }, connectionInterval);
-    
-    // activate the screensaver if necessary
-    setInterval(function() {
-        console.log("checking for activity...");
-        if (screensaver == true) {
-            console.log("animating!");
-            for (var i in targets) {
-                targets[i].label.stop()
-                                .animate({'opacity': 0}, 500, 'linear');
-                targets[i].stop()
-                          .animate({'cx': Math.random() * 800,
-                                    'cy': Math.random() * 600,
-                                    'opacity': 0.8}, screensaver_timeout, 'linear');
-            }
-        }
-        screensaver = true;
-    }, screensaver_timeout);
-
 
 
     // open webSocket
     openWebSocket();
 
-    // check the websocket periodically
-    setInterval(function() {
-        console.log("checking websocket...");
-        if (connected == true) {
-            console.log("   Socket ok.");
-            return;
-        }
-        openWebSocket();
-    }, connectionInterval);
-
     // activate the screensaver if necessary
-    // not used anymore, wait for command from manager
-    // setInterval(function() {
-    //     console.log("checking for activity...");
-    //     if (screensaver == true) {
-    //         for (var i in targets) {
-    //             targets[i].label.stop()
-    //                             .animate({'opacity': 0}, 500, 'linear');
-    //             targets[i].stop()
-    //                       .animate({'cx': Math.random() * 800,
-    //                                 'cy': Math.random() * 600,
-    //                                 'opacity': 0.8}, screensaver_timeout, 'linear');
-    //         }
-    //     }
-    //     screensaver = true;
-    // }, screensaver_timeout);
+    setInterval(function() {
+        console.log("checking for activity...");
+        if (screensaver != true) {
+            console.log("animating!");
+            startScreenSaver();
+        }
+        screensaver = true;
+    }, screensaver_timeout);
 
     $('body').on('keydown.list', function(e) {
         switch (e.which) {
@@ -228,53 +175,140 @@ function init() {
     // debugging: add a couple of targets
 //    updateTarget(0, randomCoord(), "category 1", 1);
 //    updateTarget(1, randomCoord(), "category 2", 0);
-//
-//    updatePath(3, 0, 1);
+//    updateTarget(2, randomCoord(), "category 3", 2);
+//    updateTarget(3, randomCoord(), "category 1", 1);
+//    updateTarget(4, randomCoord(), "category 2", 0);
+//    updateTarget(5, randomCoord(), "category 3", 2);
+//    updateTarget(6, randomCoord(), "category 1", 1);
+//    updateTarget(7, randomCoord(), "category 2", 0);
+//    updateTarget(8, randomCoord(), "category 3", 2);
+//    updateTarget(9, randomCoord(), "category 1", 1);
+//    updateTarget(10, randomCoord(), "category 2", 0);
+//    updateTarget(11, randomCoord(), "category 3", 2);
+//    updateTarget(12, randomCoord(), "category 1", 1);
+//    updateTarget(13, randomCoord(), "category 2", 0);
+//    updateTarget(14, randomCoord(), "category 3", 2);
+//    updateTarget(15, randomCoord(), "category 1", 1);
+//    updateTarget(16, randomCoord(), "category 2", 0);
+//    updateTarget(17, randomCoord(), "category 3", 2);
+//    updateTarget(18, randomCoord(), "category 1", 1);
+//    updateTarget(19, randomCoord(), "category 2", 0);
+//    updateTarget(20, randomCoord(), "category 3", 2);
+//    updateTarget(21, randomCoord(), "category 1", 1);
+//    updateTarget(22, randomCoord(), "category 2", 0);
+//    updateTarget(23, randomCoord(), "category 3", 2);
+}
 
-//    function makeSteps(num) {
-//        let steps = [];
-//        for (var i = 0; i < num; i++) {
-//            let path = canvas.path([['M', 0, 0],
-//                                    ['l', 0, 500]])
-//                             .attr({'stroke-width': 30,
-//                                    'stroke': 'white'})
-//                             .rotate(-5)
-//                             .translate(220 + i * 40, 165);
-//            steps.push(path);
-//        }
-//    }
-//
-//    makeSteps(9);
+function startScreenSaver() {
+    links = [];
+    for (var i in targets) {
+        links[i] = [];
+        for (var j in targets) {
+            if (i == j)
+                continue;
+            links[i][j] = canvas.path().attr({'stroke': 'white',
+                                              'stroke-width': 1})
+                                       .toBack();
+        }
+    }
 
-//    // step 1
-//    canvas.path([['M', 0, 0],
-//                 ['l', 0, 500]])
-//          .attr({'stroke-width': 30,
-//                 'stroke': Raphael.getColor()})
-//          .rotate(-5)
-//          .translate(220, 165);
-//
-//    canvas.circle(300, 500, 40).attr({'fill': 'white',
-//                                      'fill-opacity': 1,
-//                                      'stroke-width': 10,
-//                                      'opacity': 1});
+    let distmult = 0.00002;
+
+    function a(o) {
+        let cx = o.attr("cx");
+        let cy = o.attr("cy");
+        let newPos = randomCoord();
+        $("<div></div>")
+        .css({'x': cx,
+              'y': cy})
+        .animate({'x': newPos.x,
+                  'y': newPos.y},
+                 {duration : Math.random() * 10000 + 10000,
+                  complete : function() { b(o); },
+                  step : function(now, fx) {
+            if (fx.prop == 'x')
+                o.attr("cx", now );
+            if (fx.prop == 'y') {
+                o.attr("cy", now );
+                let i = o.index;
+                for (var j = i + 1; j < Object.keys(targets).length; j++) {
+                    // animate line
+                    let dist = distSquared({'x': o.attr('cx'),
+                                            'y': o.attr('cy')},
+                                           {'x': targets[j].attr('cx'),
+                                            'y': targets[j].attr('cy')});
+                    dist = dist * distmult;
+                    if (dist >= 1)
+                        links[i][j].attr({'opacity': 0});
+                    else
+                        links[i][j].attr({'path': [['M', o.attr('cx'), o.attr('cy')],
+                                                   ['L', targets[j].attr('cx'),
+                                                    targets[j].attr('cy')]],
+                                          'opacity': 1 - dist});
+                }
+            }
+        }});
+    }
+
+    function b(o) {
+        let cx = o.attr("cx");
+        let cy = o.attr("cy");
+        let newPos = randomCoord();
+        $("<div></div>")
+        .css({'x': cx,
+              'y': cy})
+        .animate({'x': newPos.x,
+                  'y': newPos.y},
+                  {duration : Math.random() * 10000 + 10000,
+                   complete : function() { a(o); },
+                   step : function(now, fx) {
+            if (fx.prop == 'x')
+                o.attr("cx", now );
+            if (fx.prop == 'y') {
+                o.attr("cy", now );
+                let i = o.index;
+                for (var j = i + 1; j < Object.keys(targets).length; j++) {
+                    // animate line
+                    let dist = distSquared({'x': o.attr('cx'),
+                                            'y': o.attr('cy')},
+                                           {'x': targets[j].attr('cx'),
+                                            'y': targets[j].attr('cy')});
+                    dist = dist * distmult;
+                    if (dist >= 1)
+                        links[i][j].attr({'opacity': 0});
+                    else
+                        links[i][j].attr({'path': [['M', o.attr('cx'), o.attr('cy')],
+                                                   ['L', targets[j].attr('cx'),
+                                                    targets[j].attr('cy')]],
+                                          'opacity': 1 - dist});
+                }
+            }
+        }});
+    }
+
+    for (var i in targets) {
+        targets[i].label.animate({'opacity': 0}, 500, 'linear');
+        targets[i].animate({'opacity': 0.0}, 2000);
+        a(targets[i]);
+    }
+}
+
+function stopScreenSaver() {
+    for (var i in links) {
+        for (var j in links[i]) {
+            links[i][j].remove();
+        }
+    }
 }
 
 function convertCoords(pos) {
     let offset = {'x': 10, 'y': -250};
     let scale = {'x': 2.25, 'y': 2.5};
-//    let offset = {'x': 400, 'y': -320};
-//    let scale = {'x': 2.4, 'y': 2.5};
-//    let offset = {'x': -1110, 'y': -340};
-//    let scale = {'x': 1.68, 'y': 2.9};
     
     let x = pos.x * scale.x + offset.x;
     let y = pos.y * scale.y + offset.y;
     
     x = 512 - x + 750;
-    
-//    if (pos.x > 465)
-//        x -= 45;
     
     // added y-offset to compensate for projector clamp slipping
     x -= 60;
@@ -314,7 +348,6 @@ function distSquared(pos1, pos2) {
 }
 
 function updateTrackerData(id, pos) {
-//    pos.x = 512 - pos.x + 750;
     if (!trackerData[id]) {
         trackerData[id] = canvas.circle(pos.x, pos.y, 40)
                                 .attr({'stroke': 'white',
@@ -325,7 +358,6 @@ function updateTrackerData(id, pos) {
         trackerData[id].animationFrame = 0;
     }
     trackerData[id].stop().toFront();
-//    console.log('placing tracker', id, 'at', pos);
     trackerData[id].animate({'cx': pos.x,
                              'cy': pos.y,
                              'r': trackerData[id].animationFrame, 'opacity': 1},
@@ -342,20 +374,9 @@ function updateTrackerData(id, pos) {
     // check if we are close to any targets
     for (var i in targets) {
         let dist = distSquared(pos, targets[i].data('pos'));
-//        console.log(id, i, dist);
         targets[i].attr({'stroke-opacity': dist < distThresh ? 1 : 0,
                          'stroke-width': dist < distThresh ? (distThresh - dist) * 0.001 : 0
                         });
-//        if (dist < distThresh) {
-////            console.log('tracker', id, 'proximate to target', i);
-//            targets[i].attr({'stroke-opacity': 1});
-//            if (targets[i].sel < 255)
-//                targets[i].sel++;
-//        }
-//        else if (targets[i].sel > 0)
-//            targets[i].sel--;
-//        let opacity = targets[i].sel / 255;
-//        targets[i].attr({'stroke-opacity': opacity});
     }
     
     // draw a trail
@@ -388,20 +409,21 @@ function updateTarget(id, pos, label, type, dwellIndex) {
                                   .rotate(90);
         targets[id].sel = 0;
         targets[id].dwellIndex = dwellIndex;
+        targets[id].index = id;
     }
-//    console.log('placing target', id, 'at', pos);
+
     targets[id].attr({'cx': pos.x, 'cy': pos.y});
     targets[id].data({'pos': pos});
     let color;
     switch (type) {
         case 0:
-            color = '#FFBBBB';
+            color = Raphael.hsl(0, 1, 0.3);
             break;
         case 1:
-            color = '#BBFFBB';
+            color = Raphael.hsl(0.5, 1, 0.3);
             break;
         case 2:
-            color = '#BBBBFF';
+            color = Raphael.hsl(0.8, 1, 0.3);
             break;
         default:
             color = '#FFFFFF';
@@ -414,9 +436,8 @@ function updateTarget(id, pos, label, type, dwellIndex) {
                          'stroke-width': 10}).toBack();
     targets[id].label.animate({'x': pos.x,
                                'y': pos.y,
-                               'stroke': 'black',
-                               'font-size': 16});
-//    console.log(targets);
+                               'fill': 'white',
+                               'font-size': 16 + (pos.x) * 0.02});
 }
 
 function updatePath(id, src, dst) {

@@ -1,0 +1,32 @@
+{
+    "key": "tu",
+    "category": "national",
+    "name" : "Xiaoyuan Tu",
+    "name-long": "Xiaoyuan Tu",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "ACM Doctoral Dissertation Award",
+    "known-for-date": "1996",
+    "image": "tu.jpg",
+    "video": "tu.mp4",
+    "caption": "The 1993 animation 'Go Fish!' shown at the Electronic Theatre of SIGGRAPH",
+    "anecdotes": [
+        {
+            "title": "Education",
+            "body": "Yu completed a Master's degree in Computer Engineering and Electronics at MacMaster University in 1991. In 1994 she received the Technical Excellence Award from the Canadian Academy of Multimedia and Arts. In 1996, she received a Ph.D. in Computer Science from the University of Toronto."
+        },
+        {
+            "title": "Awards",
+            "body": "She was the first woman to receive the prestigious ACM Doctoral Dissertation Award for her Ph.D. dissertation 'Artificial Animals for Computer Animation: Biomechanics, Locomotion, Perception, and Behavior'."
+        },
+        {
+            "title": "Research",
+            "body": "Her research interests are in modeling, control, and simulation of life-like, intelligent virtual characters. Her study spans the areas of autonomous agent architecture design, physics and biomechanics-based modeling, machine learning, computer graphics animation, and artificial life."
+        },
+        {
+            "title": "Leadership",
+            "body": "She is also a co-founder and lead scientist at AiLive Inc. (formerly iKuni Inc.), a Silicon Valley-based start-up company focusing on AI effects for computer entertainment."
+        }
+    ]
+}

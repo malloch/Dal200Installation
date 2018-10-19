@@ -1,0 +1,31 @@
+{
+    "key": "keller",
+    "category": "international",
+    "name" : "Mary Kenneth Keller",
+    "name-long": "Mary Kenneth Keller",
+    "nationality": "USA",
+    "birth": 1913,
+    "death": 1985,
+    "known-for": "First Female Ph.D. in Computer Science",
+    "known-for-date": 1965,
+    "image": "keller.jpg",
+    "anecdotes": [
+        {
+            "title": "Sister Mary Kenneth Keller",
+            "body": " Sister Mary was born in Ohio in 1914. She entered the Sisters of Charity in 1932 and professed her vows in 1940."
+        },
+        {
+            "title": "Education",
+            "body": "She went to DePaul University, where she received a B.S. in Mathematics and an M.S. in Mathematics and Physics. In 1965, she received her Ph.D. in Computer Science from The University of Wisconsin."
+        },
+        {
+            "title": "Thesis",
+            "body": "Her thesis, 'Inductive Inference on Computer Generated Patterns.', was written in CDC FORTRAN 63. In 1965, she became the first American female to obtain a Ph.D. in Computer Science."
+        },
+        {
+            "title": "Clarke College Computer Science",
+            "body": "She founded the computer science department at Clarke College in Iowa, which she directed for 20 years. She was passionate about providing access and information to everyone , not just computer scientists, to encourage independent thinking."
+        }
+    ]
+}
+

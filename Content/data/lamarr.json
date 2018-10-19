@@ -1,0 +1,31 @@
+{
+    "key": "lamarr",
+    "category": "international",
+    "name" : "Hedy Lamarr",
+    "name-long": "Hedy Lamarr",
+    "nationality": "Austrian-American",
+    "birth": "1940",
+    "death": "2000",
+    "known-for": "WiFi and Bluetooth",
+    "image": "lamarr.jpg",
+    "video": "lamarr.mp4",
+    "anecdotes": [
+        {
+            "title": "Hollywood Actor",
+            "body": "Hedy was born in 1941 as Eva Maria Kesler, she was a famous actor and appeared in many films. She married Fritz Mendel, a weapons dealer who hosted parties for Hitler and Mussolini."
+        },
+        {
+            "title": "Joining the War Effort",
+            "body": "She moved to Paris to escape her unhappy marriage and continued her career in acting. She was also successful in Hollywood. However, she wanted to work on science and contribute during world war 2."
+        },
+        {
+            "title": "Spread Spectrum",
+            "body": "Hedy and her friend, composer George Antheil, developed a radio guidance system for allies to control missiles, without the Nazis jamming the signal. The system changed the radio frequencies continuously, so it couldn’t be interfered with prior to the aiming point."
+        },
+        {
+            "title": "Lasting Influence",
+            "body": "Her invention was crucial in the later development of Wi-Fi and Bluetooth. She was awarded the Electric Frontier Foundation Pioneer Award in 1997."
+        }
+    ]
+}
+

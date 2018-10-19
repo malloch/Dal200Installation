@@ -1,0 +1,31 @@
+{
+    "key": "watters",
+    "category": "local",
+    "name" : "Carolyn Watters",
+    "name-long": "Carolyn Watters",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "Dalhousie Female Leaders",
+    "known-for-date": "Since 1990",
+    "image": "watters.jpg",
+    "anecdotes": [
+        {
+            "title": "PhD in Computer Science",
+            "body": "Carolyn was the first female doctorate since The Faculty of Computer Science of Dalhousie University was officially established in 1985.",
+            "note": "Degree listed as Technical University of Nova Scotia, 1986."
+        },
+        {
+            "title": "Leadership",
+            "body": "She was the Dean of The Faculty of Graduate Studies at Dalhousie University from 2006 to 2010. Since 2011, she has been the Provost and Vice President Academic."
+        },
+        {
+            "title": "Career in Computing",
+            "body": "She is a founder of MathResources Inc, a mathematics software company. MathResources focuses on developing the most robust math software available to teachers and students. It is a world leader in interactive software and online content for mathematics."
+        },
+        {
+            "title": "Contribution",
+            "body": "She also serves as chair of the CALDO consortium of research-intensive universities and has been a member of the Joint Implementation Committee for the Memorandum of Understanding between Canada and the Republic of Chile on Cooperation in Science, Technology and Innovation since its inception in 2011."
+        }
+    ]
+}

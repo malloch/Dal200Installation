@@ -1,0 +1,30 @@
+{
+    "key": "orji",
+    "category": "local",
+    "name" : "Rita Orji",
+    "name-long": "Rita Orji",
+    "nationality": "Canada",
+    "birth": "",
+    "death": "",
+    "known-for": "One of The Top 150 Women in STEM",
+    "known-for-date": "Since 2014",
+    "image": "orji.jpg",
+    "anecdotes": [
+        {
+            "title": "Studies",
+            "body": "Before moving to Canada, Rita received a BSC in CS (Nnamdi Azikiwe University, Nigeria), and an MSc in Information Systems (Middle East Technical University, Turkey). She defended her PhD in Computer Science in 2014 (Saskatchewan). She recently joined Dalhousie from the University of Waterloo."
+        },
+        {
+            "title": "Banting Postdoctoral Fellow",
+            "body": "She held a Banting Postdoctoral Fellowship at the University of Waterloo. She was also a Postdoctoral Researcher with ACT Lab (McGill), investigating how interactive technologies can motivate desirable behaviors in older adults. Dr. Orji was also a Visiting Senior Lecturer at Nnamdi Azikiwe University, Nigeria, and a Postdoctoral Fellow at Yale University."
+        },
+        {
+            "title": "Awards",
+            "body": "She was selected as one of the 150 Canadian Women In Science, Technology, Engineering, and Mathematics in 2017 (hErVolution) and won the 2018 Digital Nova Scotia Women Leaders in Digital Economy Award.  She also received the Vanier Scholarship for her Ph.D. research on Developing Persuasive Technology for Health."
+        },
+        {
+            "title": "Research",
+            "body": "She is a researcher in Human-Computer Interaction and has produced more than 50 peer reviewed papers in only five years, along with taking part in over 20 media appearances, and receiving more than 500 Google Scholar citations."
+        }
+    ]
+}

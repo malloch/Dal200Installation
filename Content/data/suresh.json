@@ -1,0 +1,30 @@
+{
+    "key": "suresh",
+    "category": "international",
+    "name" : "Sreelakshmi Suresh",
+    "name-long": "Sreelakshmi Suresh",
+    "nationality": "India",
+    "birth": 1998,
+    "death": "",
+    "known-for": "The Youngest Web Designer",
+    "known-for-date": 2006,
+    "image": "suresh.jpg",
+    "anecdotes": [
+        {
+            "title": "First Website Design Project",
+            "body": "She was born in 1998 in Kozhikode (Calicut), India. When she was 3 years old, she drew pictures using MS Paint. By the age of 8 she was entrusted with the work of developing a website for her school."
+        },
+        {
+            "title": "Youngest Title",
+            "body": "She is an invited member of the Association of American Webmasters, who honored her with highest award for excellence in web design, the Gold Web Award.  In India she received the National Child Award for Exceptional Achievement in 2008."
+        },
+        {
+            "title": "The Youngest CEO",
+            "body": "Sreelakshmi started her web designing company, eDesign Technologies. At the age of 11, she had already designed and developed more than 100 websites for clients including the Bar Council of Kerala, Angels International, EHP India, and Mammas Passion."
+        },
+        {
+            "title": "Venture",
+            "body": "Her first venture was TinyLogo, a logo based search engine. She also started another firm, Online Pixel Traders."
+        }
+    ]
+}
