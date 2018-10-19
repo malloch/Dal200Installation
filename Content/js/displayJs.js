@@ -72,7 +72,7 @@ function init() {
             if (!data)
                 return;
             if (data.dwellIndex != null) {
-                selectContent(data.dwellIndex);
+                chooseIndex(data.dwellIndex);
             }
             // if (data.trackerData) {
             //     screensaver = 0;
@@ -119,6 +119,56 @@ function init() {
     });
 }
 
+function chooseIndex(idx) {
+    let keys = Object.keys(data);
+    let entry = data[keys[idx]];
+    console.log("Loading content["+contentIdx+"] :", keys[contentIdx]);
+
+    if (entry.name) {
+        let name = entry.name;
+        while (name.indexOf(" ") >= 0)
+            name = name.replace(" ", "<br/>");
+        d3.select('#name').html(name);
+    }
+    else
+        d3.select('#name').text("");
+
+    if (entry.birth) {
+        if (entry.death)
+            d3.select('#lifespan').text(entry.birth+"-"+entry.death);
+        else
+            d3.select('#lifespan').text(entry.birth+"-");
+    }
+    else
+        d3.select('#lifespan').text("");
+
+    if (entry.anecdotes) {
+        let numAnecdotes = entry.anecdotes.length;
+        let idx = entry.anecdotes.counter;
+        d3.select('#anecdote').text(entry.anecdotes[idx].body);
+        idx += 1;
+        if (idx >= numAnecdotes)
+            idx = 0;
+        entry.anecdotes.counter = idx;
+    }
+
+    let video = document.getElementById('video');
+    video.pause();
+    if (entry.video) {
+        console.log("loading video", '../images/'+entry.video);
+        d3.select('#photo').attr('src', '');
+        d3.select('#videoSrc').attr('src', '../images/'+entry.video);
+    }
+    else if (entry.image) {
+        console.log("loading image", '../images/'+entry.image);
+        d3.select('#photo').attr('src', '../images/'+entry.image);
+        d3.select('#videoSrc').attr('src', '');
+    }
+    video.load();
+    if (entry.video)
+        video.play();
+}
+
 // Enable launching pages by pressing the 'N' key
 $('body').on('keydown.list', function(e) {
     switch (e.which) {
@@ -129,52 +179,7 @@ $('body').on('keydown.list', function(e) {
             contentIdx++;
             if (contentIdx > (keys.length -1))
                 contentIdx = 0;
-            let entry = data[keys[contentIdx]];
-            console.log("Loading content["+contentIdx+"] :", keys[contentIdx]);
-
-            if (entry.name) {
-                let name = entry.name;
-                while (name.indexOf(" ") >= 0)
-                    name = name.replace(" ", "<br/>");
-                d3.select('#name').html(name);
-            }
-            else
-                d3.select('#name').text("");
-
-            if (entry.birth) {
-                if (entry.death)
-                    d3.select('#lifespan').text(entry.birth+"-"+entry.death);
-                else
-                    d3.select('#lifespan').text(entry.birth+"-");
-            }
-            else
-                d3.select('#lifespan').text("");
-
-            if (entry.anecdotes) {
-                let numAnecdotes = entry.anecdotes.length;
-                let idx = entry.anecdotes.counter;
-                d3.select('#anecdote').text(entry.anecdotes[idx].body);
-                idx += 1;
-                if (idx >= numAnecdotes)
-                    idx = 0;
-                entry.anecdotes.counter = idx;
-            }
-
-            let video = document.getElementById('video');
-            video.pause();
-            if (entry.video) {
-                console.log("loading video", '../images/'+entry.video);
-                d3.select('#photo').attr('src', '');
-                d3.select('#videoSrc').attr('src', '../images/'+entry.video);
-            }
-            else if (entry.image) {
-                console.log("loading image", '../images/'+entry.image);
-                d3.select('#photo').attr('src', '../images/'+entry.image);
-                d3.select('#videoSrc').attr('src', '');
-            }
-            video.load();
-            if (entry.video)
-                video.play();
+            chooseIndex(contentIdx);
             break;
         default:
             console.log("keypress:", e.which);
