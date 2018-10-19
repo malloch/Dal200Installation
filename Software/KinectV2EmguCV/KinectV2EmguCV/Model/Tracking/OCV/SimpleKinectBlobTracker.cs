@@ -13,6 +13,11 @@ using KinectV2EmguCV.Model.Sensors;
 
 namespace KinectV2EmguCV.Model.Tracking.OCV
 {
+    /// <summary>
+    /// Blob tracker strategy
+    /// Uses OpenCV simple blob tracker to find one
+    /// or more blobs. It fails for tall people
+    /// </summary>
     class SimpleKinectBlobTracker: ITopDownTrackingStrategy
     {
         private SimpleBlobDetector blobDetector;
@@ -20,7 +25,7 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
         private ushort[] backgroundReference;
         private Mat blobTrackerMaskMat;
         private byte[] blobTrackerMaskPixels;
-        private int referenceCount = 100;
+        private int referenceCount = 2000;
 
         public bool IsBackgroundCaptured { get; private set; }
         public ushort[] BackgroundReference
@@ -45,6 +50,11 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
             UpdateBlobParameters(20,50);
         }
 
+        /// <summary>
+        /// Creates a background noise removal reference
+        /// if there isn't one yet.
+        /// </summary>
+        /// <param name="source"></param>
         public void CreteBackgroundReference(KinectTrackableSource source)
         {
             if (backgroundReference == null)
@@ -75,6 +85,13 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
                 IsBackgroundCaptured = true;
         }
 
+        /// <summary>
+        /// Defines ignore mask for the blob tracker
+        /// Mask is 8-bit gray image
+        /// </summary>
+        /// <param name="maskPixels"></param>
+        /// <param name="height"></param>
+        /// <param name="width"></param>
         public void SetTrackerMask(byte[] maskPixels, int height, int width)
         {
             if(maskPixels == null)
@@ -84,6 +101,11 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
             blobTrackerMaskMat.SetTo(blobTrackerMaskPixels);
         }
 
+        /// <summary>
+        /// UI Handler for updating the parameters during runtime
+        /// </summary>
+        /// <param name="minimumArea"></param>
+        /// <param name="minimumThreshold"></param>
         public void UpdateBlobParameters(float minimumArea, float minimumThreshold)
         {
             blobParams = new SimpleBlobDetectorParams();
@@ -99,6 +121,11 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
             blobDetector = new SimpleBlobDetector(blobParams);
         }
 
+        /// <summary>
+        /// Method for detecting a single person using the blob tracker
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public PointF? DetectSinglePerson(ITrackableSource source)
         {
             if (source == null)
@@ -135,6 +162,12 @@ namespace KinectV2EmguCV.Model.Tracking.OCV
             return null;
         }
 
+        /// <summary>
+        /// Placeholder from interface
+        /// Throws not implemented exception
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public Dictionary<int, PointF?> DetectMultiplePeople(ITrackableSource source)
         {
             throw new NotImplementedException("Simple Blob Tracker does not support multiple people yet");

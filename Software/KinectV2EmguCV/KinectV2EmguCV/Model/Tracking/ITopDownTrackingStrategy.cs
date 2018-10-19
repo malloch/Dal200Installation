@@ -3,6 +3,10 @@ using System.Drawing;
 
 namespace KinectV2EmguCV.Model.Tracking
 {
+    /// <summary>
+    /// Interface used by all the strategies that want to implement
+    /// top down tracking.
+    /// </summary>
     public interface ITopDownTrackingStrategy
     {
         /// <summary>

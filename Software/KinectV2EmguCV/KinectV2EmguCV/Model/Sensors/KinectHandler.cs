@@ -22,11 +22,16 @@ namespace KinectV2EmguCV.Model.Sensors
 
 
         /// <summary>
-        /// Singleton instance proprety
+        /// Singleton instance property
         /// </summary>
         public static KinectHandler Instance => lazy.Value;
         public bool IsKinectOpen { get; }
 
+        /// <summary>
+        /// Array to the last captured depth frame. Use this instead
+        /// of trying to access the Kinect data directly if you are not
+        /// trying to access the frame withing the kinect refresh cycle.
+        /// </summary>
         public ushort[] LastCapturedDepthFrame => lastCollectedFrame?.DepthFrameData;
 
         private KinectHandler()
@@ -44,6 +49,13 @@ namespace KinectV2EmguCV.Model.Sensors
             maximumRealiableTrackingDistance = sensor.DepthFrameSource.DepthMaxReliableDistance;
         }
 
+        /// <summary>
+        /// Forces the kinect SDK to refresh the kinect and TRY to get
+        /// an depth frame from the sensor. Call this method once in the
+        /// application refresh cycle. There is a maximum refresh rate
+        /// defined in the SDK.
+        /// </summary>
+        /// <returns></returns>
         public KinectTrackableSource GetDepthFrame()
         {
             using (var depthFrame = depthFrameReader.AcquireLatestFrame())
