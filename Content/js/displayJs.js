@@ -7,7 +7,7 @@ var socket = null;
 var connected = false;
 var connectionInterval = 60000;
 var screensaver = 0;
-var screensaver_timeout = 30000;
+var screensaver_timeout = 5000;
 var DataCollectedFromController = [];
 var contentIdx = -1;
 var files = ["lovelace",
@@ -65,6 +65,7 @@ function init() {
         }
 
         socket.onmessage = function(event) {
+            screensaver = 0;
             var data = null;
             if (event.data)
                 data = JSON.parse(event.data);
@@ -73,9 +74,9 @@ function init() {
             if (data.dwellIndex != null) {
                 selectContent(data.dwellIndex);
             }
-            if (data.trackerData) {
-                screensaver = 0;
-            }
+            // if (data.trackerData) {
+            //     screensaver = 0;
+            // }
         }
     }
 
