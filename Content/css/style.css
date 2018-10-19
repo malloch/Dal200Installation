@@ -282,3 +282,45 @@ body {
     top: 240px;
     /*left: 30px;*/
 }
+
+#photo {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 700px;
+}
+
+#video {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 700px;
+}
+
+#name {
+    position: absolute;
+    /*text-anchor: start;*/
+    bottom: 210px;
+    left: 0px;
+    font-size: 80pt;
+    line-height: 80%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#anecdote {
+    position: absolute;
+    top: 10px;
+    right: 580px;
+    text-anchor: end;
+    text-align: right;
+    width: 300px;
+    font-size: 16pt;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#lifespan {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+}

@@ -132,8 +132,12 @@ $('body').on('keydown.list', function(e) {
             let entry = data[keys[contentIdx]];
             console.log("Loading content["+contentIdx+"] :", keys[contentIdx]);
 
-            if (entry.name)
-                d3.select('#name').text(entry.name);
+            if (entry.name) {
+                let name = entry.name;
+                while (name.indexOf(" ") >= 0)
+                    name = name.replace(" ", "<br/>");
+                d3.select('#name').html(name);
+            }
             else
                 d3.select('#name').text("");
 
