@@ -298,7 +298,7 @@ body {
 }
 
 #name {
-/*    display: inline;*/
+    display: inline;
     position: absolute;
     /*text-anchor: start;*/
     bottom: 210px;
@@ -306,6 +306,11 @@ body {
     font-size: 80pt;
     line-height: 80%;
     background-color: rgba(0, 0, 0, 0.5);
+/*    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);*/
+}
+
+span {
+    display: inline;
 /*    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.5);*/
 }
 

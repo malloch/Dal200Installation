@@ -136,14 +136,24 @@ function chooseIndex(idx) {
         name = entry.displayName;
         while (name.indexOf("\n") >= 0)
             name = name.replace("\n", "<br/>");
+//        name = name.split("\n");
     }
     else if (entry.name) {
         name = entry.name;
         while (name.indexOf(" ") >= 0)
             name = name.replace(" ", "<br/>");
+//        name = name.split(" ");
     }
+//    console.log(name);
+//    $('#name').empty();
     if (name) {
         d3.select('#name').html(name);
+//        let i;
+//        for (i in name) {
+//            $('#name').append('<span>'+name[i]+'</span>');
+//            if (i < name.length - 1)
+//                $('#name').append('<br/>');
+//        }
     }
     else
         d3.select('#name').text("");
