@@ -2,7 +2,7 @@
     "key": "condon",
     "category": "national",
     "name" : "Anne Condon",
-    "name-long": "Anne Condon",
+    "displayName": "Anne Condon",
     "nationality": "Canada",
     "birth": "",
     "death": "",
@@ -11,11 +11,10 @@
             "site": "current",
             "lng": "-123.1207",
             "lat": "49.2827"
-
         }
     ],
-    "known-for": "Fellow of the Royal Society of Canada",
-    "known-for-date": "Since 1994",
+    "knownFor": "Fellow of the Royal Society of Canada",
+    "knownForDate": "Since 1994",
     "image": "condon.jpg",
     "anecdotes": [
         {

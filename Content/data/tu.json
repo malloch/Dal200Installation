@@ -2,7 +2,7 @@
     "key": "tu",
     "category": "national",
     "name" : "Xiaoyuan Tu",
-    "name-long": "Xiaoyuan Tu",
+    "displayName": "Xiaoyuan Tu",
     "nationality": "Canada",
     "birth": "",
     "death": "",
@@ -11,11 +11,10 @@
             "site": "current",
             "lng": "-79.3832",
             "lat": "43.6532"
-
         }
     ],
-    "known-for": "ACM Doctoral Dissertation Award",
-    "known-for-date": "1996",
+    "knownFor": "ACM Doctoral Dissertation Award",
+    "knownForDate": "1996",
     "image": "tu.jpg",
     "video": "tu.mp4",
     "caption": "The 1993 animation 'Go Fish!' shown at the Electronic Theatre of SIGGRAPH",

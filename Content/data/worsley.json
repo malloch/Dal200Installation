@@ -1,8 +1,8 @@
 {
     "key": "worsley",
     "category": "national",
-    "name" : "Beatrice  Helen Worsley",
-    "name-long": "Beatrice  Helen Worsley",
+    "name" : "Beatrice Helen Worsley",
+    "displayName": "Beatrice\nHelen Worsley",
     "nationality": "Canada",
     "birth": "1921",
     "death": "1972",
@@ -11,18 +11,15 @@
             "site": "birth",
             "lng": "-100.3899",
             "lat": "20.5888"
-
         },
         {
             "site": "death",
             "lng": "-80.5204",
             "lat": "43.4643"
-
         },
-
     ],
-    "known-for": "Canada's First Woman Computer Scientist",
-    "known-for-date": "1950",
+    "knownFor": "Canada's First Woman Computer Scientist",
+    "knownForDate": "1950",
     "image": "worsley.jpg",
     "anecdotes": [
         {

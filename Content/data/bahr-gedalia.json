@@ -2,7 +2,7 @@
     "key": "bahr-gedalia",
     "category": "local",
     "name" : "Ulrike Bahr-Gedalia",
-    "name-long": "Ulrike Bahr-Gedalia",
+    "displayName": "Ulrike\nBahr-Gedalia",
     "nationality": "German-Canadian",
     "birth": "",
     "death": "",
@@ -11,17 +11,15 @@
             "site": "birth",
             "lng": "",
             "lat": ""
-
         },
         {
             "site": "current",
             "lng": "-63.5752",
             "lat": "44.6488"
-
         }
     ],
-    "known-for": "President and CEO of Digital Nova Scotia",
-    "known-for-date": "Since 1990",
+    "knownFor": "President and CEO of Digital Nova Scotia",
+    "knownForDate": "Since 1990",
     "image": "bahr-gedalia.jpg",
     "anecdotes": [
         {

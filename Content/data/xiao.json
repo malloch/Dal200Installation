@@ -2,7 +2,7 @@
     "key": "xiao",
     "category": "national",
     "name" : "Amy Xiao",
-    "name-long": "Amy Xiao",
+    "displayName": "Amy Xiao",
     "nationality": "Canada",
     "birth": "",
     "death": "",
@@ -11,17 +11,15 @@
             "site": "birth",
             "lng": "",
             "lat": ""
-
         },
         {
             "site": "current",
             "lng": "-79.3832",
             "lat": "43.6532"
-
         }
     ],
-    "known-for": "One of the Best Developers in Canada",
-    "known-for-date": "Since 2017",
+    "knownFor": "One of the Best Developers in Canada",
+    "knownForDsate": "Since 2017",
     "image": "xiao.jpg",
     "anecdotes": [
         {

@@ -2,7 +2,7 @@
     "key": "zincir-heywood",
     "category": "local",
     "name" : "Nur Zincir-Heywood",
-    "name-long": "Nur Zincir-Heywood",
+    "displayName": "Nur\nZincir-Heywood",
     "nationality": "Canada",
     "birth": "",
     "death": "",
@@ -11,17 +11,15 @@
             "site": "birth",
             "lng": "",
             "lat": ""
-
         },
         {
             "site": "current",
             "lng": "-63.5752",
             "lat": "44.6488"
-
         }
     ],
-    "known-for": "Leaders in the Digital Economy",
-    "known-for-date": "Since 2000",
+    "knownFor": "Leaders in the Digital Economy",
+    "knownForDate": "Since 2000",
     "image": "zincir-heywood.jpg",
     "anecdotes": [
         {

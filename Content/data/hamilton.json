@@ -2,7 +2,7 @@
     "key": "hamilton",
     "category": "international",
     "name" : "Margaret Hamilton",
-    "name-long": "Margaret Hamilton",
+    "displayName": "Margaret\nHamilton",
     "nationality": "USA",
     "birth": 1936,
     "death": "",
@@ -11,17 +11,15 @@
             "site": "birth",
             "lng": "86.4683",
             "lat": "38.5562"
-
         },
         {
             "site": "current",
             "lng": "-71.1097",
             "lat": "42.3736"
-
         }
     ],
-    "known-for": "Moon Landing",
-    "known-for-date": 1969,
+    "knownFor": "Moon Landing",
+    "knownForDate": 1969,
     "image": "hamilton.jpg",
     "anecdotes": [
         {

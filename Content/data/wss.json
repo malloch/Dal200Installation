@@ -1,8 +1,8 @@
 {
     "key": "wss",
     "category": "international",
-    "name" : "Joyce Weisbecker, Carol Shaw,  Janese Swanson",
-    "name-long": "Joyce Weisbecker, Carol Shaw,  Janese Swanson",
+    "name" : "Joyce Weisbecker, Carol Shaw, Janese Swanson",
+    "displayName": "Joyce\nWeisbecker,\nCarol\nShaw,\n\nJanese\nSwanson",
     "nationality": "USA",
     "birth": "",
     "death": "",
@@ -11,23 +11,20 @@
             "site": "current",
             "lng": "-74.4057",
             "lat": "40.0583"
-
         },
         {
             "site": "current",
             "lng": "-122.2585",
             "lat": "37.8719"
-
         },
         {
             "site": "current",
             "lng": "-117.0719",
             "lat": "32.7757"
-
         }
     ],
-    "known-for": "Video Game Design and Development",
-    "known-for-date": "1979-1980s",
+    "knownFor": "Video Game Design and Development",
+    "knownForDate": "1979-1980s",
     "video": "wss.mp4",
     "anecdotes": [
         {

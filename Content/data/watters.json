@@ -2,7 +2,7 @@
     "key": "watters",
     "category": "local",
     "name" : "Carolyn Watters",
-    "name-long": "Carolyn Watters",
+    "displayName": "Carolyn\nWatters",
     "nationality": "Canada",
     "birth": "",
     "death": "",
@@ -11,17 +11,15 @@
             "site": "birth",
             "lng": "",
             "lat": ""
-
         },
         {
             "site": "current",
             "lng": "-63.5752",
             "lat": "44.6488"
-
         }
     ],
-    "known-for": "Dalhousie Female Leaders",
-    "known-for-date": "Since 1990",
+    "knownFor": "Dalhousie Female Leaders",
+    "knownForDate": "Since 1990",
     "image": "watters.jpg",
     "anecdotes": [
         {

@@ -2,7 +2,8 @@
     "key": "lovelace",
     "category": "international",
     "name" : "Ada Lovelace",
-    "name-long": "Augusta Ada King-Noel, Countess of Lovelace",
+    "displayName": "Ada\nLovelace",
+    "longName": "Augusta Ada King-Noel, Countess of Lovelace",
     "nationality": "UK",
     "birth": "1815",
     "death": "1852",
@@ -11,10 +12,9 @@
             "site": "death",
             "lng": "-1.1581",
             "lat": "52.9548"
-
         }
     ],
-    "known-for": "The first computer programmer",
+    "knownFor": "The first computer programmer",
     "image": "lovelace.jpg",
     "anecdotes": [
         {

@@ -2,7 +2,7 @@
     "key": "wv",
     "category": "international",
     "name" : "Masako Wakamiya,  Anvitha Vijay",
-    "name-long": "Masako Wakamiya,  Anvitha Vijay",
+    "displayName": "Masako Wakamiya,\nAnvitha Vijay",
     "nationality": "Japan & Australia",
     "birth": "",
     "death": "",
@@ -11,17 +11,15 @@
             "site": "current",
             "lng": "144.9631",
             "lat": "-37.8136"
-
         },
         {
             "site": "current",
             "lng": "139.6917",
             "lat": "35.6895"
-
         }
     ],
-    "known-for": "The Youngest and Oldest App Developer",
-    "known-for-date": "Since 2016",
+    "knownFor": "The Youngest and Oldest App Developer",
+    "knownForDate": "Since 2016",
     "image": "wv.png",
     "anecdotes": [
         {

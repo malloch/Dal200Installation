@@ -2,7 +2,7 @@
     "key": "hopper",
     "category": "international",
     "name" : "Grace Murray Hopper",
-    "name-long": "Grace Murray Hopper",
+    "displayName": "Grace\nMurray Hopper",
     "nationality": "USA",
     "birth": 1906,
     "death": 1992,
@@ -11,17 +11,15 @@
             "site": "birth",
             "lng": "-74.0060",
             "lat": "40.7128"
-
         },
         {
             "site": "current",
             "lng": "-77.0910",
             "lat": "38.8816"
-
         }
     ],
-    "known-for": "The First Computer Compiler",
-    "known-for-date": 1953,
+    "knownFor": "The First Computer Compiler",
+    "knownForDate": 1953,
     "image": "hopper.jpg",
     "anecdotes": [
         {

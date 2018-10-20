@@ -2,7 +2,7 @@
     "key": "cannon",
     "category": "national",
     "name" : "Elizabeth Cannon",
-    "name-long": "Elizabeth Cannon",
+    "displayName": "Elizabeth\nCannon",
     "nationality": "Canada",
     "birth": "",
     "death": "",
@@ -11,17 +11,15 @@
             "site": "birth",
             "lng": "-63.1311",
             "lat": "46.2382"
-
         },
         {
             "site": "current",
             "lng": "-114.0708",
             "lat": "51.0486"
-
         }
     ],
-    "known-for": "World Expert in Satellite Navigation Tools Research",
-    "known-for-date": "Since 1990",
+    "knownFor": "World Expert in Satellite Navigation Tools Research",
+    "knownForDate": "Since 1990",
     "image": "cannon.jpg",
     "anecdotes": [
         {

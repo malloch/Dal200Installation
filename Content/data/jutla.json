@@ -2,7 +2,7 @@
     "key": "jutla",
     "category": "local",
     "name" : "Dawn Jutla",
-    "name-long": "Dawn Jutla",
+    "displayName": "Dawn Jutla",
     "nationality": "Canada",
     "birth": "",
     "death": "",
@@ -11,11 +11,10 @@
             "site": "current",
             "lng": "-63.5752",
             "lat": "44.6488"
-
         }
     ],
-    "known-for": "Top 100 of Canada's Most Powerful Women",
-    "known-for-date": "Since 2000s",
+    "knownFor": "Top 100 of Canada's Most Powerful Women",
+    "knownForDate": "Since 2000s",
     "image": "jutla.jpg",
     "anecdotes": [
         {

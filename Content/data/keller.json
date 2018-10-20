@@ -2,7 +2,7 @@
     "key": "keller",
     "category": "international",
     "name" : "Mary Kenneth Keller",
-    "name-long": "Mary Kenneth Keller",
+    "displayName": "Mary\nKenneth Keller",
     "nationality": "USA",
     "birth": 1913,
     "death": 1985,
@@ -11,17 +11,15 @@
             "site": "birth",
             "lng": "-81.6944",
             "lat": "41.4993"
-
         },
         {
             "site": "current",
             "lng": "-90.6646",
             "lat": "42.5006"
-
         }
     ],
-    "known-for": "First Female Ph.D. in Computer Science",
-    "known-for-date": 1965,
+    "knownFor": "First Female Ph.D. in Computer Science",
+    "knownForDate": 1965,
     "image": "keller.jpg",
     "anecdotes": [
         {

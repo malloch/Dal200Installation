@@ -2,7 +2,7 @@
     "key": "alshazly",
     "category": "local",
     "name" : "Faten Alshazly",
-    "name-long": "Faten Alshazly",
+    "displayName": "Faten Alshazly",
     "nationality": "",
     "birth": "",
     "death": "",
@@ -11,17 +11,15 @@
             "site": "birth",
             "lng": "-63.5752",
             "lat": "44.6488"
-
         },
         {
             "site": "current",
             "lng": "-63.5752",
             "lat": "44.6488"
-
         }
     ],
-    "known-for": "Women of Excellence",
-    "known-for-date": "Since 2000",
+    "knownFor": "Women of Excellence",
+    "knownForDate": "Since 2000",
     "image": "alshazly.jpg",
     "anecdotes": [
         {

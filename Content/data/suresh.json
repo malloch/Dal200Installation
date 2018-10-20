@@ -2,7 +2,7 @@
     "key": "suresh",
     "category": "international",
     "name" : "Sreelakshmi Suresh",
-    "name-long": "Sreelakshmi Suresh",
+    "displayName": "Sreelakshmi\nSuresh",
     "nationality": "India",
     "birth": 1998,
     "death": "",
@@ -11,11 +11,10 @@
             "site": "current",
             "lng": "75.7804",
             "lat": "11.2588"
-
         }
     ],
-    "known-for": "The Youngest Web Designer",
-    "known-for-date": 2006,
+    "knownFor": "The Youngest Web Designer",
+    "knownForDate": 2006,
     "image": "suresh.jpg",
     "anecdotes": [
         {
