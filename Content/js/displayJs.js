@@ -65,18 +65,18 @@ function init() {
         }
 
         socket.onmessage = function(event) {
-            if (screensaver) {
-                d3.select('#ifmContent').attr('src', "");
-                screensaver = 0;
-            }
             var data = null;
             if (event.data)
                 data = JSON.parse(event.data);
             if (!data)
                 return;
             if (data.dwellIndex != null) {
+                // if (screensaver) {
+                    d3.select('#ifmContent').attr('src', "");
+                // }
                 chooseIndex(data.dwellIndex);
             }
+            screensaver = 0;
         }
     }
 
@@ -97,6 +97,14 @@ function init() {
     setInterval(function() {
         console.log("checking for activity...");
         if (1 == screensaver) {
+            let videoSrc = d3.select('#videoSrc').attr('src');
+            let video = document.getElementById('video');
+            if (videoSrc != "") {
+                if (!video.ended) {
+                    screensaver = 0;
+                    return;
+                }
+            }
             console.log("starting screensaver");
             // hide existing content
             d3.select('#name').text("");
@@ -104,7 +112,7 @@ function init() {
             d3.select('#anecdote').text("");
             d3.select('#photo').attr('src', '');
             d3.select('#videoSrc').attr('src', '');
-
+            video.load();
             d3.select('#ifmContent')
               .attr('src', "../Software/SplashView/SplashView.html");
         }
@@ -167,7 +175,7 @@ function chooseIndex(idx) {
     else
         d3.select('#lifespan').text("");
 
-    if (entry.anecdotes) {
+    if (!entry.video && entry.anecdotes) {
         let numAnecdotes = entry.anecdotes.length;
         let idx = entry.anecdotes.counter;
         d3.select('#anecdote').text(entry.anecdotes[idx].body);
@@ -176,6 +184,8 @@ function chooseIndex(idx) {
             idx = 0;
         entry.anecdotes.counter = idx;
     }
+    else
+        d3.select('#anecdote').text("");
 
     let video = document.getElementById('video');
     video.pause();
