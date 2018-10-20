@@ -6,6 +6,14 @@
     "nationality": "Canada",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "current",
+            "lng": "-63.5752",
+            "lat": "44.6488"
+
+        }
+    ],
     "known-for": "Top 100 of Canada's Most Powerful Women",
     "known-for-date": "Since 2000s",
     "image": "jutla.jpg",

@@ -6,6 +6,20 @@
     "nationality": "Canada",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "birth",
+            "lng": "-63.1311",
+            "lat": "46.2382"
+
+        },
+        {
+            "site": "current",
+            "lng": "-114.0708",
+            "lat": "51.0486"
+
+        }
+    ],
     "known-for": "World Expert in Satellite Navigation Tools Research",
     "known-for-date": "Since 1990",
     "image": "cannon.jpg",

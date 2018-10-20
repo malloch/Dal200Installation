@@ -6,6 +6,14 @@
     "nationality": "UK",
     "birth": "1815",
     "death": "1852",
+    "locations" : [
+        {
+            "site": "death",
+            "lng": "-1.1581",
+            "lat": "52.9548"
+
+        }
+    ],
     "known-for": "The first computer programmer",
     "image": "lovelace.jpg",
     "anecdotes": [

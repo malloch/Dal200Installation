@@ -4,8 +4,16 @@
     "name" : "Julie Payette",
     "name-long": "Her Excellency The Right Honourable Julie Payette",
     "nationality": "Canada",
-    "birth": "",
+    "birth": "1963",
     "death": "",
+    "locations" : [
+        {
+            "site": "current",
+            "lng": "-75.6972",
+            "lat": "45.4215"
+
+        }
+    ],
     "known-for": "NASA and NATO",
     "known-for-date": "Since 1992",
     "image": "payette.jpg",

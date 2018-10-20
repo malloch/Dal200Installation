@@ -6,6 +6,20 @@
     "nationality": "Canada",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "birth",
+            "lng": "-79.3832",
+            "lat": "43.6532"
+
+        },
+        {
+            "site": "current",
+            "lng": "-117.7198",
+            "lat": "34.0967"
+
+        }
+    ],
     "known-for": "The World’s 50 Greatest Leaders",
     "known-for-date": "Since 2000s",
     "image": "klawe.jpg",

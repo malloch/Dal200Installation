@@ -6,6 +6,20 @@
     "nationality": "Japan & Australia",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "current",
+            "lng": "144.9631",
+            "lat": "-37.8136"
+
+        },
+        {
+            "site": "current",
+            "lng": "139.6917",
+            "lat": "35.6895"
+
+        }
+    ],
     "known-for": "The Youngest and Oldest App Developer",
     "known-for-date": "Since 2016",
     "image": "wv.png",

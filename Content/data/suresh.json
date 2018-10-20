@@ -6,6 +6,14 @@
     "nationality": "India",
     "birth": 1998,
     "death": "",
+    "locations" : [
+        {
+            "site": "current",
+            "lng": "75.7804",
+            "lat": "11.2588"
+
+        }
+    ],
     "known-for": "The Youngest Web Designer",
     "known-for-date": 2006,
     "image": "suresh.jpg",

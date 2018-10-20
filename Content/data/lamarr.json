@@ -6,6 +6,20 @@
     "nationality": "Austrian-American",
     "birth": "1940",
     "death": "2000",
+    "locations" : [
+        {
+            "site": "birth",
+            "lng": "16.3738",
+            "lat": "48.2082"
+
+        },
+        {
+            "site": "current",
+            "lng": "-81.3278",
+            "lat": "28.6778"
+
+        }
+    ],
     "known-for": "WiFi and Bluetooth",
     "image": "lamarr.jpg",
     "video": "lamarr.mp4",

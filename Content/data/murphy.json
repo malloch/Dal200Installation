@@ -6,6 +6,13 @@
     "nationality": "Canada",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "current",
+            "lng": "-123.1207",
+            "lat": "49.2827"
+        }
+    ],
     "knownFor": "Fellow of the Royal Society of Canada",
     "knownForDate": "Since 2010",
     "image": "murphy.jpg",

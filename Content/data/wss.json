@@ -6,6 +6,26 @@
     "nationality": "USA",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "current",
+            "lng": "-74.4057",
+            "lat": "40.0583"
+
+        },
+        {
+            "site": "current",
+            "lng": "-122.2585",
+            "lat": "37.8719"
+
+        },
+        {
+            "site": "current",
+            "lng": "-117.0719",
+            "lat": "32.7757"
+
+        }
+    ],
     "known-for": "Video Game Design and Development",
     "known-for-date": "1979-1980s",
     "video": "wss.mp4",

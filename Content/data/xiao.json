@@ -6,6 +6,20 @@
     "nationality": "Canada",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "birth",
+            "lng": "",
+            "lat": ""
+
+        },
+        {
+            "site": "current",
+            "lng": "-79.3832",
+            "lat": "43.6532"
+
+        }
+    ],
     "known-for": "One of the Best Developers in Canada",
     "known-for-date": "Since 2017",
     "image": "xiao.jpg",

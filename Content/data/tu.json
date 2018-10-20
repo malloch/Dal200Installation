@@ -6,6 +6,14 @@
     "nationality": "Canada",
     "birth": "",
     "death": "",
+    "locations" : [
+        {
+            "site": "current",
+            "lng": "-79.3832",
+            "lat": "43.6532"
+
+        }
+    ],
     "known-for": "ACM Doctoral Dissertation Award",
     "known-for-date": "1996",
     "image": "tu.jpg",
