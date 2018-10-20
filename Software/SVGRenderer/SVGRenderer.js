@@ -73,6 +73,7 @@ function init() {
                 for (var i in data.trackerData) {
                     updateTrackerData(data.trackerData[i].id,
                                       convertCoords(data.trackerData[i].position));
+//                    console.log(data.trackerData[i].position);
                 }
                 if (screensaver == true) {
                     screensaver = false;
@@ -141,7 +142,6 @@ function init() {
         }
         openWebSocket();
     }, connectionInterval);
-
 
     // open webSocket
     openWebSocket();
@@ -302,18 +302,12 @@ function stopScreenSaver() {
 }
 
 function convertCoords(pos) {
-    let offset = {'x': 10, 'y': -250};
-    let scale = {'x': 2.25, 'y': 2.5};
-    
+    let offset = {'x': -50, 'y': 820};
+    let scale = {'x': 2.3, 'y': -2.5};
+
     let x = pos.x * scale.x + offset.x;
     let y = pos.y * scale.y + offset.y;
-    
-    x = 512 - x + 750;
-    
-    // added y-offset to compensate for projector clamp slipping
-    x -= 60;
-    y -= 45;
-    
+
     return {'x': x, 'y': y};
 }
 
@@ -379,32 +373,94 @@ function updateTrackerData(id, pos) {
                         });
     }
     
-    // draw a trail
-    trackerHistory.push(pos);
-    while (trackerHistory.length > 30)
-        trackerHistory.shift();
-    if (trackerHistory.length > 1) {
-        let path = [];
-        path.push(['M', trackerHistory[0].x, trackerHistory[0].y]);
-        for (var i = 0; i < trackerHistory.length; i++)
-            path.push(['T', trackerHistory[i].x, trackerHistory[i].y]);
-        if (!trail)
-            trail = canvas.path().attr({'stroke': 'white',
-                                        'stroke-width': 25,
-                                        'opacity': 0,
-                                        'stroke-linecap': 'round'});
-        trail.stop().animate({'path': path, 'opacity': 0.7}, 100, 'linear', function() {
-            this.animate({'opacity': 0}, 2000, 'linear', function()  {
-                while (trackerHistory.length)
-                    trackerHistory.shift();
-            });
-        }).toBack();
-    }
+//    // draw a trail
+//    trackerHistory.push(pos);
+//    while (trackerHistory.length > 30)
+//        trackerHistory.shift();
+//    if (trackerHistory.length > 1) {
+//        let path = [];
+//        path.push(['M', trackerHistory[0].x, trackerHistory[0].y]);
+//        for (var i = 0; i < trackerHistory.length; i++)
+//            path.push(['T', trackerHistory[i].x, trackerHistory[i].y]);
+//        if (!trail)
+//            trail = canvas.path().attr({'stroke': 'white',
+//                                        'stroke-width': 25,
+//                                        'opacity': 0,
+//                                        'stroke-linecap': 'round'});
+//        trail.stop().animate({'path': path, 'opacity': 0.7}, 100, 'linear', function() {
+//            this.animate({'opacity': 0}, 2000, 'linear', function()  {
+//                while (trackerHistory.length)
+//                    trackerHistory.shift();
+//            });
+//        }).toBack();
+//    }
 }
 
 function updateTarget(id, pos, label, type, dwellIndex) {
+//    switch (label) {
+//        case "Lovelace":
+//            pos.x = 65;
+//            pos.y = 205;
+//            break;
+//        case "Hopper":
+//            pos.x = 65;
+//            pos.y = 505;
+//            break;
+//        case "Lamar":
+//            pos.x = 115;
+//            pos.y = 355;
+//            break;
+//        case "Keller":
+//            pos.x = 175;
+//            pos.y = 205;
+//            break;
+//        case "Hamilton":
+//            pos.x = 175;
+//            pos.y = 505;
+//            break;
+//        case "W-S-S":
+//            pos.x = 225;
+//            pos.y = 355;
+//            break;
+//        case "Suresh":
+//            pos.x = 295;
+//            pos.y = 205;
+//            break;
+//        case "Worsley":
+//            pos.x = 295;
+//            pos.y = 455;
+//            break;
+//        case "Yu":
+//            pos.x = 365;
+//            pos.y = 305;
+//            break;
+//        case "Klawe":
+//            pos.x = 445;
+//            pos.y = 205;
+//            break;
+//        case "Payette":
+//            pos.x = 445;
+//            pos.y = 505;
+//            break;
+//        case "Condon":
+//            pos.x = 525;
+//            pos.y = 355;
+//            break;
+//        case "Nur":
+//            pos.x = 655;
+//            pos.y = 205;
+//            break;
+//        case "Watters":
+//            pos.x = 655;
+//            pos.y = 555;
+//            break;
+//        case "Orji":
+//            pos.x = 705;
+//            pos.y = 355;
+//            break;
+//    }
     if (!targets[id]) {
-        targets[id] = canvas.circle(0, 0, 30 + (pos.x) * 0.04);
+        targets[id] = canvas.circle(0, 0, 50);
         targets[id].label = canvas.text(pos.x, pos.y, label)
                                   .rotate(90);
         targets[id].sel = 0;
@@ -417,27 +473,29 @@ function updateTarget(id, pos, label, type, dwellIndex) {
     let color;
     switch (type) {
         case 0:
-            color = Raphael.hsl(0, 1, 0.3);
+            color = Raphael.hsl(0.1, 1, 0.6);
             break;
         case 1:
-            color = Raphael.hsl(0.5, 1, 0.3);
+            color = Raphael.hsl(0.5, 1, 0.5);
             break;
         case 2:
-            color = Raphael.hsl(0.8, 1, 0.3);
+            color = Raphael.hsl(0.9, 1, 0.5);
             break;
         default:
             color = '#FFFFFF';
             break;
     }
     
-    targets[id].animate({'fill': color,
+    targets[id].stop()
+               .animate({'fill': color,
                          'stroke': 'white',
                          'stroke-opacity': 0,
                          'stroke-width': 10}).toBack();
-    targets[id].label.animate({'x': pos.x,
+    targets[id].label.stop()
+                     .animate({'x': pos.x,
                                'y': pos.y,
                                'fill': 'white',
-                               'font-size': 16 + (pos.x) * 0.02});
+                               'font-size': 24});
 }
 
 function updatePath(id, src, dst) {
@@ -457,10 +515,11 @@ function updatePath(id, src, dst) {
                           .attr({'stroke-dasharray': '.'})
                           .toBack();
     }
-    paths[id].animate({'path': [['M', src.pos.x, src.pos.y],
+    paths[id].stop()
+             .animate({'path': [['M', src.pos.x, src.pos.y],
                                 ['S', src.pos.x, dst.pos.y, dst.pos.x, dst.pos.y]],
-//                                ['L', dst.pos.x, dst.pos.y]],
+//                              ['L', dst.pos.x, dst.pos.y]],
                        'stroke': 'white',
                        'stroke-width': 10
-                      });
+    });
 }
