@@ -288,7 +288,7 @@ function startScreenSaver() {
 
     for (var i in targets) {
         targets[i].label.animate({'opacity': 0}, 500, 'linear');
-        targets[i].animate({'opacity': 0.0}, 2000);
+        targets[i].animate({'opacity': 0.8}, 2000);
         a(targets[i]);
     }
 }

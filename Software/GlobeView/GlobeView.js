@@ -41,8 +41,8 @@ function init() {
 
         var canvas = document.getElementById('rotatingGlobe');
         globe.projection
-             .scale(200)
-             .translate([200, 200]);
+             .scale(100)
+             .translate([300, 100]);
 
         // The `pings` plugin draws animated pings on the globe.
         globe.loadPlugin(planetaryjs.plugins.pings());
