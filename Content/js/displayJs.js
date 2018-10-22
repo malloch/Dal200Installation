@@ -7,35 +7,15 @@ var socket = null;
 var connected = false;
 var connectionInterval = 60000;
 var screensaver = 0;
-var screensaver_timeout = 5000;
-var DataCollectedFromController = [];
+var screensaver_timeout = 15000;
 var contentIdx = -1;
-var files = ["lovelace",
-             "lamarr",
-             "hopper",
-             "keller",
-             "hamilton",
-             "wss",
-             "suresh",
-             "wv",
-             "watters",
-             "jutla",
-             "bahr-gedalia",
-             "zincir-heywood",
-             "alshazly",
-             "perry",
-             "orji",
-             "worsley",
-             "tu",
-             "klawe",
-             "payette",
-             "condon",
-             "murphy",
-             "reid",
-             "xiao",
-             "cannon"
-             ];
-//                       [24, "../Software/SplashView/SplashView.html"]];
+var anecdoteRepeater = null;
+var files = ["lovelace",    "lamarr",       "hopper",       "keller",
+             "hamilton",    "wss",          "suresh",       "wv",
+             "watters",     "jutla",        "bahr-gedalia", "zincir-heywood",
+             "alshazly",    "perry",        "orji",         "worsley",
+             "tu",          "klawe",        "payette",      "condon",
+             "murphy",      "reid",         "xiao",         "cannon" ];
 
 function init() {
     console.log('init!');
@@ -71,9 +51,7 @@ function init() {
             if (!data)
                 return;
             if (data.dwellIndex != null) {
-                // if (screensaver) {
-                    d3.select('#ifmContent').attr('src', "");
-                // }
+                d3.select('#ifmContent').attr('src', "");
                 chooseIndex(data.dwellIndex);
             }
             screensaver = 0;
@@ -106,6 +84,9 @@ function init() {
                 }
             }
             console.log("starting screensaver");
+            // cancel anecdote scroller if necessary
+            if (anecdoteRepeater != null)
+                clearInterval(anecdoteRepeater);
             // hide existing content
             d3.select('#name').text("");
             d3.select('#lifespan').text("");
@@ -139,29 +120,28 @@ function chooseIndex(idx) {
     let entry = data[keys[idx]];
     console.log("Loading content["+contentIdx+"] :", keys[contentIdx]);
 
+    // cancel anecdote scroller if necessary
+    if (anecdoteRepeater != null) {
+        clearInterval(anecdoteRepeater);
+        d3.select('#anecdote').transition()
+                                  .duration(1000)
+                                  .style("opacity", 0);
+    }
+
     let name = null;
     if (entry.displayName) {
         name = entry.displayName;
-        while (name.indexOf("\n") >= 0)
-            name = name.replace("\n", "<br/>");
-//        name = name.split("\n");
+        name = name.split("\n");
     }
     else if (entry.name) {
         name = entry.name;
-        while (name.indexOf(" ") >= 0)
-            name = name.replace(" ", "<br/>");
-//        name = name.split(" ");
+        name = name.split(" ");
     }
-//    console.log(name);
-//    $('#name').empty();
+    $('#name').empty();
     if (name) {
-        d3.select('#name').html(name);
-//        let i;
-//        for (i in name) {
-//            $('#name').append('<span>'+name[i]+'</span>');
-//            if (i < name.length - 1)
-//                $('#name').append('<br/>');
-//        }
+        for (var i in name) {
+            $('#name').append("<div class='namediv'><span>"+name[i]+"</span></div>");
+        }
     }
     else
         d3.select('#name').text("");
@@ -175,14 +155,29 @@ function chooseIndex(idx) {
     else
         d3.select('#lifespan').text("");
 
-    if (!entry.video && entry.anecdotes) {
+    function loadAnecdote() {
         let numAnecdotes = entry.anecdotes.length;
         let idx = entry.anecdotes.counter;
-        d3.select('#anecdote').text(entry.anecdotes[idx].body);
+        let obj = d3.select('#anecdote');
+        obj.transition()
+               .duration(1000)
+               .style("opacity", 0);
+        obj.transition()
+               .delay(1000)
+               .text(entry.anecdotes[idx].body)
+               .duration(1000)
+               .style("opacity", 1.0);
         idx += 1;
         if (idx >= numAnecdotes)
             idx = 0;
         entry.anecdotes.counter = idx;
+    }
+
+    if (!entry.video && entry.anecdotes) {
+        loadAnecdote();
+        anecdoteRepeater = setInterval(function() {
+            loadAnecdote();
+        }, 15000);
     }
     else
         d3.select('#anecdote').text("");
@@ -214,7 +209,7 @@ $('body').on('keydown.list', function(e) {
                 d3.select('#ifmContent').attr('src', "");
                 screensaver = 0;
             }
-            // load a random entry
+            // load the next entry
             let keys = Object.keys(data);
             contentIdx++;
             if (contentIdx > (keys.length -1))
