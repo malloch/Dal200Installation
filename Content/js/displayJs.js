@@ -115,6 +115,58 @@ function init() {
     });
 }
 
+function showCode() {
+    screensaver = 0;
+    let videoSrc = d3.select('#videoSrc').attr('src');
+    let video = document.getElementById('video');
+    if (videoSrc != "") {
+        if (!video.ended) {
+            video.pause();
+        }
+    }
+    console.log("showing code");
+    // cancel anecdote scroller if necessary
+    if (anecdoteRepeater != null)
+        clearInterval(anecdoteRepeater);
+    // hide existing content
+    d3.select('#name').text("");
+    d3.select('#lifespan').text("");
+    d3.select('#anecdote').text("");
+    d3.select('#photo').attr('src', '');
+    d3.select('#videoSrc').attr('src', '');
+    video.load();
+
+    // load code renderer
+    d3.select('#ifmContent')
+      .attr('src', "../Software/CodeView/CodeView.html");
+}
+
+function showOverView() {
+    screensaver = 0;
+    let videoSrc = d3.select('#videoSrc').attr('src');
+    let video = document.getElementById('video');
+    if (videoSrc != "") {
+        if (!video.ended) {
+            video.stop();
+        }
+    }
+    console.log("showing code");
+        // cancel anecdote scroller if necessary
+    if (anecdoteRepeater != null)
+        clearInterval(anecdoteRepeater);
+        // hide existing content
+    d3.select('#name').text("");
+    d3.select('#lifespan').text("");
+    d3.select('#anecdote').text("");
+    d3.select('#photo').attr('src', '');
+    d3.select('#videoSrc').attr('src', '');
+    video.load();
+
+    // load overview renderer
+    d3.select('#ifmContent')
+      .attr('src', "../Software/OverView/OverView.html");
+}
+
 function chooseIndex(idx) {
     let keys = Object.keys(data);
     let entry = data[keys[idx]];
@@ -201,20 +253,26 @@ function chooseIndex(idx) {
 
 // Enable launching pages by pressing the 'N' key
 $('body').on('keydown.list', function(e) {
+    // dismiss iframe if necessary
+    d3.select('#ifmContent').attr('src', "");
+    screensaver = 0;
     switch (e.which) {
         case 78:
             /* 'N' */
-            // dismiss screensaver if necessary
-            if (screensaver) {
-                d3.select('#ifmContent').attr('src', "");
-                screensaver = 0;
-            }
             // load the next entry
             let keys = Object.keys(data);
             contentIdx++;
             if (contentIdx > (keys.length -1))
                 contentIdx = 0;
             chooseIndex(contentIdx);
+            break;
+        case 67:
+            // 'C'
+            showCode();
+            break;
+        case 79:
+            // 'O'
+            showOverView();
             break;
         default:
             console.log("keypress:", e.which);

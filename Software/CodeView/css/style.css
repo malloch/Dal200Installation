@@ -1,0 +1,17 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: white;
+    width: 100%;
+    height: 100%;
+    cursor: none;
+    overflow: hidden;
+}
+
+div {
+    width: 100%;
+    height: 100%;
+}

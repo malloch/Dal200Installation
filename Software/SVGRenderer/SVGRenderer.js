@@ -47,21 +47,21 @@ function init() {
         console.log("   Trying to connect...");
         // Create a new WebSocket.
         socket = new WebSocket('ws://192.168.1.120/Dal200');
-//        socket = new WebSocket('ws://134.190.133.142/Dal200');
         socket.onopen = function(event) {
             console.log("Connection established");
             socket.send("SVG renderer "+id+" connected.");
             connected = true;
+            for (var i in targets) {
+                targets[i].label.remove();
+                targets[i].remove();
+                targets[i] = null;
+            }
+            targets = {};
         }
         socket.onclose = function(event) {
-            console.log("Connection dropped, will try to reconnect in", connectionInterval/1000, "seconds");
+            console.log("Connection dropped, will try to reconnect in",
+                        connectionInterval/1000, "seconds");
             connected = false;
-//            for (var i in targets) {
-//                targets[i].label.remove();
-//                targets[i].remove();
-//                targets[i] = null;
-//            }
-//            targets = {};
         }
         socket.onmessage = function(event) {
             let data = null;
@@ -73,11 +73,9 @@ function init() {
                 for (var i in data.trackerData) {
                     updateTrackerData(data.trackerData[i].id,
                                       convertCoords(data.trackerData[i].position));
-//                    console.log(data.trackerData[i].position);
                 }
                 if (screensaver == true) {
                     screensaver = false;
-                    
 
                     // animate targets back to their proper positions
                     for (var i in targets) {
@@ -171,32 +169,6 @@ function init() {
                 break;
         }
     })
-
-    // debugging: add a couple of targets
-//    updateTarget(0, randomCoord(), "category 1", 1);
-//    updateTarget(1, randomCoord(), "category 2", 0);
-//    updateTarget(2, randomCoord(), "category 3", 2);
-//    updateTarget(3, randomCoord(), "category 1", 1);
-//    updateTarget(4, randomCoord(), "category 2", 0);
-//    updateTarget(5, randomCoord(), "category 3", 2);
-//    updateTarget(6, randomCoord(), "category 1", 1);
-//    updateTarget(7, randomCoord(), "category 2", 0);
-//    updateTarget(8, randomCoord(), "category 3", 2);
-//    updateTarget(9, randomCoord(), "category 1", 1);
-//    updateTarget(10, randomCoord(), "category 2", 0);
-//    updateTarget(11, randomCoord(), "category 3", 2);
-//    updateTarget(12, randomCoord(), "category 1", 1);
-//    updateTarget(13, randomCoord(), "category 2", 0);
-//    updateTarget(14, randomCoord(), "category 3", 2);
-//    updateTarget(15, randomCoord(), "category 1", 1);
-//    updateTarget(16, randomCoord(), "category 2", 0);
-//    updateTarget(17, randomCoord(), "category 3", 2);
-//    updateTarget(18, randomCoord(), "category 1", 1);
-//    updateTarget(19, randomCoord(), "category 2", 0);
-//    updateTarget(20, randomCoord(), "category 3", 2);
-//    updateTarget(21, randomCoord(), "category 1", 1);
-//    updateTarget(22, randomCoord(), "category 2", 0);
-//    updateTarget(23, randomCoord(), "category 3", 2);
 }
 
 function startScreenSaver() {
@@ -372,93 +344,9 @@ function updateTrackerData(id, pos) {
                          'stroke-width': dist < distThresh ? (distThresh - dist) * 0.001 : 0
                         });
     }
-    
-//    // draw a trail
-//    trackerHistory.push(pos);
-//    while (trackerHistory.length > 30)
-//        trackerHistory.shift();
-//    if (trackerHistory.length > 1) {
-//        let path = [];
-//        path.push(['M', trackerHistory[0].x, trackerHistory[0].y]);
-//        for (var i = 0; i < trackerHistory.length; i++)
-//            path.push(['T', trackerHistory[i].x, trackerHistory[i].y]);
-//        if (!trail)
-//            trail = canvas.path().attr({'stroke': 'white',
-//                                        'stroke-width': 25,
-//                                        'opacity': 0,
-//                                        'stroke-linecap': 'round'});
-//        trail.stop().animate({'path': path, 'opacity': 0.7}, 100, 'linear', function() {
-//            this.animate({'opacity': 0}, 2000, 'linear', function()  {
-//                while (trackerHistory.length)
-//                    trackerHistory.shift();
-//            });
-//        }).toBack();
-//    }
 }
 
 function updateTarget(id, pos, label, type, dwellIndex) {
-//    switch (label) {
-//        case "Lovelace":
-//            pos.x = 65;
-//            pos.y = 205;
-//            break;
-//        case "Hopper":
-//            pos.x = 65;
-//            pos.y = 505;
-//            break;
-//        case "Lamar":
-//            pos.x = 115;
-//            pos.y = 355;
-//            break;
-//        case "Keller":
-//            pos.x = 175;
-//            pos.y = 205;
-//            break;
-//        case "Hamilton":
-//            pos.x = 175;
-//            pos.y = 505;
-//            break;
-//        case "W-S-S":
-//            pos.x = 225;
-//            pos.y = 355;
-//            break;
-//        case "Suresh":
-//            pos.x = 295;
-//            pos.y = 205;
-//            break;
-//        case "Worsley":
-//            pos.x = 295;
-//            pos.y = 455;
-//            break;
-//        case "Yu":
-//            pos.x = 365;
-//            pos.y = 305;
-//            break;
-//        case "Klawe":
-//            pos.x = 445;
-//            pos.y = 205;
-//            break;
-//        case "Payette":
-//            pos.x = 445;
-//            pos.y = 505;
-//            break;
-//        case "Condon":
-//            pos.x = 525;
-//            pos.y = 355;
-//            break;
-//        case "Nur":
-//            pos.x = 655;
-//            pos.y = 205;
-//            break;
-//        case "Watters":
-//            pos.x = 655;
-//            pos.y = 555;
-//            break;
-//        case "Orji":
-//            pos.x = 705;
-//            pos.y = 355;
-//            break;
-//    }
     if (!targets[id]) {
         targets[id] = canvas.circle(0, 0, 50);
         targets[id].label = canvas.text(pos.x, pos.y, label)
@@ -518,7 +406,6 @@ function updatePath(id, src, dst) {
     paths[id].stop()
              .animate({'path': [['M', src.pos.x, src.pos.y],
                                 ['S', src.pos.x, dst.pos.y, dst.pos.x, dst.pos.y]],
-//                              ['L', dst.pos.x, dst.pos.y]],
                        'stroke': 'white',
                        'stroke-width': 10
     });
